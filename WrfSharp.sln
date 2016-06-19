@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrfSharp.Helpers", "WrfSharp.Helpers\WrfSharp.Helpers.csproj", "{10C960C8-8EE6-468C-8C87-577445B6A7BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrfSharp.DataStructures", "DataStructures\WrfSharp.DataStructures.csproj", "{230A2C8E-A61E-4B27-BC0A-D5DB25BE98D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperTests", "HelperTests\HelperTests.csproj", "{A84F8DEA-FB1D-409E-B8F1-7468588EF6C4}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10C960C8-8EE6-468C-8C87-577445B6A7BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10C960C8-8EE6-468C-8C87-577445B6A7BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10C960C8-8EE6-468C-8C87-577445B6A7BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10C960C8-8EE6-468C-8C87-577445B6A7BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{230A2C8E-A61E-4B27-BC0A-D5DB25BE98D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{230A2C8E-A61E-4B27-BC0A-D5DB25BE98D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{230A2C8E-A61E-4B27-BC0A-D5DB25BE98D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{230A2C8E-A61E-4B27-BC0A-D5DB25BE98D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A84F8DEA-FB1D-409E-B8F1-7468588EF6C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A84F8DEA-FB1D-409E-B8F1-7468588EF6C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A84F8DEA-FB1D-409E-B8F1-7468588EF6C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A84F8DEA-FB1D-409E-B8F1-7468588EF6C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
