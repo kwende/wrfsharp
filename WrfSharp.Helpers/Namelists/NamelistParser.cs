@@ -20,7 +20,21 @@ namespace WrfSharp.Helpers.Namelists
 
                 foreach(NamelistItem item in section.Items)
                 {
-                    sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)}"); 
+                    if(item.Values[0].GetType() == typeof(bool))
+                    {
+                        sb.Append($"{item.Name} = ");
+
+                        foreach(bool val in item.Values)
+                        {
+                            sb.Append($".{val.ToString().ToLower()}.,"); 
+                        }
+
+                        sb.AppendLine(); 
+                    }
+                    else
+                    {
+                        sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)}");
+                    }
                 }
 
                 sb.AppendLine("/" + Environment.NewLine); 
@@ -58,12 +72,35 @@ namespace WrfSharp.Helpers.Namelists
 
                     List<object> values = new List<object>();
 
-                    int result = 0; 
+                    int result = 0;
+                    double dResult = 0; 
                     if(int.TryParse(stringValues[0], out result))
                     {
                         foreach(string stringValue in stringValues)
                         {
                             values.Add(int.Parse(stringValue)); 
+                        }
+                    }
+                    else if(double.TryParse(stringValues[0], out dResult))
+                    {
+                        foreach (string stringValue in stringValues)
+                        {
+                            values.Add(double.Parse(stringValue));
+                        }
+                    }
+                    else if(stringValues[0] == ".true." ||
+                        stringValues[0] == ".false.")
+                    {
+                        foreach (string stringValue in stringValues)
+                        {
+                            if(stringValue == ".true.")
+                            {
+                                values.Add(true);
+                            }
+                            else if (stringValue == ".false.")
+                            {
+                                values.Add(false);
+                            }
                         }
                     }
 
