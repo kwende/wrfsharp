@@ -10,7 +10,26 @@ namespace WrfSharp.Helpers.Namelists
 {
     public static class NamelistParser
     {
-        public static Namelist Parse(string namelistContent)
+        public static string ParseToString(Namelist namelist)
+        {
+            StringBuilder sb = new StringBuilder(1024 * 2); 
+
+            foreach(NamelistSection section in namelist.Sections)
+            {
+                sb.AppendLine($"&{section.Name}"); 
+
+                foreach(NamelistItem item in section.Items)
+                {
+                    sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)}"); 
+                }
+
+                sb.AppendLine("/" + Environment.NewLine); 
+            }
+
+            return sb.ToString(); 
+        }
+
+        public static Namelist ParseFromString(string namelistContent)
         {
             Namelist ret = new Namelist();
             ret.Sections = new List<NamelistSection>(); 
