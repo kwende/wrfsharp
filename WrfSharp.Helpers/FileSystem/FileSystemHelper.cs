@@ -65,5 +65,11 @@ namespace WrfSharp.Helpers.FileSystem
             }
             return ret; 
         }
+
+        public static void RetrieveFirstAndLastGRIBFile(WrfConfiguration config, out string firstGribFile, 
+            out string lastGribFile)
+        {
+            firstGribFile = lastGribFile = ""; 
+        }
     }
 }

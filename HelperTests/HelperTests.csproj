@@ -55,6 +55,7 @@
     <Compile Include="DownloadTests.cs" />
     <Compile Include="FileSystemTests.cs" />
     <Compile Include="Mocks\MockDownloader.cs" />
+    <Compile Include="Mocks\MockWRFFileSystem.cs" />
     <Compile Include="Mocks\MockWPSFileSystem.cs" />
     <Compile Include="NamelistTests.cs" />
     <Compile Include="PageParsingTests.cs" />

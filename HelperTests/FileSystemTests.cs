@@ -22,5 +22,19 @@ namespace HelperTests
             Assert.AreEqual("GRIBFILE_", filesDeleted[2]);
             Assert.AreEqual("met_em", filesDeleted[3]);
         }
+
+        [TestMethod]
+        public void CleanWRFDirectory()
+        {
+            List<string> filesDeleted = FileSystemHelper.RemoveTempFilesInWRFDirectory(
+                new WrfConfiguration(), new MockWRFFileSystem());
+
+            Assert.AreEqual(5, filesDeleted.Count);
+            Assert.AreEqual("wrfout_ereere", filesDeleted[0]);
+            Assert.AreEqual("wrfrst", filesDeleted[1]);
+            Assert.AreEqual("met_em", filesDeleted[2]);
+            Assert.AreEqual("test.mp4", filesDeleted[3]);
+            Assert.AreEqual("test.png", filesDeleted[4]);
+        }
     }
 }
