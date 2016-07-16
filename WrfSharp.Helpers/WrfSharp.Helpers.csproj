@@ -43,6 +43,8 @@
     <Compile Include="FileSystem\FileSystemHelper.cs" />
     <Compile Include="Namelists\NamelistParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web\DownloadHelper.cs" />
+    <Compile Include="Web\PageParsingHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataStructures\WrfSharp.DataStructures.csproj">
