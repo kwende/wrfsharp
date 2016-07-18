@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,14 @@ namespace WrfSharp.Helpers.Processes
 {
     public static class Wgrib2Helper
     {
+        private static DateTime GetDateTimeForStdOut(string stdout)
+        {
+            string[] lines = stdout.Split('\n');
+            string dateForFirstLine = lines[0].Substring(lines[0].IndexOf('=') + 1);
+
+            return DateTime.ParseExact(dateForFirstLine, "yyyyMMddHH", CultureInfo.InvariantCulture);
+        }
+
         public static void FindStartAndEndDatesOnWGribFiles(
             WrfConfiguration config, out DateTime startDate, out DateTime endDate, 
             IProcessLauncher processLauncher, IFileSystem fileSystem)
@@ -18,23 +27,28 @@ namespace WrfSharp.Helpers.Processes
             string dataDirectory = config.DataDirectory; 
             string[] files = fileSystem.GetFilesInDirectory(dataDirectory);
 
-            // go past the period and the 'f'. ex: .f003. 
-            int[] suffixes = files.Select(n => int.Parse(n.Substring(
-                n.LastIndexOf('.') + 2))).OrderByDescending(n => n).ToArray();
+            // go past the period and the 'f'. ex: .f003.
+            string[] orderedFiles = files.OrderByDescending(n => 
+                int.Parse(n.Substring(n.LastIndexOf('.') + 2))).ToArray();
 
-            string latestFileSuffix = suffixes[0].ToString();
-            string firstFileSuffix = suffixes[suffixes.Length - 1].ToString();
+            string lastFile = orderedFiles[0];
+            string firstFile = orderedFiles[orderedFiles.Length - 1];
 
-            string latestFile = Path.Combine(dataDirectory, 
-                files.Where(n => n.EndsWith(latestFileSuffix)).First()); 
-            string firstFile = Path.Combine(dataDirectory, 
-                files.Where(n => n.EndsWith(firstFileSuffix)).First()); 
+            lastFile = Path.Combine(dataDirectory, lastFile);
+            firstFile = Path.Combine(dataDirectory, firstFile); 
 
             string wgrib2Path = config.WGRIB2FilePath;
 
+            //352:18979996:start_ft=2016071706
             string stdOut = 
-                processLauncher.LaunchProcessAndCaptureSTDOUT(wgrib2Path, $"-start_ft {latestFile}"); 
+                processLauncher.LaunchProcessAndCaptureSTDOUT(wgrib2Path, $"-start_ft {firstFile}");
 
+            startDate = GetDateTimeForStdOut(stdOut); 
+
+            stdOut =
+                processLauncher.LaunchProcessAndCaptureSTDOUT(wgrib2Path, $"-start_ft {lastFile}");
+
+            endDate = GetDateTimeForStdOut(stdOut); 
         }
     }
 }
