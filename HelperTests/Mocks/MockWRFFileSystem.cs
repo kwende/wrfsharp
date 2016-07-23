@@ -9,6 +9,11 @@ namespace HelperTests.Mocks
 {
     public class MockWRFFileSystem : IFileSystem
     {
+        public void CreateDirectory(string dataDirectory)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteDirectory(string directory)
         {
             return; 
@@ -17,6 +22,11 @@ namespace HelperTests.Mocks
         public void DeleteFile(string file)
         {
             return; 
+        }
+
+        public bool DirectoryExists(string dataDirectory)
+        {
+            throw new NotImplementedException();
         }
 
         public string[] GetFilesInDirectory(string directory)

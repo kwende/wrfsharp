@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,11 +44,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\Downloader.cs" />
+    <Compile Include="Implementations\FileSystem.cs" />
+    <Compile Include="Implementations\Logger.cs" />
+    <Compile Include="Implementations\ProcessLauncher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataStructures\WrfSharp.DataStructures.csproj">
+      <Project>{230a2c8e-a61e-4b27-bc0a-d5db25be98d0}</Project>
+      <Name>WrfSharp.DataStructures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WrfSharp.Helpers\WrfSharp.Helpers.csproj">
+      <Project>{10c960c8-8ee6-468c-8c87-577445b6a7ba}</Project>
+      <Name>WrfSharp.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WrfSharp.Interfaces\WrfSharp.Interfaces.csproj">
+      <Project>{4dbdd0a6-a3ab-400b-abfe-a1150ee06879}</Project>
+      <Name>WrfSharp.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

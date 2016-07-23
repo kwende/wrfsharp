@@ -10,12 +10,22 @@ namespace HelperTests.Mocks
 {
     public class MockGFSListingFileSystem : IFileSystem
     {
+        public void CreateDirectory(string dataDirectory)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteDirectory(string directory)
         {
             throw new NotImplementedException();
         }
 
         public void DeleteFile(string file)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DirectoryExists(string dataDirectory)
         {
             throw new NotImplementedException();
         }

@@ -10,6 +10,8 @@ namespace WrfSharp.Interfaces
     {
         void DeleteFile(string file);
         void DeleteDirectory(string directory);
-        string[] GetFilesInDirectory(string directory); 
+        string[] GetFilesInDirectory(string directory);
+        bool DirectoryExists(string directory);
+        void CreateDirectory(string directory);
     }
 }

@@ -56,6 +56,7 @@
     <Compile Include="FileSystemTests.cs" />
     <Compile Include="Mocks\MockDownloader.cs" />
     <Compile Include="Mocks\MockGFSListingFileSystem.cs" />
+    <Compile Include="Mocks\MockLogger.cs" />
     <Compile Include="Mocks\MockProcessLauncherForWgrib2.cs" />
     <Compile Include="Mocks\MockWRFFileSystem.cs" />
     <Compile Include="Mocks\MockWPSFileSystem.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="PageParsingTests.cs" />
     <Compile Include="ProcessTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UrlTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataStructures\WrfSharp.DataStructures.csproj">

@@ -15,13 +15,17 @@ namespace WrfSharp.Helpers.FileSystem
         public static string[] PrefixesOfFilesToDeleteFromWRFDirectory = { "wrfout", "wrfrst", "met_em" };
         public static string[] SufixesOfFilesToDeleteFromWRFDirectory = { ".mp4", ".png", };
 
-        public static void DeleteDataDirectory(WrfConfiguration config, IFileSystem fileSystem)
+        public static void CleanDataDirectory(WrfConfiguration config, IFileSystem fileSystem)
         {
-            fileSystem.DeleteDirectory(config.DataDirectory); 
+            if(fileSystem.DirectoryExists(config.DataDirectory))
+            {
+                fileSystem.DeleteDirectory(config.DataDirectory);
+            }
+            fileSystem.CreateDirectory(config.DataDirectory); 
         }
 
         public static List<string> RemoveTempFilesInWPSDirectory(WrfConfiguration config, 
-            IFileSystem fileSystem)
+            IFileSystem fileSystem, ILogger iLogger)
         {
             List<string> ret = new List<string>(); 
             string[] files = fileSystem.GetFilesInDirectory(config.WPSDirectory); 
@@ -32,7 +36,8 @@ namespace WrfSharp.Helpers.FileSystem
                     if(file.StartsWith(prefix))
                     {
                         ret.Add(file);
-                        fileSystem.DeleteFile(file); 
+                        fileSystem.DeleteFile(file);
+                        iLogger.LogLine($"\t...Deleted '{file}'");  
                     }
                 }
             }
@@ -40,7 +45,7 @@ namespace WrfSharp.Helpers.FileSystem
         }
 
         public static List<string> RemoveTempFilesInWRFDirectory(WrfConfiguration config, 
-            IFileSystem fileSystem)
+            IFileSystem fileSystem, ILogger iLogger)
         {
             List<string> ret = new List<string>();
             string[] files = fileSystem.GetFilesInDirectory(config.WRFDirectory);
@@ -52,6 +57,7 @@ namespace WrfSharp.Helpers.FileSystem
                     {
                         ret.Add(file);
                         fileSystem.DeleteFile(file);
+                        iLogger.LogLine($"\t...deleted file {file}"); 
                     }
                 }
                 foreach (string suffix in SufixesOfFilesToDeleteFromWRFDirectory)
@@ -60,16 +66,11 @@ namespace WrfSharp.Helpers.FileSystem
                     {
                         ret.Add(file);
                         fileSystem.DeleteFile(file);
+                        iLogger.LogLine($"\t...deleted file {file}");
                     }
                 }
             }
             return ret; 
-        }
-
-        public static void RetrieveFirstAndLastGRIBFile(WrfConfiguration config, out string firstGribFile, 
-            out string lastGribFile)
-        {
-            firstGribFile = lastGribFile = ""; 
         }
     }
 }

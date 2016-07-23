@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WrfSharp.Interfaces;
 
-namespace WrfSharp.Helpers.Web
+namespace WrfSharp.Runner.Implementations
 {
     public class Downloader : IDownloader
     {

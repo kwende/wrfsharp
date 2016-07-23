@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IDownloader.cs" />
     <Compile Include="IFileSystem.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="IProcessLauncher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
