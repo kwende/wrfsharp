@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileSystem\FileSystemHelper.cs" />
+    <Compile Include="Namelists\NamelistHelper.cs" />
     <Compile Include="Namelists\NamelistParser.cs" />
     <Compile Include="Processes\Wgrib2Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

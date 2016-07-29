@@ -47,5 +47,10 @@ namespace HelperTests.Mocks
                 "testpng"
             }; 
         }
+
+        public string ReadFileContent(string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

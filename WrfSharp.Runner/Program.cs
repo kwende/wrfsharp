@@ -42,7 +42,7 @@ namespace WrfSharp.Runner
             IFileSystem iFileSystem = new FileSystem();
             IDownloader iDownloader = new Downloader();
             ILogger iLogger = new Logger(null);
-            IProcessLauncher iProcess = null; 
+            IProcessLauncher iProcess = new ProcessLauncher(); 
 
             iLogger.Log("Loading configuration..."); 
             WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);

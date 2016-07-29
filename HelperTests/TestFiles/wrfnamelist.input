@@ -1,0 +1,30 @@
+﻿&share
+ max_dom = 1,
+ start_date = '2016-07-28_06:00:00',
+ end_date = '2016-08-13_06:00:00',
+ interval_seconds = 10800
+/
+
+&geogrid
+    e_we = 75,
+    e_sn = 70,
+    dx = 30000,
+    dy = 30000,
+    map_proj = 'lambert',
+    ref_lat = 40.8106,
+    ref_lon = -96.6803,
+    truelat1 = 40.8106,
+    truelat2 = 40.8106,
+    stand_lon = -96.6803,
+    geog_data_path = '/home/brush/Downloads/wrf/geo/'
+/
+
+&ungrib
+ out_format = 'WPS',
+ prefix = 'FILE',
+/
+
+&metgrid
+ fg_name = 'FILE'
+ io_form_metgrid = 2,
+/

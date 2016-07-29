@@ -44,5 +44,10 @@ namespace HelperTests.Mocks
                 "fart_met_em"
             }; 
         }
+
+        public string ReadFileContent(string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

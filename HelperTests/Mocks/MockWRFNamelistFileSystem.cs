@@ -8,9 +8,9 @@ using WrfSharp.Interfaces;
 
 namespace HelperTests.Mocks
 {
-    public class MockGFSListingFileSystem : IFileSystem
+    public class MockWRFNamelistFileSystem : IFileSystem
     {
-        public void CreateDirectory(string dataDirectory)
+        public void CreateDirectory(string directory)
         {
             throw new NotImplementedException();
         }
@@ -25,19 +25,19 @@ namespace HelperTests.Mocks
             throw new NotImplementedException();
         }
 
-        public bool DirectoryExists(string dataDirectory)
+        public bool DirectoryExists(string directory)
         {
             throw new NotImplementedException();
         }
 
         public string[] GetFilesInDirectory(string directory)
         {
-            return File.ReadAllText("TestFiles/GfsFileListings.txt").Split('\n').ToArray();
+            throw new NotImplementedException();
         }
 
         public string ReadFileContent(string path)
         {
-            throw new NotImplementedException();
+            return File.ReadAllText("TestFiles/wrfnamelist.input"); 
         }
     }
 }
