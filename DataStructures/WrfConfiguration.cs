@@ -14,5 +14,6 @@ namespace WrfSharp.DataStructures
         public string WGRIB2FilePath { get; set; }
         public string GFSProductUrl { get; set; }
         public string WRFNamelist { get; set; }
+        public string WPSNamelist { get; set; }
     }
 }

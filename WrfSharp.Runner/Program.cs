@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WrfSharp.DataStructures;
 using WrfSharp.Helpers.FileSystem;
+using WrfSharp.Helpers.Namelists;
 using WrfSharp.Helpers.Processes;
 using WrfSharp.Helpers.Web;
 using WrfSharp.Interfaces;
@@ -84,7 +85,12 @@ namespace WrfSharp.Runner
             DateTime startDate, endDate;
             Wgrib2Helper.FindStartAndEndDatesOnWGribFiles(config, out startDate, out endDate,
                 iProcess, iFileSystem); 
-            iLogger.LogLine($"...done. First grib file is {startDate}, and last is {endDate}"); 
+            iLogger.LogLine($"...done. First grib file is {startDate}, and last is {endDate}");
+
+            iLogger.LogLine("Updating the start/end dates in the WRF namelist.config file."); 
+            NamelistHelper.UpdateStartEndDatesInWRFNamelist(config,
+                startDate, endDate, iFileSystem);
+            iLogger.LogLine("...done");  
         }
     }
 }

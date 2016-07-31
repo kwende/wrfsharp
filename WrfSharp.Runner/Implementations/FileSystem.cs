@@ -37,12 +37,12 @@ namespace WrfSharp.Runner.Implementations
 
         public string ReadFileContent(string path)
         {
-            throw new NotImplementedException();
+            return File.ReadAllText(path); 
         }
 
         public void WriteFileContent(string path, string content)
         {
-            throw new NotImplementedException();
+            File.WriteAllText(path, content); 
         }
     }
 }

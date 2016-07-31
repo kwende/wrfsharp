@@ -13,7 +13,7 @@ namespace WrfSharp.Helpers.Namelists
         public static void UpdateStartEndDatesInWRFNamelist(WrfConfiguration config, 
             DateTime startDate, DateTime endDate, IFileSystem fileSystem)
         {
-            string wrfNamelistPath = config.WRFNamelist;
+            string wrfNamelistPath = config.WPSNamelist;
             string wrfNamelistContent = fileSystem.ReadFileContent(wrfNamelistPath);
 
             Namelist nameList = NamelistParser.ParseFromString(wrfNamelistContent);
