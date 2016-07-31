@@ -52,5 +52,10 @@ namespace HelperTests.Mocks
         {
             throw new NotImplementedException();
         }
+
+        public void WriteFileContent(string path, string content)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

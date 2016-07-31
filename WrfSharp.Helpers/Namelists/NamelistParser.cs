@@ -31,9 +31,23 @@ namespace WrfSharp.Helpers.Namelists
 
                         sb.AppendLine(); 
                     }
+                    else if(item.Values[0].GetType() ==typeof(string))
+                    {
+                        if(!item.Values[0].ToString().StartsWith("."))
+                        {
+                            for(int c=0;c<item.Values.Count;c++)
+                            {
+                                item.Values[c] = $"'{item.Values[c]}'"; 
+                            }
+                        }
+                        sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)}");
+                    }
                     else
                     {
-                        sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)}");
+                        foreach(object val in item.Values)
+                        {
+                            sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)}");
+                        }
                     }
                 }
 
@@ -101,6 +115,13 @@ namespace WrfSharp.Helpers.Namelists
                             {
                                 values.Add(false);
                             }
+                        }
+                    }
+                    else if(stringValues[0].StartsWith("\'"))
+                    {
+                        foreach (string stringValue in stringValues)
+                        {
+                            values.Add(stringValue.Replace("\'", "")); 
                         }
                     }
 

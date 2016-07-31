@@ -34,5 +34,15 @@ namespace WrfSharp.Runner.Implementations
         {
             return Directory.GetFiles(directory); 
         }
+
+        public string ReadFileContent(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteFileContent(string path, string content)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

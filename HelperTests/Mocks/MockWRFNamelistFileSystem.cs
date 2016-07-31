@@ -10,6 +10,8 @@ namespace HelperTests.Mocks
 {
     public class MockWRFNamelistFileSystem : IFileSystem
     {
+        private string _result; 
+
         public void CreateDirectory(string directory)
         {
             throw new NotImplementedException();
@@ -37,7 +39,19 @@ namespace HelperTests.Mocks
 
         public string ReadFileContent(string path)
         {
-            return File.ReadAllText("TestFiles/wrfnamelist.input"); 
+            if(path == "getresult")
+            {
+                return _result; 
+            }
+            else
+            {
+                return File.ReadAllText("TestFiles/wrfnamelist.input");
+            }
+        }
+
+        public void WriteFileContent(string path, string content)
+        {
+            _result = content; 
         }
     }
 }

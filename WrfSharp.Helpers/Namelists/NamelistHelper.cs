@@ -22,7 +22,8 @@ namespace WrfSharp.Helpers.Namelists
             nameList["share"]["end_date"].Values = new List<object>(
                 new string[] { endDate.ToString("yyyy-MM-dd_HH:mm:ss") });
 
-            string content = NamelistParser.ParseToString(nameList); 
+            string updatedContent = NamelistParser.ParseToString(nameList);
+            fileSystem.WriteFileContent(wrfNamelistPath, updatedContent); 
         }
     }
 }

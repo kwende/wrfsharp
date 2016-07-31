@@ -15,17 +15,17 @@ namespace HelperTests
         {
             string localPath = DownloadHelper.DownloadFile(
                 "http://www.blah.com/hello/world/test.bmp", 
-                "C:\\local\\directory",
+                "C:/local/directory",
                 new MockDownloader());
 
-            Assert.AreEqual("C:\\local\\directory\\test.bmp", localPath);
+            Assert.AreEqual("C:/local/directory/test.bmp", localPath);
 
             string localPath2 = DownloadHelper.DownloadFile(
                 "http://www.blah.com/hello/world/test.bmp",
-                "C:\\local\\directory\\",
+                "C:/local/directory/",
                 new MockDownloader());
 
-            Assert.AreEqual("C:\\local\\directory\\test.bmp", localPath2);
+            Assert.AreEqual("C:/local/directory/test.bmp", localPath2);
         }
 
         [TestMethod]
