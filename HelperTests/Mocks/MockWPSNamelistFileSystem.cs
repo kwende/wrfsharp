@@ -8,7 +8,7 @@ using WrfSharp.Interfaces;
 
 namespace HelperTests.Mocks
 {
-    public class MockWRFNamelistFileSystem : IFileSystem
+    public class MockWPSNamelistFileSystem : IFileSystem
     {
         private string _result; 
 
@@ -45,7 +45,7 @@ namespace HelperTests.Mocks
             }
             else
             {
-                return File.ReadAllText("TestFiles/namelist.input");
+                return File.ReadAllText("TestFiles/wrfnamelist.input");
             }
         }
 

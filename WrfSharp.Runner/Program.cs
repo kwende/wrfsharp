@@ -45,35 +45,35 @@ namespace WrfSharp.Runner
             ILogger iLogger = new Logger(null);
             IProcessLauncher iProcess = new ProcessLauncher(); 
 
-            iLogger.Log("Loading configuration..."); 
+            iLogger.LogLine("Loading configuration..."); 
             WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
             iLogger.LogLine("...done");
 
             iLogger.Log("Cleaning data directory..."); 
-            //FileSystemHelper.CleanDataDirectory(config, iFileSystem);
+            FileSystemHelper.CleanDataDirectory(config, iFileSystem);
             iLogger.LogLine("...done");
 
-            iLogger.Log("Downloading GFS product page...");
+            iLogger.LogLine("Downloading GFS product page...");
             string productPageContent = DownloadHelper.DownloadString(
                 config.GFSProductUrl, iDownloader);
             iLogger.LogLine("...done");
 
-            iLogger.Log("Finding GFS product url to use...");
+            iLogger.LogLine("Finding GFS product url to use...");
             string gfsProductDirectory = PageParsingHelper.FindDirectoryNameForSecondToLastGFSEntry(
                 productPageContent);
             string gfsProductUrl = UrlHelper.Join(config.GFSProductUrl, gfsProductDirectory);
             iLogger.LogLine($"...done. It'll be '{gfsProductUrl}'");
 
-            iLogger.Log("Finding GFS products on page...");
+            iLogger.LogLine("Finding GFS products on page...");
             string pageContent = DownloadHelper.DownloadString(
                 gfsProductUrl, iDownloader);
             List<string> productsToDownload = 
                 PageParsingHelper.FindAllGFSOneDegreePGRB2Files(pageContent);
             iLogger.LogLine($"...found {productsToDownload.Count} items.");
 
-            iLogger.Log("Downloading the products...");
-            //DownloadHelper.DownloadGFSProductsToDataDirectory(gfsProductUrl, productsToDownload,
-            //    config, iDownloader, iLogger);
+            iLogger.LogLine("Downloading the products...");
+            DownloadHelper.DownloadGFSProductsToDataDirectory(gfsProductUrl, productsToDownload,
+                config, iDownloader, iLogger);
             iLogger.LogLine("...done");
 
             iLogger.LogLine("Cleaning intermediary files before run...");
@@ -87,10 +87,15 @@ namespace WrfSharp.Runner
                 iProcess, iFileSystem); 
             iLogger.LogLine($"...done. First grib file is {startDate}, and last is {endDate}");
 
-            iLogger.LogLine("Updating the start/end dates in the WRF namelist.config file."); 
-            NamelistHelper.UpdateStartEndDatesInWRFNamelist(config,
+            iLogger.LogLine("Updating the start/end dates in the WPS namelist.config file."); 
+            NamelistHelper.UpdateDatesInWPSNamelist(config,
                 startDate, endDate, iFileSystem);
-            iLogger.LogLine("...done");  
+            iLogger.LogLine("...done");
+
+            iLogger.LogLine("Updating the start/end dates in the WRF namelist.config file.");
+            NamelistHelper.UpdateDatesInWRFNamelist(config, 
+                startDate, endDate, iFileSystem);
+            iLogger.LogLine("...done");
         }
     }
 }

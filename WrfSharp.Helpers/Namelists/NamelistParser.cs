@@ -44,10 +44,7 @@ namespace WrfSharp.Helpers.Namelists
                     }
                     else
                     {
-                        foreach(object val in item.Values)
-                        {
-                            sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)}");
-                        }
+                        sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)}");
                     }
                 }
 
@@ -68,6 +65,8 @@ namespace WrfSharp.Helpers.Namelists
             string line = null; 
             while((line = reader.ReadLine()) != null)
             {
+                line = line.Trim(); 
+
                 if(line.StartsWith("&"))
                 {
                     // new section. 
@@ -82,20 +81,12 @@ namespace WrfSharp.Helpers.Namelists
                     string[] bits = line.Split('=');
                     string name = bits[0].Trim();
                     string[] stringValues = bits[1].Trim().Split(',').Where(
-                        n=>!string.IsNullOrEmpty(n)).ToArray();
+                        n => !string.IsNullOrEmpty(n)).Select(n => n.Trim()).ToArray(); 
 
                     List<object> values = new List<object>();
 
-                    int result = 0;
                     double dResult = 0; 
-                    if(int.TryParse(stringValues[0], out result))
-                    {
-                        foreach(string stringValue in stringValues)
-                        {
-                            values.Add(int.Parse(stringValue)); 
-                        }
-                    }
-                    else if(double.TryParse(stringValues[0], out dResult))
+                    if(double.TryParse(stringValues[0], out dResult))
                     {
                         foreach (string stringValue in stringValues)
                         {
