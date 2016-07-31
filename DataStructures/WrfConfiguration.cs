@@ -15,5 +15,9 @@ namespace WrfSharp.DataStructures
         public string GFSProductUrl { get; set; }
         public string WRFNamelist { get; set; }
         public string WPSNamelist { get; set; }
+        public string GeogridFilePath { get; set; }
+        public string LinkGribFilePath { get; set; }
+        public string UngribFilePath { get; set; }
+        public string MetgridFilePath { get; set; }
     }
 }
