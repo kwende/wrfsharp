@@ -16,7 +16,7 @@ namespace HelperTests
             config.DataDirectory = "/home/brush/Downloads/wrf/data"; 
 
             DateTime startDate, endDate;
-            Wgrib2Helper.FindStartAndEndDatesOnWGribFiles(
+            ProcessHelper.UseWgrib2ToFindStartAndEndDatesOnWGribFiles(
                 config, out startDate, out endDate,
                 new MockProcessLauncherForWgrib2(),
                 new MockGFSListingFileSystem());

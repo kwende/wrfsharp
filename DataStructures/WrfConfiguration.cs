@@ -19,5 +19,7 @@ namespace WrfSharp.DataStructures
         public string LinkGribFilePath { get; set; }
         public string UngribFilePath { get; set; }
         public string MetgridFilePath { get; set; }
+        public string CSHFilePath { get; set; }
+        public string LinkGribCsh { get; set; }
     }
 }

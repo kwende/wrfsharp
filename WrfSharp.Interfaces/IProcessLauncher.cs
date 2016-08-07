@@ -8,6 +8,7 @@ namespace WrfSharp.Interfaces
 {
     public interface IProcessLauncher
     {
-        string LaunchProcessAndCaptureSTDOUT(string fileName, string arguments); 
+        string LaunchProcessAndCaptureSTDOUT(string fileName, string arguments);
+        void LaunchProcess(string fileName, string arguments, bool useShell); 
     }
 }

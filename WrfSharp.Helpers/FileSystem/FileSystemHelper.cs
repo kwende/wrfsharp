@@ -24,6 +24,11 @@ namespace WrfSharp.Helpers.FileSystem
             fileSystem.CreateDirectory(config.DataDirectory); 
         }
 
+        public static void SetCurrentDirectoryToWPSDirectory(WrfConfiguration config, IFileSystem fileSystem)
+        {
+            fileSystem.ChangeCurrentDirectory(config.WPSDirectory); 
+        }
+
         public static List<string> RemoveTempFilesInWPSDirectory(WrfConfiguration config, 
             IFileSystem fileSystem, ILogger iLogger)
         {

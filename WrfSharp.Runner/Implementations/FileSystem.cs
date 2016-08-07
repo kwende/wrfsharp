@@ -10,6 +10,11 @@ namespace WrfSharp.Runner.Implementations
 {
     public class FileSystem : IFileSystem
     {
+        public void ChangeCurrentDirectory(string path)
+        {
+            Directory.SetCurrentDirectory(path); 
+        }
+
         public void CreateDirectory(string directory)
         {
             Directory.CreateDirectory(directory); 

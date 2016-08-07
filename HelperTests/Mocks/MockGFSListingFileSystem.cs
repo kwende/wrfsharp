@@ -10,6 +10,11 @@ namespace HelperTests.Mocks
 {
     public class MockGFSListingFileSystem : IFileSystem
     {
+        public void ChangeCurrentDirectory(string path)
+        {
+            throw new NotImplementedException();
+        }
+
         public void CreateDirectory(string dataDirectory)
         {
             throw new NotImplementedException();

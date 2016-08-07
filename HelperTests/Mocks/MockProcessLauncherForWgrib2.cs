@@ -10,6 +10,11 @@ namespace HelperTests.Mocks
 {
     public class MockProcessLauncherForWgrib2 : IProcessLauncher
     {
+        public void LaunchProcess(string fileName, string arguments, bool useShell)
+        {
+            throw new NotImplementedException();
+        }
+
         public string LaunchProcessAndCaptureSTDOUT(string fileName, string arguments)
         {
             if(arguments.EndsWith("f000"))

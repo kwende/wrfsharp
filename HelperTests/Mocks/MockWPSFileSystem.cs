@@ -9,6 +9,11 @@ namespace HelperTests.Mocks
 {
     public class MockWPSFileSystem : IFileSystem
     {
+        public void ChangeCurrentDirectory(string path)
+        {
+            throw new NotImplementedException();
+        }
+
         public void CreateDirectory(string dataDirectory)
         {
             throw new NotImplementedException();

@@ -14,6 +14,7 @@ namespace WrfSharp.Interfaces
         bool DirectoryExists(string directory);
         void CreateDirectory(string directory);
         string ReadFileContent(string path);
-        void WriteFileContent(string path, string content); 
+        void WriteFileContent(string path, string content);
+        void ChangeCurrentDirectory(string path); 
     }
 }

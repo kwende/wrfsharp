@@ -28,5 +28,15 @@ namespace WrfSharp.Runner.Implementations
                 }
             }
         }
+
+        public void LaunchProcess(string fileName, string arguments, bool useShell)
+        {
+            ProcessStartInfo procStart = new ProcessStartInfo();
+            procStart.FileName = fileName;
+            procStart.Arguments = arguments;
+            procStart.UseShellExecute = useShell;
+
+            Process.Start(procStart).WaitForExit(); 
+        }
     }
 }

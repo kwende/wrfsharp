@@ -50,7 +50,7 @@ namespace WrfSharp.Runner
             iLogger.LogLine("...done");
 
             iLogger.Log("Cleaning data directory..."); 
-            FileSystemHelper.CleanDataDirectory(config, iFileSystem);
+            //FileSystemHelper.CleanDataDirectory(config, iFileSystem);
             iLogger.LogLine("...done");
 
             iLogger.LogLine("Downloading GFS product page...");
@@ -72,8 +72,8 @@ namespace WrfSharp.Runner
             iLogger.LogLine($"...found {productsToDownload.Count} items.");
 
             iLogger.LogLine("Downloading the products...");
-            DownloadHelper.DownloadGFSProductsToDataDirectory(gfsProductUrl, productsToDownload,
-                config, iDownloader, iLogger);
+            //DownloadHelper.DownloadGFSProductsToDataDirectory(gfsProductUrl, productsToDownload,
+            //    config, iDownloader, iLogger);
             iLogger.LogLine("...done");
 
             iLogger.LogLine("Cleaning intermediary files before run...");
@@ -83,7 +83,7 @@ namespace WrfSharp.Runner
 
             iLogger.LogLine("Finding first and last GFS files that were downloaded...");
             DateTime startDate, endDate;
-            Wgrib2Helper.FindStartAndEndDatesOnWGribFiles(config, out startDate, out endDate,
+            ProcessHelper.UseWgrib2ToFindStartAndEndDatesOnWGribFiles(config, out startDate, out endDate,
                 iProcess, iFileSystem); 
             iLogger.LogLine($"...done. First grib file is {startDate}, and last is {endDate}");
 
@@ -96,6 +96,18 @@ namespace WrfSharp.Runner
             NamelistHelper.UpdateDatesInWRFNamelist(config, 
                 startDate, endDate, iFileSystem);
             iLogger.LogLine("...done");
+
+            iLogger.LogLine("Setting current working directory to WPS directory...");
+            FileSystemHelper.SetCurrentDirectoryToWPSDirectory(config, iFileSystem);
+            iLogger.LogLine("...done"); 
+
+            iLogger.LogLine("Launching geogrid.exe");
+            ProcessHelper.UseGeogridToProcessTerrestrialData(config, iProcess);
+            iLogger.LogLine("...done");
+
+            iLogger.LogLine("Setting up symlinks through CSH script...");
+            ProcessHelper.UseLinkGribToCreateSymbolicLinks(config, iProcess); 
+            iLogger.LogLine("...done"); 
         }
     }
 }
