@@ -107,6 +107,10 @@ namespace WrfSharp.Runner
 
             iLogger.LogLine("Setting up symlinks through CSH script...");
             ProcessHelper.UseLinkGribToCreateSymbolicLinks(config, iProcess); 
+            iLogger.LogLine("...done");
+
+            iLogger.LogLine("Using ungrib to unpackage GRIB files....");
+            ProcessHelper.UseUngribToUnpackageGRIBFiles(config, iProcess);
             iLogger.LogLine("...done"); 
         }
     }

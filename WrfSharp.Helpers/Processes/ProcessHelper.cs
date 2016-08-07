@@ -51,21 +51,35 @@ namespace WrfSharp.Helpers.Processes
             endDate = GetDateTimeForStdOut(stdOut);
         }
 
-        public static void UseGeogridToProcessTerrestrialData(WrfConfiguration config, 
+        public static void UseGeogridToProcessTerrestrialData(WrfConfiguration config,
             IProcessLauncher processLauncher)
         {
             string geogrid = config.GeogridFilePath;
-            processLauncher.LaunchProcess(geogrid, "", false); 
+            processLauncher.LaunchProcess(geogrid, "", false);
         }
 
-        public static void UseLinkGribToCreateSymbolicLinks(WrfConfiguration config, 
+        public static void UseLinkGribToCreateSymbolicLinks(WrfConfiguration config,
             IProcessLauncher processLauncher)
         {
             string csh = config.CSHFilePath;
             string linkGrib = config.LinkGribCsh;
             string dataDirectory = config.DataDirectory;
 
-            processLauncher.LaunchProcess(csh, $"-c \"{linkGrib} {dataDirectory}\"", true); 
+            processLauncher.LaunchProcess(csh, $"-c \"{linkGrib} {dataDirectory}\"", true);
+        }
+
+        public static void UseUngribToUnpackageGRIBFiles(WrfConfiguration config,
+            IProcessLauncher processLauncher)
+        {
+            string ungribPath = config.UngribFilePath;
+            processLauncher.LaunchProcess(ungribPath, "", false); 
+        }
+
+        public static void UseMetgridToHorizontallyInterpolateData(WrfConfiguration config, 
+            IProcessLauncher processLauncher)
+        {
+            string metgridPath = config.MetgridFilePath;
+            processLauncher.LaunchProcess(metgridPath, "", false); 
         }
     }
 }
