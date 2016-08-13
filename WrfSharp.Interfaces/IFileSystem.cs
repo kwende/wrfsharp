@@ -15,6 +15,7 @@ namespace WrfSharp.Interfaces
         void CreateDirectory(string directory);
         string ReadFileContent(string path);
         void WriteFileContent(string path, string content);
-        void ChangeCurrentDirectory(string path); 
+        void ChangeCurrentDirectory(string path);
+        void CreateSymLink(string source, string link); 
     }
 }

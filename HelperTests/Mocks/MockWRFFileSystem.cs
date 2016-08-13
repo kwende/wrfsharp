@@ -19,6 +19,11 @@ namespace HelperTests.Mocks
             throw new NotImplementedException();
         }
 
+        public void CreateSymLink(string source, string link)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteDirectory(string directory)
         {
             return; 

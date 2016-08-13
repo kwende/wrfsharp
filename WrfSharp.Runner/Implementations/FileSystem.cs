@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mono.Unix;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,6 +19,12 @@ namespace WrfSharp.Runner.Implementations
         public void CreateDirectory(string directory)
         {
             Directory.CreateDirectory(directory); 
+        }
+
+        public void CreateSymLink(string source, string link)
+        {
+            UnixFileInfo ufi = new UnixFileInfo(source);
+            ufi.CreateSymbolicLink(link); 
         }
 
         public void DeleteDirectory(string directory)

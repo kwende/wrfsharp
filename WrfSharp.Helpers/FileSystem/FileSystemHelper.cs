@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mono.Unix;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,6 +25,11 @@ namespace WrfSharp.Helpers.FileSystem
             fileSystem.CreateDirectory(config.DataDirectory); 
         }
 
+        public static void SetCurrentDirectoryToWRFDirectory(WrfConfiguration config, IFileSystem fileSystem)
+        {
+            fileSystem.ChangeCurrentDirectory(config.WRFDirectory);
+        }
+
         public static void SetCurrentDirectoryToWPSDirectory(WrfConfiguration config, IFileSystem fileSystem)
         {
             fileSystem.ChangeCurrentDirectory(config.WPSDirectory); 
@@ -47,6 +53,19 @@ namespace WrfSharp.Helpers.FileSystem
                 }
             }
             return ret; 
+        }
+
+        public static void CreateMetEmSymlinksInRealDirectory(WrfConfiguration config, IFileSystem fileSystem)
+        {
+            IEnumerable<string> files = fileSystem.GetFilesInDirectory(
+                config.WPSDirectory).Where(m => m.StartsWith("met_em")); 
+
+            foreach(string file in files)
+            {
+                string link = Path.Combine(config.WRFDirectory, Path.GetFileName(file));
+                Console.WriteLine($"Source: {file}, Destination: {link}"); 
+                fileSystem.CreateSymLink(file, link);  
+            }
         }
 
         public static List<string> RemoveTempFilesInWRFDirectory(WrfConfiguration config, 
