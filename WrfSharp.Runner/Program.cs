@@ -49,7 +49,7 @@ namespace WrfSharp.Runner
             WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
             iLogger.LogLine("...done");
 
-            //iLogger.Log("Cleaning data directory..."); 
+            //iLogger.Log("Cleaning data directory...");
             ////FileSystemHelper.CleanDataDirectory(config, iFileSystem);
             //iLogger.LogLine("...done");
 
@@ -67,7 +67,7 @@ namespace WrfSharp.Runner
             //iLogger.LogLine("Finding GFS products on page...");
             //string pageContent = DownloadHelper.DownloadString(
             //    gfsProductUrl, iDownloader);
-            //List<string> productsToDownload = 
+            //List<string> productsToDownload =
             //    PageParsingHelper.FindAllGFSOneDegreePGRB2Files(pageContent);
             //iLogger.LogLine($"...found {productsToDownload.Count} items.");
 
@@ -78,40 +78,44 @@ namespace WrfSharp.Runner
 
             //iLogger.LogLine("Cleaning intermediary files before run...");
             //FileSystemHelper.RemoveTempFilesInWPSDirectory(config, iFileSystem, iLogger);
-            //FileSystemHelper.RemoveTempFilesInWRFDirectory(config, iFileSystem, iLogger); 
+            //FileSystemHelper.RemoveTempFilesInWRFDirectory(config, iFileSystem, iLogger);
             //iLogger.LogLine("...done");
 
             //iLogger.LogLine("Finding first and last GFS files that were downloaded...");
             //DateTime startDate, endDate;
             //ProcessHelper.UseWgrib2ToFindStartAndEndDatesOnWGribFiles(config, out startDate, out endDate,
-            //    iProcess, iFileSystem); 
+            //    iProcess, iFileSystem);
             //iLogger.LogLine($"...done. First grib file is {startDate}, and last is {endDate}");
 
-            //iLogger.LogLine("Updating the start/end dates in the WPS namelist.config file."); 
+            //iLogger.LogLine("Updating the start/end dates in the WPS namelist.config file.");
             //NamelistHelper.UpdateDatesInWPSNamelist(config,
             //    startDate, endDate, iFileSystem);
             //iLogger.LogLine("...done");
 
             //iLogger.LogLine("Updating the start/end dates in the WRF namelist.config file.");
-            //NamelistHelper.UpdateDatesInWRFNamelist(config, 
+            //NamelistHelper.UpdateDatesInWRFNamelist(config,
             //    startDate, endDate, iFileSystem);
             //iLogger.LogLine("...done");
 
             //iLogger.LogLine("Setting current working directory to WPS directory...");
             //FileSystemHelper.SetCurrentDirectoryToWPSDirectory(config, iFileSystem);
-            //iLogger.LogLine("...done"); 
+            //iLogger.LogLine("...done");
 
             //iLogger.LogLine("Launching geogrid.exe");
             //ProcessHelper.UseGeogridToProcessTerrestrialData(config, iProcess);
             //iLogger.LogLine("...done");
 
             //iLogger.LogLine("Setting up symlinks through CSH script...");
-            //ProcessHelper.UseLinkGribToCreateSymbolicLinks(config, iProcess); 
+            //ProcessHelper.UseLinkGribToCreateSymbolicLinks(config, iProcess);
             //iLogger.LogLine("...done");
 
             //iLogger.LogLine("Using ungrib to unpackage GRIB files....");
             //ProcessHelper.UseUngribToUnpackageGRIBFiles(config, iProcess);
             //iLogger.LogLine("...done");
+
+            //iLogger.LogLine("Use metrgrid to horizontally interpolate data..."); 
+            //ProcessHelper.UseMetgridToHorizontallyInterpolateData(config, iProcess);
+            //iLogger.LogLine("...done"); 
 
             iLogger.LogLine("Creating symlinks in Real directory...");
             FileSystemHelper.CreateMetEmSymlinksInRealDirectory(config, iFileSystem);

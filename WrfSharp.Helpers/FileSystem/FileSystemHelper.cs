@@ -58,13 +58,12 @@ namespace WrfSharp.Helpers.FileSystem
         public static void CreateMetEmSymlinksInRealDirectory(WrfConfiguration config, IFileSystem fileSystem)
         {
             IEnumerable<string> files = fileSystem.GetFilesInDirectory(
-                config.WPSDirectory).Where(m => m.StartsWith("met_em")); 
+                config.WPSDirectory).Where(m => Path.GetFileName(m).StartsWith("met_em"));
 
-            foreach(string file in files)
+            foreach (string file in files)
             {
                 string link = Path.Combine(config.WRFDirectory, Path.GetFileName(file));
-                Console.WriteLine($"Source: {file}, Destination: {link}"); 
-                fileSystem.CreateSymLink(file, link);  
+                fileSystem.CreateSymLink(file, link);
             }
         }
 
