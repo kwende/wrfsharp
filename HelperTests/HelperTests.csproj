@@ -58,6 +58,7 @@
     <Compile Include="Mocks\MockGFSListingFileSystem.cs" />
     <Compile Include="Mocks\MockLogger.cs" />
     <Compile Include="Mocks\MockProcessLauncherForWgrib2.cs" />
+    <Compile Include="Mocks\MockWPSFileSystemWithMetEmFiles.cs" />
     <Compile Include="Mocks\MockWRFNamelistFileSystem.cs" />
     <Compile Include="Mocks\MockWRFFileSystem.cs" />
     <Compile Include="Mocks\MockWPSFileSystem.cs" />
@@ -92,6 +93,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestFiles\GfsFileListings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\ls_WPS.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestFiles\ProdDirectoryHtml.txt">

@@ -11,6 +11,25 @@ namespace HelperTests
     public class FileSystemTests
     {
         [TestMethod]
+        public void CreateEmSymlinks()
+        {
+            WrfConfiguration config = new WrfConfiguration();
+            config.WPSDirectory = "/home/brush/Downloads/wrf/WPS";
+            config.WRFDirectory = "/home/brush/Downloads/wrf/WRFV3/test/em_real";
+
+            MockWPSFileSystemWithMetEmFiles fs = new MockWPSFileSystemWithMetEmFiles(); 
+            FileSystemHelper.CreateMetEmSymlinksInRealDirectory(config, fs);
+
+            Assert.AreEqual(129, fs.SymLinksCreated.Count); 
+            foreach(string symlink in fs.SymLinksCreated)
+            {
+                Assert.IsTrue(symlink.Contains("met_em")); 
+            }
+
+            return;  
+        }
+
+        [TestMethod]
         public void CleanWPSDirectory()
         {
             List<string> filesDeleted = FileSystemHelper.RemoveTempFilesInWPSDirectory(

@@ -12,6 +12,11 @@ namespace WrfSharp.Helpers.FileSystem
 {
     public static class FileSystemHelper
     {
+        private static string PlatformIndependentGetFilename(string fullPath)
+        {
+            return fullPath.Substring(fullPath.LastIndexOf('/') + 1); 
+        }
+
         public static string[] PrefixesOfFilesToDeleteFromWPSDirectory = { "FILE:", "PFILE:", "GRIBFILE", "met_em" };
         public static string[] PrefixesOfFilesToDeleteFromWRFDirectory = { "wrfout", "wrfrst", "met_em" };
         public static string[] SufixesOfFilesToDeleteFromWRFDirectory = { ".mp4", ".png", };
@@ -58,11 +63,12 @@ namespace WrfSharp.Helpers.FileSystem
         public static void CreateMetEmSymlinksInRealDirectory(WrfConfiguration config, IFileSystem fileSystem)
         {
             IEnumerable<string> files = fileSystem.GetFilesInDirectory(
-                config.WPSDirectory).Where(m => Path.GetFileName(m).StartsWith("met_em"));
+                config.WPSDirectory).Where(m => PlatformIndependentGetFilename(m).StartsWith("met_em"));
 
             foreach (string file in files)
             {
-                string link = Path.Combine(config.WRFDirectory, Path.GetFileName(file));
+                // replace windows slashes with linux slashes
+                string link = Path.Combine(config.WRFDirectory, PlatformIndependentGetFilename(file)).Replace("\\","/");
                 fileSystem.CreateSymLink(file, link);
             }
         }
