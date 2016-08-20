@@ -49,7 +49,7 @@ namespace WrfSharp.Helpers.FileSystem
             {
                 foreach(string prefix in PrefixesOfFilesToDeleteFromWPSDirectory)
                 {
-                    if(file.StartsWith(prefix))
+                    if(PlatformIndependentGetFilename(file).StartsWith(prefix))
                     {
                         ret.Add(file);
                         fileSystem.DeleteFile(file);
@@ -82,7 +82,7 @@ namespace WrfSharp.Helpers.FileSystem
             {
                 foreach (string prefix in PrefixesOfFilesToDeleteFromWRFDirectory)
                 {
-                    if (file.StartsWith(prefix))
+                    if (PlatformIndependentGetFilename(file).StartsWith(prefix))
                     {
                         ret.Add(file);
                         fileSystem.DeleteFile(file);
@@ -91,7 +91,7 @@ namespace WrfSharp.Helpers.FileSystem
                 }
                 foreach (string suffix in SufixesOfFilesToDeleteFromWRFDirectory)
                 {
-                    if (file.EndsWith(suffix))
+                    if (PlatformIndependentGetFilename(file).EndsWith(suffix))
                     {
                         ret.Add(file);
                         fileSystem.DeleteFile(file);

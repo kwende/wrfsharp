@@ -44,7 +44,7 @@ namespace WrfSharp.Runner.Implementations
 
         public string[] GetFilesInDirectory(string directory)
         {
-            return Directory.GetFiles(directory); 
+            return Directory.GetFiles(directory);  
         }
 
         public string ReadFileContent(string path)
