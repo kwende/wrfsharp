@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDownloader.cs" />
+    <Compile Include="IEnvironment.cs" />
     <Compile Include="IFileSystem.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="IProcessLauncher.cs" />

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WrfSharp.DataStructures;
+using WrfSharp.DataStructures.Exceptions;
 using WrfSharp.Interfaces;
 
 namespace WrfSharp.Helpers.FileSystem
@@ -74,6 +75,25 @@ namespace WrfSharp.Helpers.FileSystem
             }
         }
 
+        public static string RetrievePathToWrfOutFile(WrfConfiguration config, IFileSystem fileSystem)
+        {
+            string wrfDirectory = config.WRFDirectory;
+
+            Console.WriteLine("Looking at " + wrfDirectory); 
+
+            string supposedWrfOutFile = fileSystem.GetFilesInDirectory(wrfDirectory).Where(
+                m=> PlatformIndependentGetFilename(m.ToLower()).StartsWith("wrfout_")).FirstOrDefault(); 
+
+            if(supposedWrfOutFile != null)
+            {
+                return supposedWrfOutFile; 
+            }
+            else
+            {
+                throw new MissingWrfOutFileException(); 
+            }
+        }
+
         public static List<string> RemoveTempFilesInWRFDirectory(WrfConfiguration config, 
             IFileSystem fileSystem, ILogger iLogger)
         {
@@ -101,6 +121,19 @@ namespace WrfSharp.Helpers.FileSystem
                 }
             }
             return ret; 
+        }
+
+        public static string[] RetrieveNclScriptsToRun(WrfConfiguration config, IFileSystem iFileSystem)
+        {
+            string nclScriptsDirectory = config.ScriptsDirectory;
+
+            List<string> ret = new List<string>(); 
+            foreach(string file in iFileSystem.GetFilesInDirectory(nclScriptsDirectory))
+            {
+                ret.Add(file); 
+            }
+
+            return ret.ToArray(); 
         }
     }
 }

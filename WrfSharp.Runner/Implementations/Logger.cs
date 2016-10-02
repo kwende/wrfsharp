@@ -28,7 +28,7 @@ namespace WrfSharp.Runner.Implementations
 
         public void LogLine(string content)
         {
-            LogInner(DateTime.Now.ToString() + ": " + content + Environment.NewLine); 
+            LogInner(DateTime.Now.ToString() + ": " + content + System.Environment.NewLine); 
         }
 
         public void Log(string content)

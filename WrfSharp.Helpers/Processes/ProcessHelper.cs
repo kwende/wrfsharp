@@ -20,6 +20,17 @@ namespace WrfSharp.Helpers.Processes
             return DateTime.ParseExact(dateForFirstLine, "yyyyMMddHH", CultureInfo.InvariantCulture);
         }
 
+        public static void NclRunScript(WrfConfiguration config, IProcessLauncher processLauncher, 
+            string scriptName, string pathToWrfOutFile)
+        {
+            string scriptPath = Path.Combine(config.ScriptsDirectory, scriptName);
+            string nclExecutablePath = config.NCLPath;
+            string arguments = $"{scriptPath} netcdfFile=\\\"{pathToWrfOutFile}\\\"";
+
+            Console.WriteLine("arguments = " + arguments); 
+            processLauncher.LaunchProcess(nclExecutablePath, arguments, false); 
+        }
+
         public static void MpiRunRealExecutable(WrfConfiguration config, IProcessLauncher processLauncher)
         {
             string mpiRunPath = config.MpiRunPath;

@@ -24,5 +24,7 @@ namespace WrfSharp.DataStructures
         public string MpiRunPath { get; set; }
         public string WrfExecutablePath { get; set; }
         public string RealExecutablePath { get; set; }
+        public string ScriptsDirectory { get; set; }
+        public string NCLPath { get; set; }
     }
 }

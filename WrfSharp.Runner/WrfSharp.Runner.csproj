@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementations\Downloader.cs" />
+    <Compile Include="Implementations\Environment.cs" />
     <Compile Include="Implementations\FileSystem.cs" />
     <Compile Include="Implementations\Logger.cs" />
     <Compile Include="Implementations\ProcessLauncher.cs" />
