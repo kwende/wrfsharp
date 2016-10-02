@@ -20,6 +20,20 @@ namespace WrfSharp.Helpers.Processes
             return DateTime.ParseExact(dateForFirstLine, "yyyyMMddHH", CultureInfo.InvariantCulture);
         }
 
+        public static void MpiRunRealExecutable(WrfConfiguration config, IProcessLauncher processLauncher)
+        {
+            string mpiRunPath = config.MpiRunPath;
+            string realExecutablePath = config.RealExecutablePath; 
+            processLauncher.LaunchProcess(mpiRunPath, $"--allow-run-as-root -np 1 {realExecutablePath}", false); 
+        }
+
+        public static void MpiRunWrfExecutable(WrfConfiguration config, IProcessLauncher processLauncher)
+        {
+            string mpiRunPath = config.MpiRunPath;
+            string wrfExecutablePath = config.WrfExecutablePath; 
+            processLauncher.LaunchProcess(mpiRunPath, $"--allow-run-as-root -np 1 {wrfExecutablePath}", false);
+        }
+
         public static void UseWgrib2ToFindStartAndEndDatesOnWGribFiles(
             WrfConfiguration config, out DateTime startDate, out DateTime endDate,
             IProcessLauncher processLauncher, IFileSystem fileSystem)

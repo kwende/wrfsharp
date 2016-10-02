@@ -23,6 +23,11 @@ namespace WrfSharp.Runner.Implementations
 
         public void CreateSymLink(string source, string link)
         {
+            if(File.Exists(link))
+            {
+                File.Delete(link); 
+            }
+
             UnixFileInfo ufi = new UnixFileInfo(source);
             ufi.CreateSymbolicLink(link); 
         }

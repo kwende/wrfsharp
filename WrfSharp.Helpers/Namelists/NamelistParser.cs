@@ -40,11 +40,11 @@ namespace WrfSharp.Helpers.Namelists
                                 item.Values[c] = $"'{item.Values[c]}'"; 
                             }
                         }
-                        sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)}");
+                        sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)},");
                     }
                     else
                     {
-                        sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)}");
+                        sb.AppendLine($"{item.Name} = {string.Join(",", item.Values)},");
                     }
                 }
 
@@ -65,7 +65,8 @@ namespace WrfSharp.Helpers.Namelists
             string line = null; 
             while((line = reader.ReadLine()) != null)
             {
-                line = line.Trim(); 
+                line = line.Trim();
+                if (line.StartsWith("!")) continue; 
 
                 if(line.StartsWith("&"))
                 {

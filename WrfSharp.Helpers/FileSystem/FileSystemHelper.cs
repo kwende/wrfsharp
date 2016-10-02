@@ -69,6 +69,7 @@ namespace WrfSharp.Helpers.FileSystem
             {
                 // replace windows slashes with linux slashes
                 string link = Path.Combine(config.WRFDirectory, PlatformIndependentGetFilename(file)).Replace("\\","/");
+                Console.WriteLine($"Creating symbolic link from {file} to {link}"); 
                 fileSystem.CreateSymLink(file, link);
             }
         }

@@ -47,12 +47,12 @@ namespace WrfSharp.Runner
             ILogger iLogger = new Logger(null);
             IProcessLauncher iProcess = new ProcessLauncher();
 
-            iLogger.LogLine("Loading configuration...");
+            iLogger.LogLine($"Loading configuration...");
             WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
             iLogger.LogLine("...done");
 
             iLogger.Log("Cleaning data directory...");
-            //FileSystemHelper.CleanDataDirectory(config, iFileSystem);
+            FileSystemHelper.CleanDataDirectory(config, iFileSystem);
             iLogger.LogLine("...done");
 
             iLogger.LogLine("Downloading GFS product page...");
@@ -74,8 +74,8 @@ namespace WrfSharp.Runner
             iLogger.LogLine($"...found {productsToDownload.Count} items.");
 
             iLogger.LogLine("Downloading the products...");
-            //DownloadHelper.DownloadGFSProductsToDataDirectory(gfsProductUrl, productsToDownload,
-            //    config, iDownloader, iLogger);
+            DownloadHelper.DownloadGFSProductsToDataDirectory(gfsProductUrl, productsToDownload,
+                config, iDownloader, iLogger);
             iLogger.LogLine("...done");
 
             iLogger.LogLine("Cleaning intermediary files before run...");
@@ -89,7 +89,7 @@ namespace WrfSharp.Runner
                 iProcess, iFileSystem);
             iLogger.LogLine($"...done. First grib file is {startDate}, and last is {endDate}");
 
-            iLogger.LogLine("Updating the start/end dates in the WPS namelist.config file.");
+            iLogger.LogLine($"Updating the start/end dates in the {config.WPSNamelist} file.");
             NamelistHelper.UpdateDatesInWPSNamelist(config,
                 startDate, endDate, iFileSystem);
             iLogger.LogLine("...done");
@@ -122,6 +122,18 @@ namespace WrfSharp.Runner
             iLogger.LogLine("Creating symlinks in Real directory...");
             FileSystemHelper.CreateMetEmSymlinksInRealDirectory(config, iFileSystem);
             iLogger.LogLine("...done");
+
+            iLogger.LogLine("Changing directory to real directory...");
+            FileSystemHelper.SetCurrentDirectoryToWRFDirectory(config, iFileSystem);
+            iLogger.LogLine("...done"); 
+
+            iLogger.LogLine("Launching real.exe...");
+            ProcessHelper.MpiRunRealExecutable(config, iProcess);
+            iLogger.LogLine("...done");
+
+            iLogger.LogLine("Launching wrf.exe...");
+            ProcessHelper.MpiRunWrfExecutable(config, iProcess);
+            iLogger.LogLine("...done"); 
         }
     }
 }

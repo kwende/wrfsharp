@@ -21,5 +21,8 @@ namespace WrfSharp.DataStructures
         public string MetgridFilePath { get; set; }
         public string CSHFilePath { get; set; }
         public string LinkGribCsh { get; set; }
+        public string MpiRunPath { get; set; }
+        public string WrfExecutablePath { get; set; }
+        public string RealExecutablePath { get; set; }
     }
 }
