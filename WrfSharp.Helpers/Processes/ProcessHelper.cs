@@ -106,5 +106,20 @@ namespace WrfSharp.Helpers.Processes
             string metgridPath = config.MetgridFilePath;
             processLauncher.LaunchProcess(metgridPath, "", false); 
         }
+
+        public static void MakeVideoWithFFMPEG(WrfConfiguration config, 
+            IProcessLauncher iProcess, string script)
+        {
+            string scriptFileName = script.Substring(script.LastIndexOf('/') + 1);
+            scriptFileName = scriptFileName.Substring(0, scriptFileName.IndexOf('.'));
+            scriptFileName = scriptFileName.Replace("wrf_", "plt_"); 
+
+            string wrfDirectory = config.WRFDirectory;
+
+            string ffmpegPath = config.FFMPEGPath;
+            iProcess.LaunchProcess(ffmpegPath, 
+                $"-r 4 -i {scriptFileName}.000%03d.png -c:v libx264 -pix_fmt yuv420p {scriptFileName}.mp4", 
+                false); 
+        }
     }
 }

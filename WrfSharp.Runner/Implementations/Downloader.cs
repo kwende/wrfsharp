@@ -8,7 +8,7 @@ using WrfSharp.Interfaces;
 
 namespace WrfSharp.Runner.Implementations
 {
-    public class Downloader : IDownloader
+    public class Downloader : INetwork
     {
         public void DownloadFile(string url, string destinationFile)
         {

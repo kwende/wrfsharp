@@ -40,7 +40,7 @@ namespace WrfSharp.Runner
             return config; 
         }
 
-        static void PrepStage(IFileSystem iFileSystem, IDownloader iDownloader,
+        static void PrepStage(IFileSystem iFileSystem, INetwork iDownloader,
             ILogger iLogger, IProcessLauncher iProcess, WrfConfiguration config)
         {
             iLogger.Log("Cleaning data directory...");
@@ -120,34 +120,34 @@ namespace WrfSharp.Runner
             IProcessLauncher iProcess, IEnvironment iEnvironment,
             WrfConfiguration config)
         {
-            //iLogger.LogLine("Changing directory to real directory...");
-            //FileSystemHelper.SetCurrentDirectoryToWRFDirectory(config, iFileSystem);
-            //iLogger.LogLine("...done");
+            iLogger.LogLine("Changing directory to real directory...");
+            FileSystemHelper.SetCurrentDirectoryToWRFDirectory(config, iFileSystem);
+            iLogger.LogLine("...done");
 
-            //iLogger.LogLine("Launching real.exe...");
-            //ProcessHelper.MpiRunRealExecutable(config, iProcess);
-            //iLogger.LogLine("...done");
+            iLogger.LogLine("Launching real.exe...");
+            ProcessHelper.MpiRunRealExecutable(config, iProcess);
+            iLogger.LogLine("...done");
 
-            //iLogger.LogLine("Launching wrf.exe...");
-            //ProcessHelper.MpiRunWrfExecutable(config, iProcess);
-            //iLogger.LogLine("...done");
+            iLogger.LogLine("Launching wrf.exe...");
+            ProcessHelper.MpiRunWrfExecutable(config, iProcess);
+            iLogger.LogLine("...done");
 
-            iLogger.LogLine("Locating the WrfOut file..."); 
-            string wrfOutFile = 
+            iLogger.LogLine("Locating the WrfOut file...");
+            string wrfOutFile =
                 FileSystemHelper.RetrievePathToWrfOutFile(config, iFileSystem);
             iLogger.LogLine($"...found at {wrfOutFile}.");
 
-            iLogger.LogLine("Retrieving scripts to run..."); 
+            iLogger.LogLine("Retrieving scripts to run...");
             string[] scripts = FileSystemHelper.RetrieveNclScriptsToRun(config, iFileSystem);
             iLogger.LogLine($"...found {scripts.Length} scripts: {string.Join(",", scripts)}");
-
-            iEnvironment.SetEnvironmentVariable("NCARG_ROOT", "/usr/local"); 
 
             foreach (string script in scripts)
             {
                 iLogger.LogLine($"Launching NCL against {script}..."); 
                 ProcessHelper.NclRunScript(config, iProcess, script, wrfOutFile);
-                iLogger.LogLine("...done");  
+                iLogger.LogLine("...done");
+
+                ProcessHelper.MakeVideoWithFFMPEG(config, iProcess, script); 
             }
 
             //iFileSystem.DeleteFile(wrfOutFile);    
@@ -156,8 +156,8 @@ namespace WrfSharp.Runner
         static void Main(string[] args)
         {
             IFileSystem iFileSystem = new FileSystem();
-            IDownloader iDownloader = new Downloader();
-            ILogger iLogger = new Logger(null);
+            INetwork iDownloader = new Downloader();
+            ILogger iLogger = new Logger("log.txt");
             IProcessLauncher iProcess = new ProcessLauncher();
             IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment(); 
 
@@ -165,7 +165,7 @@ namespace WrfSharp.Runner
             WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
             iLogger.LogLine("...done");
 
-            //PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
+            PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
 
             ComputeStage(iFileSystem, iLogger, iProcess, iEnvironment, config); 
         }

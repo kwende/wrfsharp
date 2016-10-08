@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WrfSharp.Interfaces
 {
-    public interface IDownloader
+    public interface INetwork
     {
         string DownloadString(string url);
         void DownloadFile(string url, string destinationFile); 

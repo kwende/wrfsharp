@@ -26,5 +26,6 @@ namespace WrfSharp.DataStructures
         public string RealExecutablePath { get; set; }
         public string ScriptsDirectory { get; set; }
         public string NCLPath { get; set; }
+        public string FFMPEGPath { get; set; }
     }
 }
