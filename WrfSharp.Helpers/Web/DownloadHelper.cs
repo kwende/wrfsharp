@@ -12,12 +12,12 @@ namespace WrfSharp.Helpers.Web
 {
     public static class DownloadHelper
     {
-        public static string DownloadString(string url, IDownloader downloader)
+        public static string DownloadString(string url, INetwork downloader)
         {
             return downloader.DownloadString(url);  
         }
 
-        public static string DownloadFile(string url, string destinationDirectory, IDownloader downloader)
+        public static string DownloadFile(string url, string destinationDirectory, INetwork downloader)
         {
             url = url.Replace("\\", "/"); 
             int lastSlashIndex = url.LastIndexOf("/");
@@ -30,7 +30,7 @@ namespace WrfSharp.Helpers.Web
         }
 
         public static List<string> DownloadGFSProductsToDataDirectory(string productDirectoryUrl, 
-            List<string> products, WrfConfiguration config, IDownloader iDownloader, ILogger logger)
+            List<string> products, WrfConfiguration config, INetwork iDownloader, ILogger logger)
         {
             List<string> localPaths = new List<string>(); 
 

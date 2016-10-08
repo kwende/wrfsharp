@@ -95,7 +95,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="WrfSharp.Runner_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataStructures\WrfSharp.DataStructures.csproj">

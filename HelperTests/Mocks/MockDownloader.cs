@@ -7,7 +7,7 @@ using WrfSharp.Interfaces;
 
 namespace HelperTests.Mocks
 {
-    public class MockDownloader : IDownloader
+    public class MockDownloader : INetwork
     {
         public void DownloadFile(string url, string destinationFile)
         {
