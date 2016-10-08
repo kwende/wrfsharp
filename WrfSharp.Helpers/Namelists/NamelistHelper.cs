@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using WrfSharp.DataStructures;
@@ -10,6 +12,40 @@ namespace WrfSharp.Helpers.Namelists
 {
     public static class NamelistHelper
     {
+        public static void UpdatePhysicsParameters(WrfConfiguration config, 
+            PhysicsConfiguration physicsConfig, IFileSystem iFileSystem)
+        {
+            string wrfNamelistPath = config.WRFNamelist;
+            string wrfNamelistContent = iFileSystem.ReadFileContent(wrfNamelistPath);
+
+            Namelist nameList = NamelistParser.ParseFromString(wrfNamelistContent);
+
+            PropertyInfo[] physicsProperties = typeof(PhysicsConfiguration).GetProperties();
+            foreach (PropertyInfo prop in physicsProperties)
+            {
+                ConfigurationPropertyAttribute configPropertyAttribute =
+                    prop.GetCustomAttribute<ConfigurationPropertyAttribute>();
+                
+                if(configPropertyAttribute != null)
+                {
+                    string propertyName = configPropertyAttribute.Name;
+
+                    if (propertyName.ToLower() != "name")
+                    {
+                        List<object> values = new List<object>();
+                        int value = (int)prop.GetValue(physicsConfig);
+                        values.Add(value);
+
+                        nameList["physics"][propertyName].Values = values;
+                    }
+                }
+
+            }
+
+            string newFileContent = NamelistParser.ParseToString(nameList);
+            iFileSystem.WriteFileContent(wrfNamelistPath, newFileContent);
+        }
+
         public static void UpdateDatesInWPSNamelist(WrfConfiguration config, 
             DateTime startDate, DateTime endDate, IFileSystem fileSystem)
         {

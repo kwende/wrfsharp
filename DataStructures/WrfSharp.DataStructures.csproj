@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,6 +45,7 @@
     <Compile Include="Namelist.cs" />
     <Compile Include="NamelistEntry.cs" />
     <Compile Include="NamelistSection.cs" />
+    <Compile Include="PhysicsConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WrfConfiguration.cs" />
   </ItemGroup>

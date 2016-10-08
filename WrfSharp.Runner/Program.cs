@@ -118,8 +118,12 @@ namespace WrfSharp.Runner
 
         static void ComputeStage(IFileSystem iFileSystem, ILogger iLogger,
             IProcessLauncher iProcess, IEnvironment iEnvironment,
-            WrfConfiguration config)
+            WrfConfiguration config, PhysicsConfiguration physicsConfig)
         {
+            iLogger.LogLine("Updating physics parameters...");
+            NamelistHelper.UpdatePhysicsParameters(config, physicsConfig, iFileSystem);
+            iLogger.LogLine("...done"); 
+
             iLogger.LogLine("Changing directory to real directory...");
             FileSystemHelper.SetCurrentDirectoryToWRFDirectory(config, iFileSystem);
             iLogger.LogLine("...done");
@@ -147,10 +151,8 @@ namespace WrfSharp.Runner
                 ProcessHelper.NclRunScript(config, iProcess, script, wrfOutFile);
                 iLogger.LogLine("...done");
 
-                ProcessHelper.MakeVideoWithFFMPEG(config, iProcess, script); 
+                ProcessHelper.MakeVideoWithFFMPEG(config, iProcess, script, physicsConfig.Name); 
             }
-
-            //iFileSystem.DeleteFile(wrfOutFile);    
         }
 
         static void Main(string[] args)
@@ -159,15 +161,22 @@ namespace WrfSharp.Runner
             INetwork iDownloader = new Downloader();
             ILogger iLogger = new Logger("log.txt");
             IProcessLauncher iProcess = new ProcessLauncher();
-            IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment(); 
+            IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
+
+            Configuration obj = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            ConfigurationSectionGroup group = obj.GetSectionGroup("physicsConfigurationGroup");
 
             iLogger.LogLine($"Loading configuration...");
             WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
             iLogger.LogLine("...done");
 
-            PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
+            //PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
 
-            ComputeStage(iFileSystem, iLogger, iProcess, iEnvironment, config); 
+            foreach (ConfigurationSection section in group.Sections)
+            {
+                PhysicsConfiguration physicsConfig = (PhysicsConfiguration)section;
+                ComputeStage(iFileSystem, iLogger, iProcess, iEnvironment, config, physicsConfig);
+            }
         }
     }
 }
