@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConfigBackups", "ConfigBack
 	ProjectSection(SolutionItems) = preProject
 		namelist.input = namelist.input
 		namelist.wps = namelist.wps
+		NMM_Physics_Dudhia.pdf = NMM_Physics_Dudhia.pdf
+		Running the WRF Preprocessing System (1).PDF = Running the WRF Preprocessing System (1).PDF
 	EndProjectSection
 EndProject
 Global

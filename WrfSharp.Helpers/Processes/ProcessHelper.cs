@@ -123,7 +123,7 @@ namespace WrfSharp.Helpers.Processes
 
             string ffmpegPath = config.FFMPEGPath;
             iProcess.LaunchProcess(ffmpegPath, 
-                $"-r 4 -i {scriptFileName}.000%03d.png -c:v libx264 -pix_fmt yuv420p {mp4Directory}{physicsModelName}_{scriptFileName}.mp4", 
+                $"-y -r 4 -i {scriptFileName}.000%03d.png -c:v libx264 -pix_fmt yuv420p {mp4Directory}{physicsModelName}_{scriptFileName}.mp4", 
                 false); 
         }
     }
