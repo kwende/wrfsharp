@@ -170,7 +170,7 @@ namespace WrfSharp.Runner
             WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
             iLogger.LogLine("...done");
 
-            PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
+            //PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
 
             foreach (PhysicsConfiguration physicsConfig in section.PhysicsConfigurations)
             {

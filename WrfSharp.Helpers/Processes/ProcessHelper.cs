@@ -42,7 +42,7 @@ namespace WrfSharp.Helpers.Processes
         {
             string mpiRunPath = config.MpiRunPath;
             string wrfExecutablePath = config.WrfExecutablePath; 
-            processLauncher.LaunchProcess(mpiRunPath, $"--allow-run-as-root -np 1 {wrfExecutablePath}", false);
+            processLauncher.LaunchProcess(mpiRunPath, $"--allow-run-as-root -np 6 {wrfExecutablePath}", false);
         }
 
         public static void UseWgrib2ToFindStartAndEndDatesOnWGribFiles(
