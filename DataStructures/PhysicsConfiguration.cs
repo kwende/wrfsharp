@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WrfSharp.DataStructures
 {
-    public class PhysicsConfiguration : ConfigurationSection
+    public class PhysicsConfiguration : ConfigurationElement
     {
         [ConfigurationProperty("Name")]
         public string Name

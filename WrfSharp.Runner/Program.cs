@@ -164,17 +164,16 @@ namespace WrfSharp.Runner
             IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
 
             Configuration obj = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            ConfigurationSectionGroup group = obj.GetSectionGroup("physicsConfigurationGroup");
+            PhysicsConfigurationSection section = (PhysicsConfigurationSection)obj.GetSection("physics"); 
 
             iLogger.LogLine($"Loading configuration...");
             WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
             iLogger.LogLine("...done");
 
-            //PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
+            PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
 
-            foreach (ConfigurationSection section in group.Sections)
+            foreach (PhysicsConfiguration physicsConfig in section.PhysicsConfigurations)
             {
-                PhysicsConfiguration physicsConfig = (PhysicsConfiguration)section;
                 ComputeStage(iFileSystem, iLogger, iProcess, iEnvironment, config, physicsConfig);
             }
         }
