@@ -159,7 +159,7 @@ namespace WrfSharp.Runner
         {
             IFileSystem iFileSystem = new FileSystem();
             INetwork iDownloader = new Downloader();
-            ILogger iLogger = new Logger("log.txt");
+            ILogger iLogger = new Logger(null);
             IProcessLauncher iProcess = new ProcessLauncher();
             IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
 
@@ -170,7 +170,7 @@ namespace WrfSharp.Runner
             WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
             iLogger.LogLine("...done");
 
-            //PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
+            PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
 
             foreach (PhysicsConfiguration physicsConfig in section.PhysicsConfigurations)
             {
