@@ -170,7 +170,14 @@ namespace WrfSharp.Runner
             WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
             iLogger.LogLine("...done");
 
-            PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
+            if(args.Length > 0 && args[0].ToLower() == "nodownload")
+            {
+                iLogger.LogLine("Downloading of new data skipped..."); 
+            }
+            else
+            {
+                PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
+            }
 
             foreach (PhysicsConfiguration physicsConfig in section.PhysicsConfigurations)
             {
