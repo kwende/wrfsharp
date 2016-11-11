@@ -54,7 +54,7 @@ namespace WrfSharp.Helpers.FileSystem
                     {
                         ret.Add(file);
                         fileSystem.DeleteFile(file);
-                        iLogger.LogLine($"\t...Deleted '{file}'");  
+                        //iLogger.LogLine($"\t...Deleted '{file}'");  
                     }
                 }
             }
@@ -69,8 +69,8 @@ namespace WrfSharp.Helpers.FileSystem
             foreach (string file in files)
             {
                 // replace windows slashes with linux slashes
-                string link = Path.Combine(config.WRFDirectory, PlatformIndependentGetFilename(file)).Replace("\\","/");
-                Console.WriteLine($"Creating symbolic link from {file} to {link}"); 
+                string link = Path.Combine(config.WRFDirectory, PlatformIndependentGetFilename(file)).Replace("\\", "/");
+                //Console.WriteLine($"Creating symbolic link from {file} to {link}"); 
                 fileSystem.CreateSymLink(file, link);
             }
         }
@@ -107,7 +107,7 @@ namespace WrfSharp.Helpers.FileSystem
                     {
                         ret.Add(file);
                         fileSystem.DeleteFile(file);
-                        iLogger.LogLine($"\t...deleted file {file}"); 
+                        //iLogger.LogLine($"\t...deleted file {file}"); 
                     }
                 }
                 foreach (string suffix in SufixesOfFilesToDeleteFromWRFDirectory)
@@ -116,7 +116,7 @@ namespace WrfSharp.Helpers.FileSystem
                     {
                         ret.Add(file);
                         fileSystem.DeleteFile(file);
-                        iLogger.LogLine($"\t...deleted file {file}");
+                        //iLogger.LogLine($"\t...deleted file {file}");
                     }
                 }
             }
