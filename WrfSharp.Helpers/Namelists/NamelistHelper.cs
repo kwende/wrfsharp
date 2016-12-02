@@ -12,8 +12,8 @@ namespace WrfSharp.Helpers.Namelists
 {
     public static class NamelistHelper
     {
-        public static void UpdatePhysicsParameters(WrfConfiguration config, 
-            PhysicsConfiguration physicsConfig, IFileSystem iFileSystem)
+        public static void UpdatePhysicsParameters(WrfConfiguration config,
+            PhysicsConfigurationProcessed physicsConfig, IFileSystem iFileSystem)
         {
             string wrfNamelistPath = config.WRFNamelist;
             string wrfNamelistContent = iFileSystem.ReadFileContent(wrfNamelistPath);
@@ -25,11 +25,10 @@ namespace WrfSharp.Helpers.Namelists
             {
                 ConfigurationPropertyAttribute configPropertyAttribute =
                     prop.GetCustomAttribute<ConfigurationPropertyAttribute>();
-                
-                if(configPropertyAttribute != null)
+
+                if (configPropertyAttribute != null)
                 {
                     string propertyName = configPropertyAttribute.Name;
-
                     if (propertyName.ToLower() != "name")
                     {
                         List<object> values = new List<object>();
@@ -46,7 +45,7 @@ namespace WrfSharp.Helpers.Namelists
             iFileSystem.WriteFileContent(wrfNamelistPath, newFileContent);
         }
 
-        public static void UpdateDatesInWPSNamelist(WrfConfiguration config, 
+        public static void UpdateDatesInWPSNamelist(WrfConfiguration config,
             DateTime startDate, DateTime endDate, IFileSystem fileSystem)
         {
             string wpsNamelistPath = config.WPSNamelist;
@@ -59,10 +58,10 @@ namespace WrfSharp.Helpers.Namelists
                 new string[] { endDate.ToString("yyyy-MM-dd_HH:mm:ss") });
 
             string updatedContent = NamelistParser.ParseToString(nameList);
-            fileSystem.WriteFileContent(wpsNamelistPath, updatedContent); 
+            fileSystem.WriteFileContent(wpsNamelistPath, updatedContent);
         }
 
-        public static void UpdateDatesInWRFNamelist(WrfConfiguration config, 
+        public static void UpdateDatesInWRFNamelist(WrfConfiguration config,
             DateTime startDate, DateTime endDate, IFileSystem fileSystem)
         {
             string wrfNamelistPath = config.WRFNamelist;
@@ -70,7 +69,7 @@ namespace WrfSharp.Helpers.Namelists
 
             Namelist nameList = NamelistParser.ParseFromString(wrfNamelistContent);
 
-            nameList["time_control"]["start_year"].Values.Clear(); 
+            nameList["time_control"]["start_year"].Values.Clear();
             nameList["time_control"]["start_month"].Values.Clear();
             nameList["time_control"]["start_day"].Values.Clear();
             nameList["time_control"]["start_hour"].Values.Clear();
@@ -90,7 +89,7 @@ namespace WrfSharp.Helpers.Namelists
             nameList["time_control"]["end_hour"].Values.Add(endDate.Hour);
 
             string updatedContent = NamelistParser.ParseToString(nameList);
-            fileSystem.WriteFileContent(wrfNamelistPath, updatedContent); 
+            fileSystem.WriteFileContent(wrfNamelistPath, updatedContent);
         }
     }
 }

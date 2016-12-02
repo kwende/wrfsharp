@@ -46,6 +46,7 @@
     <Compile Include="Namelist.cs" />
     <Compile Include="NamelistEntry.cs" />
     <Compile Include="NamelistSection.cs" />
+    <Compile Include="PhysicsConfigurationProcessed.cs" />
     <Compile Include="PhysicsConfiguration.cs" />
     <Compile Include="PhysicsConfigurationCollection.cs" />
     <Compile Include="PhysicsConfigurationSection.cs" />

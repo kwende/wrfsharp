@@ -9,25 +9,26 @@ namespace WrfSharp.DataStructures
 {
     public class PhysicsConfiguration : ConfigurationElement
     {
-        [ConfigurationProperty("Name")]
+        [ConfigurationProperty("name")]
         public string Name
         {
             get
             {
-                return (string)this["Name"]; 
+                return (string)this["name"];
             }
             set
             {
-                this["Name"] = value; 
+                this["name"] = value;
             }
         }
 
+
         [ConfigurationProperty("mp_physics")]
-        public int MpPhysics
+        public string MpPhysics
         {
             get
             {
-                return (int)this["mp_physics"]; 
+                return (string)this["mp_physics"]; 
             }
             set
             {
@@ -36,11 +37,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("ra_lw_physics")]
-        public int RaLwPhysics
+        public string RaLwPhysics
         {
             get
             {
-                return (int)this["ra_lw_physics"];
+                return (string)this["ra_lw_physics"];
             }
             set
             {
@@ -49,11 +50,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("ra_sw_physics")]
-        public int RaSwPhysics
+        public string RaSwPhysics
         {
             get
             {
-                return (int)this["ra_sw_physics"];
+                return (string)this["ra_sw_physics"];
             }
             set
             {
@@ -62,11 +63,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("radt")]
-        public int Radt
+        public string Radt
         {
             get
             {
-                return (int)this["radt"];
+                return (string)this["radt"];
             }
             set
             {
@@ -75,11 +76,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("sf_sfclay_physics")]
-        public int SfSfClayPhysics
+        public string SfSfClayPhysics
         {
             get
             {
-                return (int)this["sf_sfclay_physics"];
+                return (string)this["sf_sfclay_physics"];
             }
             set
             {
@@ -88,11 +89,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("sf_surface_physics")]
-        public int SfSurfacePhysics
+        public string SfSurfacePhysics
         {
             get
             {
-                return (int)this["sf_surface_physics"];
+                return (string)this["sf_surface_physics"];
             }
             set
             {
@@ -101,11 +102,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("bl_pbl_physics")]
-        public int BlPblPhysics
+        public string BlPblPhysics
         {
             get
             {
-                return (int)this["bl_pbl_physics"];
+                return (string)this["bl_pbl_physics"];
             }
             set
             {
@@ -114,11 +115,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("bldt")]
-        public int Bldt
+        public string Bldt
         {
             get
             {
-                return (int)this["bldt"];
+                return (string)this["bldt"];
             }
             set
             {
@@ -127,11 +128,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("cu_physics")]
-        public int CuPhysics
+        public string CuPhysics
         {
             get
             {
-                return (int)this["cu_physics"];
+                return (string)this["cu_physics"];
             }
             set
             {
@@ -140,11 +141,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("cudt")]
-        public int Cudt
+        public string Cudt
         {
             get
             {
-                return (int)this["cudt"];
+                return (string)this["cudt"];
             }
             set
             {
@@ -153,11 +154,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("isfflx")]
-        public int IsFflx
+        public string IsFflx
         {
             get
             {
-                return (int)this["isfflx"];
+                return (string)this["isfflx"];
             }
             set
             {
@@ -166,11 +167,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("ifsnow")]
-        public int IfSnow
+        public string IfSnow
         {
             get
             {
-                return (int)this["ifsnow"];
+                return (string)this["ifsnow"];
             }
             set
             {
@@ -179,11 +180,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("icloud")]
-        public int ICloud
+        public string ICloud
         {
             get
             {
-                return (int)this["icloud"];
+                return (string)this["icloud"];
             }
             set
             {
@@ -192,11 +193,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("surface_input_source")]
-        public int SurfaceInputSource
+        public string SurfaceInputSource
         {
             get
             {
-                return (int)this["surface_input_source"];
+                return (string)this["surface_input_source"];
             }
             set
             {
@@ -205,11 +206,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("num_soil_layers")]
-        public int NumSoilLayers
+        public string NumSoilLayers
         {
             get
             {
-                return (int)this["num_soil_layers"];
+                return (string)this["num_soil_layers"];
             }
             set
             {
@@ -218,11 +219,11 @@ namespace WrfSharp.DataStructures
         }
 
         [ConfigurationProperty("sf_urban_physics")]
-        public int SfUrbanPhysics
+        public string SfUrbanPhysics
         {
             get
             {
-                return (int)this["sf_urban_physics"];
+                return (string)this["sf_urban_physics"];
             }
             set
             {
