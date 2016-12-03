@@ -40,6 +40,37 @@ namespace WrfSharp.Runner
             return config;
         }
 
+        static void RecurseAdd(List<PhysicsConfigurationProcessed> list, PhysicsConfiguration sourceConfig, 
+            List<PropertyInfo> multipleProps, int level, Type physicsConfigurationType)
+        {
+            if(level < multipleProps.Count)
+            {
+                PropertyInfo readProp = multipleProps[level];
+                PropertyInfo writeProp = physicsConfigurationType.GetProperty(readProp.Name); 
+
+                string[] vals = (readProp.GetValue(sourceConfig) as string).Split(',').Select(n => n.Trim()).ToArray();
+                int numberSame = list.Count / vals.Length; 
+
+                for(int valueIndex=0; valueIndex < vals.Length; valueIndex++)
+                {
+                    int startIndex = valueIndex * numberSame;
+                    int value = int.Parse(vals[valueIndex]);
+
+                    List<PhysicsConfigurationProcessed> toSendDown = 
+                        new List<PhysicsConfigurationProcessed>(numberSame); 
+                    for(int i=startIndex;i<numberSame+startIndex;i++)
+                    {
+                        PhysicsConfigurationProcessed settingNow = list[i];
+                        writeProp.SetValue(settingNow, value);
+                        toSendDown.Add(settingNow); 
+                    }
+
+                    RecurseAdd(toSendDown, sourceConfig, multipleProps, 
+                        level + 1, physicsConfigurationType); 
+                }
+            }
+        }
+
         static List<PhysicsConfigurationProcessed> LoadPhysicsConfigurationsFromConfiguration()
         {
             Type physicsConfigType = typeof(PhysicsConfiguration);
@@ -53,65 +84,50 @@ namespace WrfSharp.Runner
             foreach (PhysicsConfiguration configuration in section.PhysicsConfigurations)
             {
                 int total = 1;
+                List<PropertyInfo> multipleProps = new List<PropertyInfo>();
+                List<PropertyInfo> singleProps = new List<PropertyInfo>(); 
                 foreach (PropertyInfo prop in physicsConfigType.GetProperties())
                 {
                     string val = prop.GetValue(configuration) as string;
                     if (val != null)
                     {
                         int numberOfCommas = (val as string).Count(n => n == ',');
+                        if(numberOfCommas>0)
+                        {
+                            multipleProps.Add(prop); 
+                        }
+                        else
+                        {
+                            singleProps.Add(prop); 
+                        }
                         total *= (numberOfCommas + 1);
                     }
                 }
-                List<PhysicsConfigurationProcessed> toAdds = new List<PhysicsConfigurationProcessed>(total);
-                for (int c = 0; c < total; c++) toAdds.Add(new PhysicsConfigurationProcessed());
 
-                if (toAdds.Count > 0)
+                Type physicsConfigurationProcessedType = typeof(PhysicsConfigurationProcessed); 
+
+                List<PhysicsConfigurationProcessed> toAdd = new List<PhysicsConfigurationProcessed>(total);
+                for (int c = 0; c < total; c++)
                 {
-                    foreach (PropertyInfo prop in physicsConfigType.GetProperties())
+                    PhysicsConfigurationProcessed config = new PhysicsConfigurationProcessed();
+                    foreach(PropertyInfo singleProp in singleProps)
                     {
-                        string val = (prop.GetValue(configuration) as string);
-                        if (prop.Name.ToLower() != "name" && val != null)
+                        if(singleProp.Name.ToLower() != "name")
                         {
-                            string[] values = val.Split(',').Select(n => n.Trim()).ToArray();
-
-                            if (values.Length == 1)
+                            string value = singleProp.GetValue(configuration) as string;
+                            if (value != null)
                             {
-                                foreach (PhysicsConfigurationProcessed toAdd in toAdds)
-                                {
-                                    physicsConfigProcessedType.GetProperty(prop.Name).SetValue(toAdd, int.Parse(values[0]));
-                                }
-                            }
-                            else
-                            {
-                                int numDupes = toAdds.Count / values.Length;
-                                for (int d = 1; d <= numDupes; d++)
-                                {
-                                    for (int c = 0; c < values.Length; c++)
-                                    {
-                                        PhysicsConfigurationProcessed toAdd = toAdds[c * d];
-                                        physicsConfigProcessedType.GetProperty(prop.Name).SetValue(toAdd, int.Parse(values[c]));
-                                    }
-                                }
+                                physicsConfigProcessedType.GetProperty(singleProp.Name).SetValue(config, int.Parse(value));
                             }
                         }
                     }
-                }
-                else
-                {
-                    foreach (PropertyInfo prop in physicsConfigType.GetProperties(BindingFlags.DeclaredOnly))
-                    {
-                        if (prop.Name.ToLower() != "name")
-                        {
-                            string value = (prop.GetValue(configuration) as string);
-                            foreach (PhysicsConfigurationProcessed toAdd in toAdds)
-                            {
-                                physicsConfigProcessedType.GetProperty(prop.Name).SetValue(toAdd, int.Parse(value));
-                            }
-                        }
-                    }
+
+                    toAdd.Add(config);
                 }
 
-                ret.AddRange(toAdds);
+                RecurseAdd(toAdd, configuration, multipleProps, 0, physicsConfigurationProcessedType);
+
+                ret.AddRange(toAdd); 
             }
 
             return ret;
