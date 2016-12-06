@@ -13,6 +13,7 @@ using WrfSharp.Helpers.Namelists;
 using WrfSharp.Helpers.Processes;
 using WrfSharp.Helpers.Web;
 using WrfSharp.Interfaces;
+using WrfSharp.NetCDF;
 using WrfSharp.Runner.Implementations;
 
 namespace WrfSharp.Runner
@@ -237,6 +238,8 @@ namespace WrfSharp.Runner
             iLogger.LogLine("Retrieving scripts to run...");
             string[] scripts = FileSystemHelper.RetrieveNclScriptsToRun(config, iFileSystem);
             iLogger.LogLine($"...found {scripts.Length} scripts: {string.Join(",", scripts)}");
+
+            INetCDFReader netCdfReader = new NetCDFReader(wrfOutFile); 
 
             foreach (string script in scripts)
             {

@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\BadNetCDFTypeException.cs" />
     <Compile Include="Exceptions\MissingWrfOutFileException.cs" />
     <Compile Include="Namelist.cs" />
     <Compile Include="NamelistEntry.cs" />

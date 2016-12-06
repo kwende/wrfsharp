@@ -116,6 +116,10 @@
       <Project>{4dbdd0a6-a3ab-400b-abfe-a1150ee06879}</Project>
       <Name>WrfSharp.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WrfSharp.NetCDF\WrfSharp.NetCDF.csproj">
+      <Project>{6531f089-fb68-4862-beb5-e1b23cd71755}</Project>
+      <Name>WrfSharp.NetCDF</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
