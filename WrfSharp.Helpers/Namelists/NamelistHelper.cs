@@ -20,7 +20,7 @@ namespace WrfSharp.Helpers.Namelists
 
             Namelist nameList = NamelistParser.ParseFromString(wrfNamelistContent);
 
-            PropertyInfo[] physicsProperties = typeof(PhysicsConfiguration).GetProperties();
+            PropertyInfo[] physicsProperties = typeof(PhysicsConfigurationProcessed).GetProperties();
             foreach (PropertyInfo prop in physicsProperties)
             {
                 ConfigurationPropertyAttribute configPropertyAttribute =
