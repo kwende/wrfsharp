@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,22 @@ namespace WrfSharp.Helpers.NetCDF
             ret.SurfaceInputSource = reader.ReadIntAttribute("SURFACE_INPUT_SOURCE"); 
 
             return ret; 
+        }
+
+        public static void ReadGridDimensions(INetCDFReader reader, out int westEastGridDimension, 
+            out int southNorthGridDimension, out int bottomTopGridDimension)
+        {
+            westEastGridDimension = reader.ReadIntAttribute("WEST-EAST_GRID_DIMENSION");
+            southNorthGridDimension = reader.ReadIntAttribute("SOUTH-NORTH_GRID_DIMENSION");
+            bottomTopGridDimension = reader.ReadIntAttribute("BOTTOM-TOP_GRID_DIMENSION"); 
+        }
+
+        public static DateTime GetSimulationDate(INetCDFReader reader)
+        {
+            //Example: 2016-11-12_12:00:00
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            string dateTimeAsString = reader.ReadStringAttribute("SIMULATION_START_DATE");
+            return DateTime.ParseExact(dateTimeAsString, "yyy-MM-dd_hh:mm:ss", provider); 
         }
     }
 }

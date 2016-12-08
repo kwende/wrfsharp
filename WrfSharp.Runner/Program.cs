@@ -214,6 +214,9 @@ namespace WrfSharp.Runner
             IProcessLauncher iProcess, IEnvironment iEnvironment,
             WrfConfiguration config, PhysicsConfigurationProcessed physicsConfig)
         {
+            DateTime runStartTime = DateTime.Now;
+            string runId = Guid.NewGuid().ToString().Replace("-", ""); 
+
             iLogger.LogLine("Updating physics parameters...");
             NamelistHelper.UpdatePhysicsParameters(config, physicsConfig, iFileSystem);
             iLogger.LogLine("...done");
@@ -239,15 +242,16 @@ namespace WrfSharp.Runner
             string[] scripts = FileSystemHelper.RetrieveNclScriptsToRun(config, iFileSystem);
             iLogger.LogLine($"...found {scripts.Length} scripts: {string.Join(",", scripts)}");
 
-            INetCDFReader netCdfReader = new NetCDFReader(wrfOutFile); 
+            DateTime runEndTime = DateTime.Now; 
 
+            INetCDFReader netCdfReader = new NetCDFReader(wrfOutFile); 
             foreach (string script in scripts)
             {
                 iLogger.LogLine($"Launching NCL against {script}...");
                 ProcessHelper.NclRunScript(config, iProcess, script, wrfOutFile);
                 iLogger.LogLine("...done");
 
-                ProcessHelper.MakeVideoWithFFMPEG(config, iProcess, script, Guid.NewGuid().ToString().Replace("-", ""));
+                ProcessHelper.MakeVideoWithFFMPEG(config, iProcess, script, runId);
             }
         }
 

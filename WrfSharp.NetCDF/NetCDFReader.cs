@@ -31,6 +31,13 @@ namespace WrfSharp.NetCDF
             }
         }
 
+        public string ReadStringAttribute(string attributeName)
+        {
+            ucar.nc2.Attribute attribute =
+                _file.findGlobalAttribute("SIMULATION_START_DATE");
+            return attribute.getValue(0) as string;
+        }
+
         public string[] ReadStringArray(string variableName)
         {
             Variable variable = _file.findVariable(variableName);

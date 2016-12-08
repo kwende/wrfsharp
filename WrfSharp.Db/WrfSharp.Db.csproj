@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4DBDD0A6-A3AB-400B-ABFE-A1150EE06879}</ProjectGuid>
+    <ProjectGuid>{18767CA6-539F-4D86-9831-54ED3E19A7AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WrfSharp.Interfaces</RootNamespace>
-    <AssemblyName>WrfSharp.Interfaces</AssemblyName>
+    <RootNamespace>WrfSharp.Db</RootNamespace>
+    <AssemblyName>WrfSharp.Db</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -28,9 +28,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,19 +44,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDatabase.cs" />
-    <Compile Include="INetCDFReader.cs" />
-    <Compile Include="INetwork.cs" />
-    <Compile Include="IEnvironment.cs" />
-    <Compile Include="IFileSystem.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="IProcessLauncher.cs" />
+    <Compile Include="MySQL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\DataStructures\WrfSharp.DataStructures.csproj">
-      <Project>{230A2C8E-A61E-4B27-BC0A-D5DB25BE98D0}</Project>
+      <Project>{230a2c8e-a61e-4b27-bc0a-d5db25be98d0}</Project>
       <Name>WrfSharp.DataStructures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WrfSharp.Interfaces\WrfSharp.Interfaces.csproj">
+      <Project>{4dbdd0a6-a3ab-400b-abfe-a1150ee06879}</Project>
+      <Name>WrfSharp.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

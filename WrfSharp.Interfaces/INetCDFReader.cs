@@ -9,6 +9,7 @@ namespace WrfSharp.Interfaces
     public interface INetCDFReader
     {
         int ReadIntAttribute(string attributeName);
-        string[] ReadStringArray(string arrayVariableName); 
+        string[] ReadStringArray(string arrayVariableName);
+        string ReadStringAttribute(string v);
     }
 }
