@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using WrfSharp.DataStructures;
+using WrfSharp.Db;
 using WrfSharp.Helpers.FileSystem;
 using WrfSharp.Helpers.Namelists;
 using WrfSharp.Helpers.Processes;
@@ -211,7 +212,7 @@ namespace WrfSharp.Runner
         }
 
         static void ComputeStage(IFileSystem iFileSystem, ILogger iLogger,
-            IProcessLauncher iProcess, IEnvironment iEnvironment,
+            IProcessLauncher iProcess, IEnvironment iEnvironment, IDatabase iDatabase,
             WrfConfiguration config, PhysicsConfigurationProcessed physicsConfig)
         {
             DateTime runStartTime = DateTime.Now;
@@ -243,8 +244,8 @@ namespace WrfSharp.Runner
             iLogger.LogLine($"...found {scripts.Length} scripts: {string.Join(",", scripts)}");
 
             DateTime runEndTime = DateTime.Now; 
-
             INetCDFReader netCdfReader = new NetCDFReader(wrfOutFile); 
+
             foreach (string script in scripts)
             {
                 iLogger.LogLine($"Launching NCL against {script}...");
@@ -262,6 +263,7 @@ namespace WrfSharp.Runner
             ILogger iLogger = new Logger(null);
             IProcessLauncher iProcess = new ProcessLauncher();
             IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
+            IDatabase iDatabase = MySQL.OpenConnection("server", "user", "password", "database"); 
 
             List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
 
@@ -280,7 +282,8 @@ namespace WrfSharp.Runner
 
             foreach (PhysicsConfigurationProcessed physicsConfig in physicsConfigs)
             {
-                ComputeStage(iFileSystem, iLogger, iProcess, iEnvironment, config, physicsConfig);
+                ComputeStage(iFileSystem, iLogger, iProcess, 
+                    iEnvironment, iDatabase, config, physicsConfig);
             }
         }
     }
