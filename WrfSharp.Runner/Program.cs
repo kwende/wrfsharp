@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WrfSharp.DataStructures;
 using WrfSharp.Db;
+using WrfSharp.Helpers.Database;
 using WrfSharp.Helpers.FileSystem;
 using WrfSharp.Helpers.Namelists;
 using WrfSharp.Helpers.Processes;
@@ -244,7 +245,10 @@ namespace WrfSharp.Runner
             iLogger.LogLine($"...found {scripts.Length} scripts: {string.Join(",", scripts)}");
 
             DateTime runEndTime = DateTime.Now; 
-            INetCDFReader netCdfReader = new NetCDFReader(wrfOutFile); 
+            INetCDFReader netCdfReader = new NetCDFReader(wrfOutFile);
+
+            DatabaseHelper.CreateRunRecord(netCdfReader, iDatabase, 
+                runStartTime, runEndTime, runId); 
 
             foreach (string script in scripts)
             {

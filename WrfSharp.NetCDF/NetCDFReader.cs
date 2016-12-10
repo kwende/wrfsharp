@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,16 @@ namespace WrfSharp.NetCDF
             }
         }
 
+
+        public DateTime ReadDateAttribute(string attributeName)
+        {
+            string dateAsString = ReadStringAttribute(attributeName);
+
+            //2016-11-12_12:00:00
+            return DateTime.ParseExact(dateAsString, "yyy-MM-dd_hh:mm:ss", 
+                CultureInfo.InvariantCulture);
+        }
+
         public string ReadStringAttribute(string attributeName)
         {
             ucar.nc2.Attribute attribute =
@@ -58,5 +69,6 @@ namespace WrfSharp.NetCDF
 
             return ret; 
         }
+
     }
 }

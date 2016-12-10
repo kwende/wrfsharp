@@ -10,6 +10,7 @@ namespace WrfSharp.Interfaces
     {
         int ReadIntAttribute(string attributeName);
         string[] ReadStringArray(string arrayVariableName);
-        string ReadStringAttribute(string v);
+        string ReadStringAttribute(string attributeName);
+        DateTime ReadDateAttribute(string attributeName); 
     }
 }

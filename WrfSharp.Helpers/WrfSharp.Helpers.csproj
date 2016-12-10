@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\DatabaseHelper.cs" />
     <Compile Include="FileSystem\FileSystemHelper.cs" />
     <Compile Include="Namelists\NamelistHelper.cs" />
     <Compile Include="Namelists\NamelistParser.cs" />
