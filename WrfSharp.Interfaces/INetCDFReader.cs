@@ -8,7 +8,7 @@ namespace WrfSharp.Interfaces
 {
     public interface INetCDFReader
     {
-        int ReadIntAttribute(string attributeName);
+        float ReadFloatAttribute(string attributeName);
         string[] ReadStringArray(string arrayVariableName);
         string ReadStringAttribute(string attributeName);
         DateTime ReadDateAttribute(string attributeName); 

@@ -12,6 +12,7 @@ using WrfSharp.Db;
 using WrfSharp.Helpers.Database;
 using WrfSharp.Helpers.FileSystem;
 using WrfSharp.Helpers.Namelists;
+using WrfSharp.Helpers.NetCDF;
 using WrfSharp.Helpers.Processes;
 using WrfSharp.Helpers.Web;
 using WrfSharp.Interfaces;
@@ -267,7 +268,12 @@ namespace WrfSharp.Runner
             ILogger iLogger = new Logger(null);
             IProcessLauncher iProcess = new ProcessLauncher();
             IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
-            IDatabase iDatabase = MySQL.OpenConnection("server", "user", "password", "database"); 
+
+            IDatabase iDatabase = MySQL.OpenConnection("www.ben-rush.net", "user", "password", "server");
+
+            //INetCDFReader netCdfReader = new NetCDFReader("C:/users/ben/desktop/test.nc");
+            //DatabaseHelper.CreateRunRecord(netCdfReader, iDatabase,
+            //    DateTime.Now, DateTime.Now, "runId");
 
             List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
 
@@ -286,7 +292,7 @@ namespace WrfSharp.Runner
 
             foreach (PhysicsConfigurationProcessed physicsConfig in physicsConfigs)
             {
-                ComputeStage(iFileSystem, iLogger, iProcess, 
+                ComputeStage(iFileSystem, iLogger, iProcess,
                     iEnvironment, iDatabase, config, physicsConfig);
             }
         }

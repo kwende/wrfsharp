@@ -10,51 +10,51 @@ namespace WrfSharp.DataStructures
     public class PhysicsConfigurationProcessed
     {
         [ConfigurationProperty("mp_physics")]
-        public int MpPhysics { get; set; }
+        public float MpPhysics { get; set; }
 
         [ConfigurationProperty("ra_lw_physics")]
-        public int RaLwPhysics { get; set; }
+        public float RaLwPhysics { get; set; }
 
         [ConfigurationProperty("ra_sw_physics")]
-        public int RaSwPhysics { get; set; }
+        public float RaSwPhysics { get; set; }
 
         [ConfigurationProperty("radt")]
-        public int Radt { get; set; }
+        public float Radt { get; set; }
 
         [ConfigurationProperty("sf_sfclay_physics")]
-        public int SfSfClayPhysics { get; set; }
+        public float SfSfClayPhysics { get; set; }
 
         [ConfigurationProperty("sf_surface_physics")]
-        public int SfSurfacePhysics { get; set; }
+        public float SfSurfacePhysics { get; set; }
 
         [ConfigurationProperty("bl_pbl_physics")]
-        public int BlPblPhysics { get; set; }
+        public float BlPblPhysics { get; set; }
 
         [ConfigurationProperty("bldt")]
-        public int Bldt { get; set; }
+        public float Bldt { get; set; }
 
         [ConfigurationProperty("cu_physics")]
-        public int CuPhysics { get; set; }
+        public float CuPhysics { get; set; }
 
         [ConfigurationProperty("cudt")]
-        public int Cudt { get; set; }
+        public float Cudt { get; set; }
 
         [ConfigurationProperty("isfflx")]
-        public int IsFflx { get; set; }
+        public float IsFflx { get; set; }
 
         [ConfigurationProperty("ifsnow")]
-        public int IfSnow { get; set; }
+        public float IfSnow { get; set; }
 
         [ConfigurationProperty("icloud")]
-        public int ICloud { get; set; }
+        public float ICloud { get; set; }
 
         [ConfigurationProperty("surface_input_source")]
-        public int SurfaceInputSource { get; set; }
+        public float SurfaceInputSource { get; set; }
 
         [ConfigurationProperty("num_soil_layers")]
-        public int NumSoilLayers { get; set; }
+        public float NumSoilLayers { get; set; }
 
         [ConfigurationProperty("sf_urban_physics")]
-        public int SfUrbanPhysics { get; set; }
+        public float SfUrbanPhysics { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace WrfSharp.Helpers.Database
         {
             DateTime simulationStartDate = NetCDFReaderHelper.GetSimulationDate(iNetCdf);
 
-            int westEast = 0, southNorth = 0, bottomTop = 0;
+            float westEast = 0, southNorth = 0, bottomTop = 0;
             NetCDFReaderHelper.ReadGridDimensions(iNetCdf, out westEast, out southNorth, out bottomTop);
 
             PhysicsConfigurationProcessed physics = 

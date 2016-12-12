@@ -19,17 +19,19 @@ namespace WrfSharp.NetCDF
             _file = NetcdfFile.open(fileName);
         }
 
-        public int ReadIntAttribute(string attributeName)
+        public float ReadFloatAttribute(string attributeName)
         {
+            float ret = 0.0f; 
             ucar.nc2.Attribute attrib = _file.findGlobalAttribute(attributeName);
-            if (!attrib.getDataType().isIntegral())
+            if (attrib.getDataType().isIntegral())
             {
-                throw new BadNetCDFTypeException();
+                ret = (attrib.getValue(0) as java.lang.Number).intValue();
             }
-            else
+            else if(attrib.getDataType().isFloatingPoint())
             {
-                return (attrib.getValue(0) as java.lang.Number).intValue();
+                ret = (attrib.getValue(0) as java.lang.Float).floatValue(); 
             }
+            return ret; 
         }
 
 

@@ -15,32 +15,32 @@ namespace WrfSharp.Helpers.NetCDF
         {
             PhysicsConfigurationProcessed ret = new PhysicsConfigurationProcessed();
 
-            ret.Bldt = reader.ReadIntAttribute("BLDT");
-            ret.BlPblPhysics = reader.ReadIntAttribute("BL_PBL_PHYSICS");
-            ret.Cudt = reader.ReadIntAttribute("CUDT");
-            ret.CuPhysics = reader.ReadIntAttribute("CU_PHYSICS");
+            ret.Bldt = reader.ReadFloatAttribute("BLDT");
+            ret.BlPblPhysics = reader.ReadFloatAttribute("BL_PBL_PHYSICS");
+            ret.Cudt = reader.ReadFloatAttribute("CUDT");
+            ret.CuPhysics = reader.ReadFloatAttribute("CU_PHYSICS");
             ret.ICloud = 0; // ?
             ret.IfSnow = 0; // ?
-            ret.IsFflx = reader.ReadIntAttribute("ISFFLX");
-            ret.MpPhysics = reader.ReadIntAttribute("MP_PHYSICS");
+            ret.IsFflx = reader.ReadFloatAttribute("ISFFLX");
+            ret.MpPhysics = reader.ReadFloatAttribute("MP_PHYSICS");
             ret.NumSoilLayers = 0; // ?
-            ret.Radt = reader.ReadIntAttribute("RADT");
-            ret.RaLwPhysics = reader.ReadIntAttribute("RA_LW_PHYSICS");
-            ret.RaSwPhysics = reader.ReadIntAttribute("RA_SW_PHYSICS");
-            ret.SfSfClayPhysics = reader.ReadIntAttribute("SF_SFCLAY_PHYSICS");
-            ret.SfSurfacePhysics = reader.ReadIntAttribute("SF_SURFACE_PHYSICS");
-            ret.SfUrbanPhysics = reader.ReadIntAttribute("SF_URBAN_PHYSICS");
-            ret.SurfaceInputSource = reader.ReadIntAttribute("SURFACE_INPUT_SOURCE"); 
+            ret.Radt = reader.ReadFloatAttribute("RADT");
+            ret.RaLwPhysics = reader.ReadFloatAttribute("RA_LW_PHYSICS");
+            ret.RaSwPhysics = reader.ReadFloatAttribute("RA_SW_PHYSICS");
+            ret.SfSfClayPhysics = reader.ReadFloatAttribute("SF_SFCLAY_PHYSICS");
+            ret.SfSurfacePhysics = reader.ReadFloatAttribute("SF_SURFACE_PHYSICS");
+            ret.SfUrbanPhysics = reader.ReadFloatAttribute("SF_URBAN_PHYSICS");
+            ret.SurfaceInputSource = reader.ReadFloatAttribute("SURFACE_INPUT_SOURCE"); 
 
             return ret; 
         }
 
-        public static void ReadGridDimensions(INetCDFReader reader, out int westEastGridDimension, 
-            out int southNorthGridDimension, out int bottomTopGridDimension)
+        public static void ReadGridDimensions(INetCDFReader reader, out float westEastGridDimension, 
+            out float southNorthGridDimension, out float bottomTopGridDimension)
         {
-            westEastGridDimension = reader.ReadIntAttribute("WEST-EAST_GRID_DIMENSION");
-            southNorthGridDimension = reader.ReadIntAttribute("SOUTH-NORTH_GRID_DIMENSION");
-            bottomTopGridDimension = reader.ReadIntAttribute("BOTTOM-TOP_GRID_DIMENSION"); 
+            westEastGridDimension = reader.ReadFloatAttribute("WEST-EAST_GRID_DIMENSION");
+            southNorthGridDimension = reader.ReadFloatAttribute("SOUTH-NORTH_GRID_DIMENSION");
+            bottomTopGridDimension = reader.ReadFloatAttribute("BOTTOM-TOP_GRID_DIMENSION"); 
         }
 
         public static DateTime GetSimulationDate(INetCDFReader reader)
@@ -48,7 +48,7 @@ namespace WrfSharp.Helpers.NetCDF
             //Example: 2016-11-12_12:00:00
             CultureInfo provider = CultureInfo.InvariantCulture;
             string dateTimeAsString = reader.ReadStringAttribute("SIMULATION_START_DATE");
-            return DateTime.ParseExact(dateTimeAsString, "yyy-MM-dd_hh:mm:ss", provider); 
+            return DateTime.ParseExact(dateTimeAsString, "yyyy-MM-dd_HH:mm:ss", provider); 
         }
     }
 }

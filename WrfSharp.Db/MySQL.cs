@@ -44,15 +44,47 @@ namespace WrfSharp.Db
             _connection.Open(); 
         }
 
-        public void SaveRun(DateTime startDate, DateTime simulationStartDate, int westEastDimension, 
-            int southNorthDimension, int bottomTopDimension, PhysicsConfigurationProcessed physicsConfiguration, string runId)
+        public void SaveRun(DateTime startDate, DateTime simulationStartDate, float westEastDimension,
+            float southNorthDimension, float bottomTopDimension, 
+            PhysicsConfigurationProcessed physics, string runId)
         {
-            throw new NotImplementedException();
+            using (MySqlCommand cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = "insert into Runs (RunStartDate, SimulationStartDate, WestEastDimension, SouthNorthDimension, " +
+                    "BottomTopDimension, Mp_physics, Ra_lw_physics, Ra_sw_physics, Sf_sfclay_physics, Sf_surface_physics, Bl_pbl_physics, Bldt, Cu_physics, " +
+                    "Cudt, Isfflx, Ifsnow, Icloud, Surface_input_source, Num_soil_layers, Sf_urban_physics, RunId) values " +
+                    "(@RunStartDate, @SimulationStartDate, @WestEastDimension, @SouthNorthDimension, " +
+                    "@BottomTopDimension, @Mp_physics, @Ra_lw_physics, @Ra_sw_physics, @Sf_sfclay_physics, @Sf_surface_physics, @Bl_pbl_physics, @Bldt, @Cu_physics, " +
+                    "@Cudt, @Isfflx, @Ifsnow, @Icloud, @Surface_input_source, @Num_soil_layers, @Sf_urban_physics, @RunId)";
+
+                cmd.Parameters.AddWithValue("RunStartDate", startDate);
+                cmd.Parameters.AddWithValue("SimulationStartDate", simulationStartDate);
+                cmd.Parameters.AddWithValue("WestEastDimension", westEastDimension);
+                cmd.Parameters.AddWithValue("SouthNorthDimension", southNorthDimension);
+                cmd.Parameters.AddWithValue("BottomTopDimension", bottomTopDimension);
+                cmd.Parameters.AddWithValue("Mp_physics", physics.MpPhysics);
+                cmd.Parameters.AddWithValue("Ra_lw_physics", physics.RaLwPhysics);
+                cmd.Parameters.AddWithValue("Ra_sw_physics", physics.RaSwPhysics);
+                cmd.Parameters.AddWithValue("Sf_sfclay_physics", physics.SfSfClayPhysics);
+                cmd.Parameters.AddWithValue("Sf_surface_physics", physics.SfSurfacePhysics);
+                cmd.Parameters.AddWithValue("Bl_pbl_physics", physics.BlPblPhysics);
+                cmd.Parameters.AddWithValue("Bldt", physics.Bldt);
+                cmd.Parameters.AddWithValue("Cu_physics", physics.CuPhysics);
+                cmd.Parameters.AddWithValue("Cudt", physics.Cudt);
+                cmd.Parameters.AddWithValue("Isfflx", physics.IsFflx);
+                cmd.Parameters.AddWithValue("Ifsnow", physics.IfSnow);
+                cmd.Parameters.AddWithValue("Icloud", physics.ICloud);
+                cmd.Parameters.AddWithValue("Surface_input_source", physics.SurfaceInputSource);
+                cmd.Parameters.AddWithValue("Num_soil_layers", physics.NumSoilLayers);
+                cmd.Parameters.AddWithValue("Sf_urban_physics", physics.SfUrbanPhysics);
+                cmd.Parameters.AddWithValue("RunId", runId);
+
+                cmd.ExecuteNonQuery();
+            }
         }
 
         public void UpdateRun(DateTime simulationEndDate, string runId)
         {
-            throw new NotImplementedException();
         }
     }
 }
