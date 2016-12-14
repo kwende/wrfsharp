@@ -22,7 +22,7 @@ namespace WrfSharp.Helpers.Database
             PhysicsConfigurationProcessed physics = 
                 NetCDFReaderHelper.ReadPhysicsSettings(iNetCdf);
 
-            iDatabase.SaveRun(startDate, simulationStartDate,
+            iDatabase.SaveRun(startDate, endDate, simulationStartDate,
                 westEast, southNorth, bottomTop,
                 physics, runId); 
         }

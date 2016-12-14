@@ -9,10 +9,8 @@ namespace WrfSharp.Interfaces
 {
     public interface IDatabase
     {
-        void SaveRun(DateTime startDate, DateTime simulationStartDate,
+        void SaveRun(DateTime startDate, DateTime endDate, DateTime simulationStartDate,
             float westEastDimension, float southNorthDimension, float bottomTopDimension,
             PhysicsConfigurationProcessed physicsConfiguration, string runId);
-
-        void UpdateRun(DateTime simulationEndDate, string runId); 
     }
 }

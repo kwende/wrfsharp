@@ -12,76 +12,75 @@ namespace WrfSharp.Db
 {
     public class MySQL : IDatabase
     {
-        private MySqlConnection _connection; 
         public string Server { get; private set; }
         public string Database { get; private set; }
+        private string _connectionString = null; 
 
         public static MySQL OpenConnection(string server, string userName, 
             string password, string database)
         {
-            MySQL ret = new MySQL(server, database);
-            ret.OpenConnection(userName, password);
-
-            return ret; 
+            return new MySQL(server, database, userName, password);
         }
 
-        private MySQL(string server, string database)
+        private MySQL(string server, string database, string userName, string password)
         {
             Server = server;
-            Database = database; 
-        }
+            Database = database;
 
-        private void OpenConnection(string userName, string password)
-        {
             MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
             builder.Server = Server;
             builder.Database = Database;
             builder.UserID = userName;
-            builder.Password = password; 
+            builder.Password = password;
 
-            _connection = new MySqlConnection();
-            _connection.ConnectionString = builder.ToString();
-            _connection.Open(); 
+            _connectionString = builder.ToString(); 
         }
 
-        public void SaveRun(DateTime startDate, DateTime simulationStartDate, float westEastDimension,
+        public void SaveRun(DateTime startDate, DateTime endDate, DateTime simulationStartDate, float westEastDimension,
             float southNorthDimension, float bottomTopDimension, 
             PhysicsConfigurationProcessed physics, string runId)
         {
-            using (MySqlCommand cmd = _connection.CreateCommand())
+            using (MySqlConnection conn = new MySqlConnection())
             {
-                cmd.CommandText = "insert into Runs (RunStartDate, SimulationStartDate, WestEastDimension, SouthNorthDimension, " +
-                    "BottomTopDimension, Mp_physics, Ra_lw_physics, Ra_sw_physics, Sf_sfclay_physics, Sf_surface_physics, Bl_pbl_physics, Bldt, Cu_physics, " +
-                    "Cudt, Isfflx, Ifsnow, Icloud, Surface_input_source, Num_soil_layers, Sf_urban_physics, RunId) values " +
-                    "(@RunStartDate, @SimulationStartDate, @WestEastDimension, @SouthNorthDimension, " +
-                    "@BottomTopDimension, @Mp_physics, @Ra_lw_physics, @Ra_sw_physics, @Sf_sfclay_physics, @Sf_surface_physics, @Bl_pbl_physics, @Bldt, @Cu_physics, " +
-                    "@Cudt, @Isfflx, @Ifsnow, @Icloud, @Surface_input_source, @Num_soil_layers, @Sf_urban_physics, @RunId)";
+                conn.ConnectionString = _connectionString;
+                conn.Open();
 
-                cmd.CommandTimeout = 60; 
+                using (MySqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "insert into Runs (RunStartDate, RunEndDate, SimulationStartDate, WestEastDimension, SouthNorthDimension, " +
+                        "BottomTopDimension, Mp_physics, Ra_lw_physics, Ra_sw_physics, Sf_sfclay_physics, Sf_surface_physics, Bl_pbl_physics, Bldt, Cu_physics, " +
+                        "Cudt, Isfflx, Ifsnow, Icloud, Surface_input_source, Num_soil_layers, Sf_urban_physics, RunId) values " +
+                        "(@RunStartDate, @RunEndDate, @SimulationStartDate, @WestEastDimension, @SouthNorthDimension, " +
+                        "@BottomTopDimension, @Mp_physics, @Ra_lw_physics, @Ra_sw_physics, @Sf_sfclay_physics, @Sf_surface_physics, @Bl_pbl_physics, @Bldt, @Cu_physics, " +
+                        "@Cudt, @Isfflx, @Ifsnow, @Icloud, @Surface_input_source, @Num_soil_layers, @Sf_urban_physics, @RunId)";
 
-                cmd.Parameters.AddWithValue("RunStartDate", startDate);
-                cmd.Parameters.AddWithValue("SimulationStartDate", simulationStartDate);
-                cmd.Parameters.AddWithValue("WestEastDimension", westEastDimension);
-                cmd.Parameters.AddWithValue("SouthNorthDimension", southNorthDimension);
-                cmd.Parameters.AddWithValue("BottomTopDimension", bottomTopDimension);
-                cmd.Parameters.AddWithValue("Mp_physics", physics.MpPhysics);
-                cmd.Parameters.AddWithValue("Ra_lw_physics", physics.RaLwPhysics);
-                cmd.Parameters.AddWithValue("Ra_sw_physics", physics.RaSwPhysics);
-                cmd.Parameters.AddWithValue("Sf_sfclay_physics", physics.SfSfClayPhysics);
-                cmd.Parameters.AddWithValue("Sf_surface_physics", physics.SfSurfacePhysics);
-                cmd.Parameters.AddWithValue("Bl_pbl_physics", physics.BlPblPhysics);
-                cmd.Parameters.AddWithValue("Bldt", physics.Bldt);
-                cmd.Parameters.AddWithValue("Cu_physics", physics.CuPhysics);
-                cmd.Parameters.AddWithValue("Cudt", physics.Cudt);
-                cmd.Parameters.AddWithValue("Isfflx", physics.IsFflx);
-                cmd.Parameters.AddWithValue("Ifsnow", physics.IfSnow);
-                cmd.Parameters.AddWithValue("Icloud", physics.ICloud);
-                cmd.Parameters.AddWithValue("Surface_input_source", physics.SurfaceInputSource);
-                cmd.Parameters.AddWithValue("Num_soil_layers", physics.NumSoilLayers);
-                cmd.Parameters.AddWithValue("Sf_urban_physics", physics.SfUrbanPhysics);
-                cmd.Parameters.AddWithValue("RunId", runId);
+                    cmd.CommandTimeout = 60;
 
-                cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("RunStartDate", startDate);
+                    cmd.Parameters.AddWithValue("RunEndDate", startDate);
+                    cmd.Parameters.AddWithValue("SimulationStartDate", simulationStartDate);
+                    cmd.Parameters.AddWithValue("WestEastDimension", westEastDimension);
+                    cmd.Parameters.AddWithValue("SouthNorthDimension", southNorthDimension);
+                    cmd.Parameters.AddWithValue("BottomTopDimension", bottomTopDimension);
+                    cmd.Parameters.AddWithValue("Mp_physics", physics.MpPhysics);
+                    cmd.Parameters.AddWithValue("Ra_lw_physics", physics.RaLwPhysics);
+                    cmd.Parameters.AddWithValue("Ra_sw_physics", physics.RaSwPhysics);
+                    cmd.Parameters.AddWithValue("Sf_sfclay_physics", physics.SfSfClayPhysics);
+                    cmd.Parameters.AddWithValue("Sf_surface_physics", physics.SfSurfacePhysics);
+                    cmd.Parameters.AddWithValue("Bl_pbl_physics", physics.BlPblPhysics);
+                    cmd.Parameters.AddWithValue("Bldt", physics.Bldt);
+                    cmd.Parameters.AddWithValue("Cu_physics", physics.CuPhysics);
+                    cmd.Parameters.AddWithValue("Cudt", physics.Cudt);
+                    cmd.Parameters.AddWithValue("Isfflx", physics.IsFflx);
+                    cmd.Parameters.AddWithValue("Ifsnow", physics.IfSnow);
+                    cmd.Parameters.AddWithValue("Icloud", physics.ICloud);
+                    cmd.Parameters.AddWithValue("Surface_input_source", physics.SurfaceInputSource);
+                    cmd.Parameters.AddWithValue("Num_soil_layers", physics.NumSoilLayers);
+                    cmd.Parameters.AddWithValue("Sf_urban_physics", physics.SfUrbanPhysics);
+                    cmd.Parameters.AddWithValue("RunId", runId);
+
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 

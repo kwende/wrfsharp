@@ -218,7 +218,7 @@ namespace WrfSharp.Runner
             WrfConfiguration config, PhysicsConfigurationProcessed physicsConfig)
         {
             DateTime runStartTime = DateTime.Now;
-            string runId = Guid.NewGuid().ToString().Replace("-", ""); 
+            string runId = Guid.NewGuid().ToString().Replace("-", "");
 
             iLogger.LogLine("Updating physics parameters...");
             NamelistHelper.UpdatePhysicsParameters(config, physicsConfig, iFileSystem);
@@ -268,12 +268,7 @@ namespace WrfSharp.Runner
             ILogger iLogger = new Logger(null);
             IProcessLauncher iProcess = new ProcessLauncher();
             IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
-
             IDatabase iDatabase = MySQL.OpenConnection("www.ben-rush.net", "asdf", "asdf", "asdf");
-
-            //INetCDFReader netCdfReader = new NetCDFReader("C:/users/ben/desktop/test.nc");
-            //DatabaseHelper.CreateRunRecord(netCdfReader, iDatabase,
-            //    DateTime.Now, DateTime.Now, "runId");
 
             List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
 
