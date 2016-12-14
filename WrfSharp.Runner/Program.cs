@@ -269,7 +269,7 @@ namespace WrfSharp.Runner
             IProcessLauncher iProcess = new ProcessLauncher();
             IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
 
-            IDatabase iDatabase = MySQL.OpenConnection("www.ben-rush.net", "user", "password", "server");
+            IDatabase iDatabase = MySQL.OpenConnection("www.ben-rush.net", "asdf", "asdf", "asdf");
 
             //INetCDFReader netCdfReader = new NetCDFReader("C:/users/ben/desktop/test.nc");
             //DatabaseHelper.CreateRunRecord(netCdfReader, iDatabase,

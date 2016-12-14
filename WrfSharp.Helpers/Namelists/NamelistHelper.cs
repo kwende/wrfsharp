@@ -32,7 +32,7 @@ namespace WrfSharp.Helpers.Namelists
                     if (propertyName.ToLower() != "name")
                     {
                         List<object> values = new List<object>();
-                        int value = (int)prop.GetValue(physicsConfig);
+                        int value = (int)(float)prop.GetValue(physicsConfig);
                         values.Add(value);
 
                         nameList["physics"][propertyName].Values = values;

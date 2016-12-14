@@ -57,6 +57,8 @@ namespace WrfSharp.Db
                     "@BottomTopDimension, @Mp_physics, @Ra_lw_physics, @Ra_sw_physics, @Sf_sfclay_physics, @Sf_surface_physics, @Bl_pbl_physics, @Bldt, @Cu_physics, " +
                     "@Cudt, @Isfflx, @Ifsnow, @Icloud, @Surface_input_source, @Num_soil_layers, @Sf_urban_physics, @RunId)";
 
+                cmd.CommandTimeout = 60; 
+
                 cmd.Parameters.AddWithValue("RunStartDate", startDate);
                 cmd.Parameters.AddWithValue("SimulationStartDate", simulationStartDate);
                 cmd.Parameters.AddWithValue("WestEastDimension", westEastDimension);
