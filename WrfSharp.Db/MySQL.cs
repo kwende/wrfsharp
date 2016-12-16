@@ -57,7 +57,7 @@ namespace WrfSharp.Db
                     cmd.CommandTimeout = 60;
 
                     cmd.Parameters.AddWithValue("RunStartDate", startDate);
-                    cmd.Parameters.AddWithValue("RunEndDate", startDate);
+                    cmd.Parameters.AddWithValue("RunEndDate", endDate);
                     cmd.Parameters.AddWithValue("SimulationStartDate", simulationStartDate);
                     cmd.Parameters.AddWithValue("WestEastDimension", westEastDimension);
                     cmd.Parameters.AddWithValue("SouthNorthDimension", southNorthDimension);
