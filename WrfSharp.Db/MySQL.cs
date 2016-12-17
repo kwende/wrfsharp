@@ -84,8 +84,27 @@ namespace WrfSharp.Db
             }
         }
 
-        public void UpdateRun(DateTime simulationEndDate, string runId)
+        public void SaveVariableRecord(string runId, float lat, float lon, float precip, DateTime dateTime)
         {
+            using (MySqlConnection conn = new MySqlConnection())
+            {
+                conn.ConnectionString = _connectionString;
+                conn.Open();
+
+                using (MySqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "insert into Variables (RunId, Lat, Lon, Precip, DateTime) " +
+                        "values (@RunId, @Lat, @Lon, @Precip, @DateTime)";
+
+                    cmd.Parameters.AddWithValue("RunId", runId);
+                    cmd.Parameters.AddWithValue("Lat", lat);
+                    cmd.Parameters.AddWithValue("Lon", lon);
+                    cmd.Parameters.AddWithValue("Precip", precip);
+                    cmd.Parameters.AddWithValue("DateTime", dateTime);
+
+                    cmd.ExecuteNonQuery(); 
+                }
+            }
         }
     }
 }

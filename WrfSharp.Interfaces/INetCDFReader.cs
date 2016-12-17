@@ -11,6 +11,8 @@ namespace WrfSharp.Interfaces
         float ReadFloatAttribute(string attributeName);
         string[] ReadStringArray(string arrayVariableName);
         string ReadStringAttribute(string attributeName);
-        DateTime ReadDateAttribute(string attributeName); 
+        DateTime ReadDateAttribute(string attributeName);
+        float[][][] Read3DFloatArray(string name);
+        DateTime[] ReadDateArray(string name); 
     }
 }

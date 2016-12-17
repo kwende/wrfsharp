@@ -249,7 +249,11 @@ namespace WrfSharp.Runner
             INetCDFReader netCdfReader = new NetCDFReader(wrfOutFile);
 
             DatabaseHelper.CreateRunRecord(netCdfReader, iDatabase, 
-                runStartTime, runEndTime, runId); 
+                runStartTime, runEndTime, runId);
+
+            // todo: make these configurable. 
+            DatabaseHelper.RecordVariables(netCdfReader, iDatabase,
+                runId, 95.3f, 97.8f, 39.9f, 41.7f); 
 
             foreach (string script in scripts)
             {
@@ -282,7 +286,7 @@ namespace WrfSharp.Runner
             }
             else
             {
-                PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
+                PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config); 
             }
 
             foreach (PhysicsConfigurationProcessed physicsConfig in physicsConfigs)

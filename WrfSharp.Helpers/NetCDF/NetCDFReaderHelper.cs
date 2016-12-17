@@ -50,5 +50,46 @@ namespace WrfSharp.Helpers.NetCDF
             string dateTimeAsString = reader.ReadStringAttribute("SIMULATION_START_DATE");
             return DateTime.ParseExact(dateTimeAsString, "yyyy-MM-dd_HH:mm:ss", provider); 
         }
+
+        public static VariableRecord[] GetPrecipRecords(INetCDFReader reader, float minLat, 
+            float maxLat, float minLon, float maxLon)
+        {
+            float[][][] lats = reader.Read3DFloatArray("XLAT");
+            float[][][] lons = reader.Read3DFloatArray("XLONG");
+            float[][][] rainc = reader.Read3DFloatArray("RAINC");
+            float[][][] rainnc = reader.Read3DFloatArray("RAINNC"); 
+            DateTime[] dates = reader.ReadDateArray("TIMES");
+
+            List<VariableRecord> ret = new List<VariableRecord>(); 
+
+            for(int t=0;t<dates.Length;t++)
+            {
+                DateTime date = dates[t]; 
+                for(int y=0;y<lats.Length;y++)
+                {
+                    for(int x=0;x<lons.Length;x++)
+                    {
+                        float lat = lats[t][y][x];
+                        float lon = lons[t][y][x]; 
+
+                        if(lat > minLat && lat < maxLat && 
+                            lon < maxLon && lon > minLon)
+                        {
+                            VariableRecord rec = new VariableRecord
+                            {
+                                DateTime = date,
+                                Lat = lat,
+                                Lon = lon,
+                                Value = rainc[t][y][x] + rainnc[t][y][x]
+                            }; 
+                        }
+                    }
+                }
+            }
+
+            return ret.ToArray(); 
+
+            return null; 
+        }
     }
 }

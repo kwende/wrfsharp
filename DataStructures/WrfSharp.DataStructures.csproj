@@ -52,6 +52,7 @@
     <Compile Include="PhysicsConfigurationCollection.cs" />
     <Compile Include="PhysicsConfigurationSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VariableRecord.cs" />
     <Compile Include="WrfConfiguration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

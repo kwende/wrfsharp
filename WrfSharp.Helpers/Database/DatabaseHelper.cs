@@ -26,5 +26,18 @@ namespace WrfSharp.Helpers.Database
                 westEast, southNorth, bottomTop,
                 physics, runId); 
         }
+
+        public static void RecordVariables(INetCDFReader iNetCdfReader, IDatabase iDatabase,
+            string runId, float minLon, float maxLon, float minLat, float maxLat)
+        {
+            VariableRecord[] records = 
+                NetCDFReaderHelper.GetPrecipRecords(iNetCdfReader, minLat, maxLat, minLon, maxLon);
+
+            foreach (VariableRecord record in records)
+            {
+                iDatabase.SaveVariableRecord(runId, record.Lat, record.Lon, 
+                    record.Value, record.DateTime); 
+            }
+        }
     }
 }

@@ -54,7 +54,7 @@ namespace WrfSharp.NetCDF
         public string[] ReadStringArray(string variableName)
         {
             Variable variable = _file.findVariable(variableName);
-             = variable.read();
+            ucar.ma2.Array array1 = variable.read();
 
             int[] shape = array1.getShape();
             string[] ret = new string[shape[0]];
@@ -72,51 +72,43 @@ namespace WrfSharp.NetCDF
             return ret; 
         }
 
-        public void ReadVariable()
+        public float[][][] Read3DFloatArray(string name)
         {
-            NetcdfFile file = NetcdfFile.open("wrfout.nc");
-            Variable longVar = file.findVariable("XLONG");
-            Variable latVar = file.findVariable("XLAT");
-            Variable rainc = file.findVariable("RAINC");
-            Variable rainnc = file.findVariable("RAINNC");
+            Variable var = _file.findVariable(name);
+            ucar.ma2.Array arr = var.read();
 
+            int[] shape = arr.getShape();
 
-            ucar.ma2.Array longArray = longVar.read();
-            ucar.ma2.Array latArray = latVar.read();
-            ucar.ma2.Array raincArray = rainc.read();
-            ucar.ma2.Array rainncArray = rainnc.read();
-
-            int[] shape = longArray.getShape();
-
-            int count = 0;
-            for (int t = 0, i = 0; t < shape[0]; t++)
+            float[][][] ret = new float[shape[0]][][];
+            
+            for(int t=0,i=0;t< shape[0];t++)
             {
-                Console.WriteLine("========================");
-
+                ret[t] = new float[shape[1]][];
                 for (int y = 0; y < shape[1]; y++)
                 {
+                    ret[t][y] = new float[shape[2]];
                     for (int x = 0; x < shape[2]; x++, i++)
                     {
-                        float lon = longArray.getFloat(i);
-                        float lat = latArray.getFloat(i);
-
-                        if (Math.Abs(lat) > 39.9f && Math.Abs(lat) < 41.7 &&
-                            Math.Abs(lon) > 95.3 && Math.Abs(lon) < 97.8)
-                        {
-                            float raincAmount = raincArray.getFloat(i);
-                            float rainncAmount = rainncArray.getFloat(i);
-                            float total = raincAmount + rainncAmount;
-
-                            //if(total > 0)
-                            {
-                                //Console.WriteLine($"{t}x{lat}x{lon}: {total}");
-                                count++;
-                            }
-                        }
+                        ret[t][y][x] = arr.getFloat(i);
                     }
                 }
             }
+
+            return ret;
         }
 
+        public DateTime[] ReadDateArray(string name)
+        {
+            string[] dateStrings = ReadStringArray(name);
+
+            DateTime[] ret = new DateTime[dateStrings.Length]; 
+            for(int c=0;c<ret.Length;c++)
+            {
+                ret[c] = DateTime.ParseExact(dateStrings[c], "yyy-MM-dd_hh:mm:ss",
+                CultureInfo.InvariantCulture);
+            }
+
+            return ret; 
+        }
     }
 }
