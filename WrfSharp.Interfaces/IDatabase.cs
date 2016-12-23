@@ -12,7 +12,6 @@ namespace WrfSharp.Interfaces
         void SaveRun(DateTime startDate, DateTime endDate, DateTime simulationStartDate,
             float westEastDimension, float southNorthDimension, float bottomTopDimension,
             PhysicsConfigurationProcessed physicsConfiguration, string runId);
-        void SaveVariableRecord(string runId, float lat, float lon, 
-            float precip, DateTime dateTime); 
+        void SaveVariableRecord(string runId, VariableRecord[] records); 
     }
 }

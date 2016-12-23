@@ -40,7 +40,7 @@ namespace WrfSharp.NetCDF
             string dateAsString = ReadStringAttribute(attributeName);
 
             //2016-11-12_12:00:00
-            return DateTime.ParseExact(dateAsString, "yyy-MM-dd_hh:mm:ss", 
+            return DateTime.ParseExact(dateAsString, "yyyy-MM-dd_HH:mm:ss", 
                 CultureInfo.InvariantCulture);
         }
 
@@ -59,12 +59,12 @@ namespace WrfSharp.NetCDF
             int[] shape = array1.getShape();
             string[] ret = new string[shape[0]];
 
-            for (int c = 0; c < ret.Length; c++)
+            for (int c = 0, arrayIndex = 0; c < ret.Length; c++)
             {
-                StringBuilder sb = new StringBuilder(ret[1]);
-                for (int d = 0; d < shape[1]; d++)
+                StringBuilder sb = new StringBuilder(shape[1]);
+                for (int d = 0; d < shape[1]; d++, arrayIndex++)
                 {
-                    sb.Append(array1.getChar(d));
+                    sb.Append(array1.getChar(arrayIndex));
                 }
                 ret[c] = sb.ToString(); 
             }
@@ -104,7 +104,7 @@ namespace WrfSharp.NetCDF
             DateTime[] ret = new DateTime[dateStrings.Length]; 
             for(int c=0;c<ret.Length;c++)
             {
-                ret[c] = DateTime.ParseExact(dateStrings[c], "yyy-MM-dd_hh:mm:ss",
+                ret[c] = DateTime.ParseExact(dateStrings[c], "yyyy-MM-dd_HH:mm:ss",
                 CultureInfo.InvariantCulture);
             }
 

@@ -84,7 +84,7 @@ namespace WrfSharp.Db
             }
         }
 
-        public void SaveVariableRecord(string runId, float lat, float lon, float precip, DateTime dateTime)
+        public void SaveVariableRecord(string runId, VariableRecord[] records)
         {
             using (MySqlConnection conn = new MySqlConnection())
             {
@@ -93,16 +93,21 @@ namespace WrfSharp.Db
 
                 using (MySqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "insert into Variables (RunId, Lat, Lon, Precip, DateTime) " +
-                        "values (@RunId, @Lat, @Lon, @Precip, @DateTime)";
+                    foreach(VariableRecord record in records)
+                    {
+                        cmd.CommandText = "insert into Variables (RunId, Lat, Lon, Precip, DateTime) " +
+                            "values (@RunId, @Lat, @Lon, @Precip, @DateTime)";
 
-                    cmd.Parameters.AddWithValue("RunId", runId);
-                    cmd.Parameters.AddWithValue("Lat", lat);
-                    cmd.Parameters.AddWithValue("Lon", lon);
-                    cmd.Parameters.AddWithValue("Precip", precip);
-                    cmd.Parameters.AddWithValue("DateTime", dateTime);
+                        cmd.Parameters.AddWithValue("RunId", runId);
+                        cmd.Parameters.AddWithValue("Lat", record.Lat);
+                        cmd.Parameters.AddWithValue("Lon", record.Lon);
+                        cmd.Parameters.AddWithValue("Precip", record.Value);
+                        cmd.Parameters.AddWithValue("DateTime", record.DateTime);
 
-                    cmd.ExecuteNonQuery(); 
+                        cmd.ExecuteNonQuery();
+
+                        cmd.Parameters.Clear(); 
+                    }
                 }
             }
         }

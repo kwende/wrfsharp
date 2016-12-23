@@ -58,7 +58,7 @@ namespace WrfSharp.Helpers.NetCDF
             float[][][] lons = reader.Read3DFloatArray("XLONG");
             float[][][] rainc = reader.Read3DFloatArray("RAINC");
             float[][][] rainnc = reader.Read3DFloatArray("RAINNC"); 
-            DateTime[] dates = reader.ReadDateArray("TIMES");
+            DateTime[] dates = reader.ReadDateArray("Times");
 
             List<VariableRecord> ret = new List<VariableRecord>(); 
 
@@ -72,8 +72,8 @@ namespace WrfSharp.Helpers.NetCDF
                         float lat = lats[t][y][x];
                         float lon = lons[t][y][x]; 
 
-                        if(lat > minLat && lat < maxLat && 
-                            lon < maxLon && lon > minLon)
+                        if(Math.Abs(lat) > minLat && Math.Abs(lat) < maxLat && 
+                            Math.Abs(lon) < maxLon && Math.Abs(lon) > minLon)
                         {
                             VariableRecord rec = new VariableRecord
                             {
@@ -81,15 +81,15 @@ namespace WrfSharp.Helpers.NetCDF
                                 Lat = lat,
                                 Lon = lon,
                                 Value = rainc[t][y][x] + rainnc[t][y][x]
-                            }; 
+                            };
+
+                            ret.Add(rec); 
                         }
                     }
                 }
             }
 
             return ret.ToArray(); 
-
-            return null; 
         }
     }
 }

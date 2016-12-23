@@ -245,15 +245,15 @@ namespace WrfSharp.Runner
             string[] scripts = FileSystemHelper.RetrieveNclScriptsToRun(config, iFileSystem);
             iLogger.LogLine($"...found {scripts.Length} scripts: {string.Join(",", scripts)}");
 
-            DateTime runEndTime = DateTime.Now; 
+            DateTime runEndTime = DateTime.Now;
             INetCDFReader netCdfReader = new NetCDFReader(wrfOutFile);
 
-            DatabaseHelper.CreateRunRecord(netCdfReader, iDatabase, 
+            DatabaseHelper.CreateRunRecord(netCdfReader, iDatabase,
                 runStartTime, runEndTime, runId);
 
             // todo: make these configurable. 
             DatabaseHelper.RecordVariables(netCdfReader, iDatabase,
-                runId, 95.3f, 97.8f, 39.9f, 41.7f); 
+                runId, 95.3f, 97.8f, 39.9f, 41.7f);
 
             foreach (string script in scripts)
             {
@@ -272,7 +272,7 @@ namespace WrfSharp.Runner
             ILogger iLogger = new Logger(null);
             IProcessLauncher iProcess = new ProcessLauncher();
             IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
-            IDatabase iDatabase = MySQL.OpenConnection("www.ben-rush.net", "asdf", "asdf", "asdf");
+            IDatabase iDatabase = MySQL.OpenConnection("www.ben-rush.net", "adsf", "asdf", "adsf");
 
             List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
 
