@@ -218,7 +218,7 @@ namespace WrfSharp.Runner
             WrfConfiguration config, PhysicsConfigurationProcessed physicsConfig)
         {
             DateTime runStartTime = DateTime.Now;
-            string runId = Guid.NewGuid().ToString().Replace("-", "");
+            string runId = "googliebah";  Guid.NewGuid().ToString().Replace("-", "");
 
             iLogger.LogLine("Updating physics parameters...");
             NamelistHelper.UpdatePhysicsParameters(config, physicsConfig, iFileSystem);
@@ -244,6 +244,8 @@ namespace WrfSharp.Runner
             iLogger.LogLine("Retrieving scripts to run...");
             string[] scripts = FileSystemHelper.RetrieveNclScriptsToRun(config, iFileSystem);
             iLogger.LogLine($"...found {scripts.Length} scripts: {string.Join(",", scripts)}");
+
+            //string wrfOutFile = @"C:\Users\Ben\Desktop\wrfout"; 
 
             DateTime runEndTime = DateTime.Now;
             INetCDFReader netCdfReader = new NetCDFReader(wrfOutFile);
@@ -272,7 +274,7 @@ namespace WrfSharp.Runner
             ILogger iLogger = new Logger(null);
             IProcessLauncher iProcess = new ProcessLauncher();
             IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
-            IDatabase iDatabase = MySQL.OpenConnection("www.ben-rush.net", "adsf", "asdf", "adsf");
+            IDatabase iDatabase = MySQL.OpenConnection("www.ben-rush.net", "adf", "asdf", "asdf");
 
             List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
 
@@ -286,7 +288,7 @@ namespace WrfSharp.Runner
             }
             else
             {
-                PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config); 
+               PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config); 
             }
 
             foreach (PhysicsConfigurationProcessed physicsConfig in physicsConfigs)

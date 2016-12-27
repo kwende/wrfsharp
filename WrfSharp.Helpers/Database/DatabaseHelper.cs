@@ -33,7 +33,7 @@ namespace WrfSharp.Helpers.Database
             VariableRecord[] records = 
                 NetCDFReaderHelper.GetPrecipRecords(iNetCdfReader, minLat, maxLat, minLon, maxLon);
 
-                iDatabase.SaveVariableRecord(runId, records); 
+            iDatabase.SaveVariableRecord(runId, records); 
         }
     }
 }
