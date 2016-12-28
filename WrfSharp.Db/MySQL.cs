@@ -22,6 +22,16 @@ namespace WrfSharp.Db
             return new MySQL(server, database, userName, password);
         }
 
+        public static MySQL OpenConnection(string connectionString)
+        {
+            return new MySQL(connectionString); 
+        }
+
+        private MySQL(string connectionString)
+        {
+            _connectionString = connectionString; 
+        }
+
         private MySQL(string server, string database, string userName, string password)
         {
             Server = server;

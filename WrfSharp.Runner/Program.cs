@@ -274,7 +274,10 @@ namespace WrfSharp.Runner
             ILogger iLogger = new Logger(null);
             IProcessLauncher iProcess = new ProcessLauncher();
             IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
-            IDatabase iDatabase = MySQL.OpenConnection("www.ben-rush.net", "adf", "asdf", "asdf");
+
+            string connectionString = 
+                ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+            IDatabase iDatabase = MySQL.OpenConnection(connectionString); 
 
             List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
 
