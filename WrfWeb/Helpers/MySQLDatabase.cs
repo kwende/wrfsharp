@@ -14,9 +14,6 @@ namespace WrfWeb.Helpers
             _connectionString = connectionString; 
         }
 
-        public void Connect()
-        {
 
-        }
     }
 }
