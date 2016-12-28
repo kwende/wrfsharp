@@ -46,6 +46,24 @@ namespace WrfSharp.Db
             _connectionString = builder.ToString(); 
         }
 
+        public bool TestConnection()
+        {
+            bool ret = false; 
+            using (MySqlConnection conn = new MySqlConnection())
+            {
+                conn.ConnectionString = _connectionString;
+                conn.Open();
+
+                using (MySqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "select count(1) from wrf.Runs;";
+                    ret = (long)cmd.ExecuteScalar() > 0; 
+                }
+            }
+
+            return ret; 
+        }
+
         public void SaveRun(DateTime startDate, DateTime endDate, DateTime simulationStartDate, float westEastDimension,
             float southNorthDimension, float bottomTopDimension, 
             PhysicsConfigurationProcessed physics, string runId)

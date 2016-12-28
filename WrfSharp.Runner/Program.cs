@@ -277,7 +277,17 @@ namespace WrfSharp.Runner
 
             string connectionString = 
                 ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
-            IDatabase iDatabase = MySQL.OpenConnection(connectionString); 
+            IDatabase iDatabase = MySQL.OpenConnection(connectionString);
+
+            Console.Write("Testing DB connectivity..."); 
+            if(!iDatabase.TestConnection())
+            {
+                Console.WriteLine("....Connection failed. Check connection string."); 
+            }
+            else
+            {
+                Console.WriteLine("....Connection succeeded."); 
+            }
 
             List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
 
