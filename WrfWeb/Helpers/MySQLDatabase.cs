@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WrfWeb.Models;
 
 namespace WrfWeb.Helpers
 {
@@ -14,6 +15,9 @@ namespace WrfWeb.Helpers
             _connectionString = connectionString; 
         }
 
-
+        public PrecipSimulationResults GetPrecipSimulationResults(DateTime simulationDate)
+        {
+            return null; 
+        }
     }
 }
