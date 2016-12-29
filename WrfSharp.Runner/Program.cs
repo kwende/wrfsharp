@@ -218,7 +218,7 @@ namespace WrfSharp.Runner
             WrfConfiguration config, PhysicsConfigurationProcessed physicsConfig)
         {
             DateTime runStartTime = DateTime.Now;
-            string runId = "googliebah";  Guid.NewGuid().ToString().Replace("-", "");
+            string runId = Guid.NewGuid().ToString().Replace("-", "");
 
             iLogger.LogLine("Updating physics parameters...");
             NamelistHelper.UpdatePhysicsParameters(config, physicsConfig, iFileSystem);
