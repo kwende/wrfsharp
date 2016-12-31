@@ -8,8 +8,8 @@ namespace WrfWeb.Models
     public class PrecipSimulationResults
     {
         public DateTime SimulationStartDate { get; set; }
-        List<DateTime> Dates { get; set; }
-        List<float[]> RunRecords { get; set; }
-        List<string> RunIds { get; set; }
+        public List<DateTime> Dates { get; set; }
+        public List<float[]> RunRecords { get; set; }
+        public List<string> RunIds { get; set; }
     }
 }
