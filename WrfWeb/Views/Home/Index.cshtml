@@ -1,4 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-Fart
+@model WrfWeb.Models.PrecipSimulationResults
+
+@foreach(var f in Model.RunIds)
+{
+    <b>@f</b><br/>
+}

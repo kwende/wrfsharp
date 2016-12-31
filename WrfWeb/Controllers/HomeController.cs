@@ -13,11 +13,11 @@ namespace WrfWeb.Controllers
         public IActionResult Index()
         {
             MySQLDatabase db = new MySQLDatabase(
-                "connection");
+                "Server=asf;Database=adsf;Uid=asdf;Pwd=asdf;");
 
             PrecipSimulationResults results = db.GetLatestPrecipSimulationResults(); 
 
-            return View();
+            return View(results);
         }
 
         public IActionResult Error()
