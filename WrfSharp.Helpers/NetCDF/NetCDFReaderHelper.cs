@@ -72,8 +72,8 @@ namespace WrfSharp.Helpers.NetCDF
                         float lat = lats[t][y][x];
                         float lon = lons[t][y][x]; 
 
-                        if(Math.Abs(lat) > minLat && Math.Abs(lat) < maxLat && 
-                            Math.Abs(lon) < maxLon && Math.Abs(lon) > minLon)
+                        if(lat > minLat && lat < maxLat && 
+                            lon < maxLon && lon > minLon)
                         {
                             VariableRecord rec = new VariableRecord
                             {
