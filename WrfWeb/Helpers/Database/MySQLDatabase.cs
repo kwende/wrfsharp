@@ -3,9 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WrfWeb.Models;
 
-namespace WrfWeb.Helpers
+namespace WrfWeb.Helpers.Database
 {
     public class MySQLDatabase
     {

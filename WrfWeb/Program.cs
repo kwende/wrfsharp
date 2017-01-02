@@ -14,6 +14,7 @@ namespace WrfWeb
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseUrls("http://localhost:1980")
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();

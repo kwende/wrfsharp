@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WrfWeb.Models
+namespace WrfWeb.Helpers.Database
 {
     public class PrecipSimulationResults
     {

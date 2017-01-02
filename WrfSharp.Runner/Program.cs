@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WrfSharp.DataStructures;
 using WrfSharp.Db;
+using WrfSharp.Helpers.Configuration;
 using WrfSharp.Helpers.Database;
 using WrfSharp.Helpers.FileSystem;
 using WrfSharp.Helpers.Namelists;
@@ -253,9 +254,12 @@ namespace WrfSharp.Runner
             DatabaseHelper.CreateRunRecord(netCdfReader, iDatabase,
                 runStartTime, runEndTime, runId);
 
+            LatLongRect latLongRect = ConfigurationHelper.ParseLatLongRect(config); 
+
             // todo: make these configurable. 
             DatabaseHelper.RecordVariables(netCdfReader, iDatabase,
-                runId, 95.3f, 97.8f, 39.9f, 41.7f);
+                runId, latLongRect.UpperLeftLong, latLongRect.LowerRightLong, 
+                latLongRect.LowerRightLat, latLongRect.UpperLeftLat);
 
             foreach (string script in scripts)
             {
