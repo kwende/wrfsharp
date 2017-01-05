@@ -22,13 +22,14 @@ namespace WrfWeb.Controllers
 
             IndexModel model = new IndexModel();
 
+            model.SimulationStartDate = results.SimulationStartDate; 
             model.PrecipSummary = new List<List<object>>();
 
             List<object> header = new List<object>();
             header.Add("Date"); 
             for(int c=0;c<results.RunIds.Count;c++)
             {
-                header.Add(c.ToString()); 
+                header.Add("Physics " + c.ToString()); 
             }
             model.PrecipSummary.Add(header);
 
@@ -36,7 +37,7 @@ namespace WrfWeb.Controllers
             for(int c=0;c< numberOfRows; c++)
             {
                 List<object> row = new List<object>();
-                row.Add(results.Dates[c].AddHours(-5.0));  
+                row.Add(results.Dates[c].AddHours(-5.0).ToString());  
 
                 foreach(float[] runRecord in results.RunRecords)
                 {

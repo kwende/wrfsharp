@@ -3,6 +3,8 @@
 }
 @model WrfWeb.Models.IndexModel
 
+Simulation Start Date: <b>@Model.SimulationStartDate.ToString()</b>
+
 <div id="curve_chart" style="width: 100%;"></div>
 
 <script type="text/javascript">
@@ -14,7 +16,7 @@
         var data = google.visualization.arrayToDataTable(@Html.Raw(Json.Serialize(Model.PrecipSummary)));
 
         var options = {
-          title: 'Average Precip over Lancaster County, NE',
+            title: 'Average Precip over Lancaster County, NE (in mm)',
           curveType: 'function',
           legend: { position: 'bottom' }
         };

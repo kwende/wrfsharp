@@ -35,6 +35,11 @@ namespace WrfWeb.Helpers.Database
                         while(reader.Read())
                         {
                             ret.RunIds.Add(((Guid)reader["RunId"]).ToString().Replace("-",""));
+
+                            if(ret.SimulationStartDate == DateTime.MinValue)
+                            {
+                                ret.SimulationStartDate = (DateTime)reader["SimulationStartDate"]; 
+                            }
                         }
                     }
                 }
