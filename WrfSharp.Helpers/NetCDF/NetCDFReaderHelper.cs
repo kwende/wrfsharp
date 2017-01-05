@@ -51,14 +51,19 @@ namespace WrfSharp.Helpers.NetCDF
             return DateTime.ParseExact(dateTimeAsString, "yyyy-MM-dd_HH:mm:ss", provider); 
         }
 
-        public static VariableRecord[] GetPrecipRecords(INetCDFReader reader, float minLat, 
+
+        public static VariableRecord[] GetVariableRecords(INetCDFReader reader, float minLat, 
             float maxLat, float minLon, float maxLon)
         {
             float[][][] lats = reader.Read3DFloatArray("XLAT");
             float[][][] lons = reader.Read3DFloatArray("XLONG");
             float[][][] rainc = reader.Read3DFloatArray("RAINC");
-            float[][][] rainnc = reader.Read3DFloatArray("RAINNC"); 
+            float[][][] rainnc = reader.Read3DFloatArray("RAINNC");
+            float[][][] tc2 = reader.Read3DFloatArray("T2"); 
             DateTime[] dates = reader.ReadDateArray("Times");
+
+            //tc2 = tc2-273.16                  ; T2 in C
+            //tf2 = 1.8*tc2+32.                    ; Turn temperature into Fahrenheit
 
             List<VariableRecord> ret = new List<VariableRecord>(); 
 
@@ -75,12 +80,17 @@ namespace WrfSharp.Helpers.NetCDF
                         if(lat > minLat && lat < maxLat && 
                             lon < maxLon && lon > minLon)
                         {
+                            float tempInK = tc2[t][y][x];
+                            float tempInC = tempInK - 273.16f;
+                            float tempInF = 1.8f * tempInC + 32;
+
                             VariableRecord rec = new VariableRecord
                             {
                                 DateTime = date,
                                 Lat = lat,
                                 Lon = lon,
-                                Value = rainc[t][y][x] + rainnc[t][y][x]
+                                PrecipInMM = rainc[t][y][x] + rainnc[t][y][x],
+                                TempInF = tempInF
                             };
 
                             ret.Add(rec); 

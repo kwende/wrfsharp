@@ -123,14 +123,15 @@ namespace WrfSharp.Db
                 {
                     foreach(VariableRecord record in records)
                     {
-                        cmd.CommandText = "insert into Variables (RunId, Lat, Lon, Precip, DateTime) " +
-                            "values (@RunId, @Lat, @Lon, @Precip, @DateTime)";
+                        cmd.CommandText = "insert into Variables (RunId, Lat, Lon, Precip, DateTime, TempInF) " +
+                            "values (@RunId, @Lat, @Lon, @Precip, @DateTime, @TempInF)";
 
                         cmd.Parameters.AddWithValue("RunId", runId);
                         cmd.Parameters.AddWithValue("Lat", record.Lat);
                         cmd.Parameters.AddWithValue("Lon", record.Lon);
-                        cmd.Parameters.AddWithValue("Precip", record.Value);
+                        cmd.Parameters.AddWithValue("Precip", record.PrecipInMM);
                         cmd.Parameters.AddWithValue("DateTime", record.DateTime);
+                        cmd.Parameters.AddWithValue("TempInF", record.DateTime); 
 
                         cmd.ExecuteNonQuery();
 

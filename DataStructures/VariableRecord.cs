@@ -10,7 +10,8 @@ namespace WrfSharp.DataStructures
     {
         public float Lat { get; set; }
         public float Lon { get; set; }
-        public float Value { get; set; }
+        public float PrecipInMM { get; set; }
+        public float TempInF { get; set; }
         public DateTime DateTime { get; set; }
     }
 }

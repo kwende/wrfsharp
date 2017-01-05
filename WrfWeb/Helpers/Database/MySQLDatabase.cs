@@ -15,11 +15,11 @@ namespace WrfWeb.Helpers.Database
             _connectionString = connectionString; 
         }
 
-        public PrecipSimulationResults GetLatestPrecipSimulationResults()
+        public SimulationResults GetLatestSimulationResults()
         {
-            PrecipSimulationResults ret = new PrecipSimulationResults();
+            SimulationResults ret = new SimulationResults();
             ret.RunIds = new List<string>();
-            ret.RunRecords = new List<float[]>();
+            ret.PrecipRecords = new List<float[]>();
             ret.Dates = new List<DateTime>(); 
 
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
@@ -67,7 +67,7 @@ namespace WrfWeb.Helpers.Database
                             retrievedDates = true;
                         }
 
-                        ret.RunRecords.Add(averages.ToArray()); 
+                        ret.PrecipRecords.Add(averages.ToArray()); 
                     }
                 }
             }

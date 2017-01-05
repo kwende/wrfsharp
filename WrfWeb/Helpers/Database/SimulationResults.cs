@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace WrfWeb.Helpers.Database
 {
-    public class PrecipSimulationResults
+    public class SimulationResults
     {
         public DateTime SimulationStartDate { get; set; }
         public List<DateTime> Dates { get; set; }
-        public List<float[]> RunRecords { get; set; }
+        public List<float[]> PrecipRecords { get; set; }
+        public List<float[]> TempRecords { get; set; }
         public List<string> RunIds { get; set; }
     }
 }

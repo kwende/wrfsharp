@@ -18,7 +18,7 @@ namespace WrfWeb.Controllers
 
             MySQLDatabase db = new MySQLDatabase(connectionString);
 
-            PrecipSimulationResults results = db.GetLatestPrecipSimulationResults();
+            SimulationResults results = db.GetLatestSimulationResults();
 
             IndexModel model = new IndexModel();
 
@@ -33,18 +33,21 @@ namespace WrfWeb.Controllers
             }
             model.PrecipSummary.Add(header);
 
-            int numberOfRows = results.RunRecords[0].Length; 
+            int numberOfRows = results.PrecipRecords[0].Length; 
             for(int c=0;c< numberOfRows; c++)
             {
-                List<object> row = new List<object>();
-                row.Add(results.Dates[c].AddHours(-5.0).ToString());  
+                List<object> precipRow = new List<object>();
+                precipRow.Add(results.Dates[c].AddHours(-5.0).ToString());  
 
-                foreach(float[] runRecord in results.RunRecords)
+                foreach(float[] runRecord in results.PrecipRecords)
                 {
-                    row.Add(runRecord[c]); 
+                    precipRow.Add(runRecord[c]); 
                 }
 
-                model.PrecipSummary.Add(row); 
+                model.PrecipSummary.Add(precipRow);
+
+                List<object> tempRow = new List<object>();
+                tempRow.Add(results.Dates[c].AddHours(-5.0).ToString()); 
             }
 
             //model.PrecipSummary.Add(new List<object>)
