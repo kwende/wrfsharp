@@ -131,7 +131,7 @@ namespace WrfSharp.Db
                         cmd.Parameters.AddWithValue("Lon", record.Lon);
                         cmd.Parameters.AddWithValue("Precip", record.PrecipInMM);
                         cmd.Parameters.AddWithValue("DateTime", record.DateTime);
-                        cmd.Parameters.AddWithValue("TempInF", record.DateTime); 
+                        cmd.Parameters.AddWithValue("TempInF", record.TempInF); 
 
                         cmd.ExecuteNonQuery();
 
