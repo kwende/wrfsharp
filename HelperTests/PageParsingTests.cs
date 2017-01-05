@@ -17,7 +17,12 @@ namespace HelperTests
             string directoryName = 
                 PageParsingHelper.FindDirectoryNameForSecondToLastGFSEntry(pageContent);
 
-            Assert.AreEqual("gfs.2016071518", directoryName); 
+            Assert.AreEqual("gfs.2016071518", directoryName);
+
+            directoryName =
+                PageParsingHelper.FindDirectoryNameForLatestGFSEntry(pageContent);
+
+            Assert.AreEqual("gfs.2016071600", directoryName);
         }
 
         [TestMethod]

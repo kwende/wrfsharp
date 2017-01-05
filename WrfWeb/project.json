@@ -22,7 +22,8 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "MySql.Data": "7.0.6-IR31",
-    "Microsoft.Extensions.Configuration.CommandLine": "1.0.0"
+    "Microsoft.Extensions.Configuration.CommandLine": "1.0.0",
+    "Microsoft.Extensions.Configuration": "1.0.0"
   },
 
   "tools": {

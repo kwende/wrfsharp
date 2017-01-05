@@ -33,7 +33,7 @@ namespace WrfSharp.Runner.Implementations
 
         public void Log(string content)
         {
-            LogInner(DateTime.Now.ToString() + ": " + content); 
+            LogInner(content); 
         }
     }
 }

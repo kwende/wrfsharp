@@ -150,18 +150,32 @@ namespace WrfSharp.Runner
                 config.GFSProductUrl, iDownloader);
             iLogger.LogLine("...done");
 
-            iLogger.LogLine("Finding GFS product url to use...");
-            string gfsProductDirectory = PageParsingHelper.FindDirectoryNameForSecondToLastGFSEntry(
+            iLogger.Log("Finding GFS products to use...");
+            string gfsProductDirectory = PageParsingHelper.FindDirectoryNameForLatestGFSEntry(
                 productPageContent);
             string gfsProductUrl = UrlHelper.Join(config.GFSProductUrl, gfsProductDirectory);
-            iLogger.LogLine($"...done. It'll be '{gfsProductUrl}'");
-
-            iLogger.LogLine("Finding GFS products on page...");
             string pageContent = DownloadHelper.DownloadString(
                 gfsProductUrl, iDownloader);
             List<string> productsToDownload =
                 PageParsingHelper.FindAllGFSOneDegreePGRB2Files(pageContent);
-            iLogger.LogLine($"...found {productsToDownload.Count} items.");
+
+            if(productsToDownload.Count != 93)
+            {
+                iLogger.Log($"...falling back to previous run, incorrect asset count of...{productsToDownload.Count}"); 
+                gfsProductDirectory = PageParsingHelper.FindDirectoryNameForSecondToLastGFSEntry(
+                    productPageContent);
+                gfsProductUrl = UrlHelper.Join(config.GFSProductUrl, gfsProductDirectory);
+                pageContent = DownloadHelper.DownloadString(
+                    gfsProductUrl, iDownloader);
+                productsToDownload =
+                    PageParsingHelper.FindAllGFSOneDegreePGRB2Files(pageContent);
+            }
+            else
+            {
+                iLogger.Log("...we can download latest..."); 
+            }
+
+            iLogger.LogLine($"...done. Found {productsToDownload.Count} items at {gfsProductUrl}.");
 
             iLogger.LogLine("Downloading the products...");
             DownloadHelper.DownloadGFSProductsToDataDirectory(gfsProductUrl, productsToDownload,
@@ -256,7 +270,6 @@ namespace WrfSharp.Runner
 
             LatLongRect latLongRect = ConfigurationHelper.ParseLatLongRect(config); 
 
-            // todo: make these configurable. 
             DatabaseHelper.RecordVariables(netCdfReader, iDatabase,
                 runId, latLongRect.UpperLeftLong, latLongRect.LowerRightLong, 
                 latLongRect.LowerRightLat, latLongRect.UpperLeftLat);

@@ -10,7 +10,16 @@ namespace WrfSharp.Helpers.Web
     public static class PageParsingHelper
     {
         private const string GFSStartString = ">gfs.";
-        private const string GFSEndString = "/"; 
+        private const string GFSEndString = "/";
+        
+        public static string FindDirectoryNameForLatestGFSEntry(string pageContent)
+        {
+            int lastOccurenceIndex = pageContent.LastIndexOf(GFSStartString) + 1;
+
+            int endIndex = pageContent.IndexOf(GFSEndString, lastOccurenceIndex);
+
+            return pageContent.Substring(lastOccurenceIndex, endIndex - lastOccurenceIndex);
+        } 
 
         public static string FindDirectoryNameForSecondToLastGFSEntry(string pageContent)
         {

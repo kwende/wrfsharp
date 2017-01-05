@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using WrfWeb.Helpers;
 using WrfWeb.Helpers.Database;
 using WrfWeb.Models;
+using WrfWeb.Helpers.Configuration;
 
 namespace WrfWeb.Controllers
 {
@@ -13,8 +14,9 @@ namespace WrfWeb.Controllers
     {
         public IActionResult Index()
         {
-            MySQLDatabase db = new MySQLDatabase(
-                "Server=www.ben-rush.net;Database=asdf;Uid=asdf;Pwd=asdf;");
+            string connectionString = ConfigurationReader.ReadDatabaseConnectionString(); 
+
+            MySQLDatabase db = new MySQLDatabase(connectionString);
 
             PrecipSimulationResults results = db.GetLatestPrecipSimulationResults();
 
