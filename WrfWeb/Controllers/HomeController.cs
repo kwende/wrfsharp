@@ -33,7 +33,8 @@ namespace WrfWeb.Controllers
             }
             model.PrecipSummary.Add(header);
 
-            int numberOfRows = results.PrecipRecords[0].Length; 
+            int numberOfRows = results.PrecipRecords.Count > 0 ? 
+                results.PrecipRecords[0].Length : 0; 
             for(int c=0;c< numberOfRows; c++)
             {
                 List<object> precipRow = new List<object>();
