@@ -92,7 +92,7 @@ namespace WrfSharp.Helpers.NetCDF
                             float tempInF = 1.8f * tempInC + 32;
 
                             float skinTempInK = surfaceSkinTemp[t][y][x];
-                            float skinTempInC = tempInK - 273.16f;
+                            float skinTempInC = skinTempInK - 273.16f;
                             float skinTempInF = 1.8f * skinTempInC + 32;
 
                             VariableRecord rec = new VariableRecord
