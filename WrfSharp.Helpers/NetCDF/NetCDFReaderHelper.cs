@@ -65,6 +65,7 @@ namespace WrfSharp.Helpers.NetCDF
             float[][][] surfaceSkinTemp = reader.Read3DFloatArray("TSK");
             float[][][] u10 = reader.Read3DFloatArray("U10");
             float[][][] v10 = reader.Read3DFloatArray("V10");
+            float[][][] cloudFraction = reader.Read3DFloatArray("CLDFRA"); 
 
             DateTime[] dates = reader.ReadDateArray("Times");
 
@@ -106,6 +107,7 @@ namespace WrfSharp.Helpers.NetCDF
                                 SurfaceSkinTemperature = skinTempInF,
                                 UWind = u10[t][y][x],
                                 VWind = v10[t][y][x],
+                                CloudFraction = cloudFraction[t][y][x],
                             };
 
                             ret.Add(rec);
