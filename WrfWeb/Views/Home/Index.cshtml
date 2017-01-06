@@ -3,9 +3,11 @@
 }
 @model WrfWeb.Models.IndexModel
 
-Simulation Start Date: <b>@Model.SimulationStartDate.ToString()</b>
+<div style="text-align:center;font-size:x-large">Simulation Start Date: <b>@Model.SimulationStartDate.ToString()</b></div>
 
 <div id="curve_chart" style="width: 100%;"></div>
+
+<div id="temp_chart" style="width: 100%;"></div>
 
 <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
@@ -24,5 +26,17 @@ Simulation Start Date: <b>@Model.SimulationStartDate.ToString()</b>
         var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
         chart.draw(data, options);
+
+         var tempData = google.visualization.arrayToDataTable(@Html.Raw(Json.Serialize(Model.TempSummary)));
+
+          var tempDataOptions = {
+              title: 'Average Temperature over Lancaster County, NE (in F)',
+              curveType: 'function',
+              legend: { position: 'bottom' }
+          };
+
+          var tempChart = new google.visualization.LineChart(document.getElementById('temp_chart'));
+
+          tempChart.draw(tempData, tempDataOptions);
       }
 </script>

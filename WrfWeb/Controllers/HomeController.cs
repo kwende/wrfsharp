@@ -22,8 +22,9 @@ namespace WrfWeb.Controllers
 
             IndexModel model = new IndexModel();
 
-            model.SimulationStartDate = results.SimulationStartDate; 
+            model.SimulationStartDate = results.SimulationStartDate.AddHours(-5.0); 
             model.PrecipSummary = new List<List<object>>();
+            model.TempSummary = new List<List<object>>(); 
 
             List<object> header = new List<object>();
             header.Add("Date"); 
@@ -32,6 +33,7 @@ namespace WrfWeb.Controllers
                 header.Add("Physics " + c.ToString()); 
             }
             model.PrecipSummary.Add(header);
+            model.TempSummary.Add(header); 
 
             int numberOfRows = results.PrecipRecords.Count > 0 ? 
                 results.PrecipRecords[0].Length : 0; 
@@ -48,7 +50,14 @@ namespace WrfWeb.Controllers
                 model.PrecipSummary.Add(precipRow);
 
                 List<object> tempRow = new List<object>();
-                tempRow.Add(results.Dates[c].AddHours(-5.0).ToString()); 
+                tempRow.Add(results.Dates[c].AddHours(-5.0).ToString());
+
+                foreach (float[] tempRecord in results.TempRecords)
+                {
+                    tempRow.Add(tempRecord[c]);
+                }
+
+                model.TempSummary.Add(tempRow);
             }
 
             //model.PrecipSummary.Add(new List<object>)

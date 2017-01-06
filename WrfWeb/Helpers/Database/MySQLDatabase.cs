@@ -20,7 +20,8 @@ namespace WrfWeb.Helpers.Database
             SimulationResults ret = new SimulationResults();
             ret.RunIds = new List<string>();
             ret.PrecipRecords = new List<float[]>();
-            ret.Dates = new List<DateTime>(); 
+            ret.Dates = new List<DateTime>();
+            ret.TempRecords = new List<float[]>(); 
 
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
@@ -68,6 +69,24 @@ namespace WrfWeb.Helpers.Database
                         }
 
                         ret.PrecipRecords.Add(averages.ToArray()); 
+                    }
+
+                    using (MySqlCommand cmd = conn.CreateCommand())
+                    {
+                        List<float> temps = new List<float>();
+                        cmd.CommandText = "wrf.GetAverageTemp";
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("RunId", runId);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while(reader.Read())
+                            {
+                                temps.Add((float)(Decimal)reader["AverageTemp"]); 
+                            }
+                        }
+
+                        ret.TempRecords.Add(temps.ToArray()); 
                     }
                 }
             }
