@@ -307,7 +307,6 @@ namespace WrfSharp.Runner
             }
 
             List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
-
             iLogger.LogLine($"Loading configuration...");
             WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
             iLogger.LogLine("...done");

@@ -107,7 +107,7 @@ namespace WrfSharp.Helpers.NetCDF
                                 SurfaceSkinTemperature = skinTempInF,
                                 UWind = u10[t][y][x],
                                 VWind = v10[t][y][x],
-                                CloudFraction = cloudFraction[t][y][x],
+                                //CloudFraction = cloudFraction[t][y][x],
                             };
 
                             ret.Add(rec);

@@ -10,34 +10,47 @@
 
 <div id="temp_chart" style="width: 100%;"></div>
 
+<div id="snow_chart" style="width: 100%;"></div>
+
+<div id="wind_chart" style="width: 100%;"></div>
+
 <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawCharts);
 
-      function drawChart() {
+      function drawChart(elementName, chartText, array) {
+          var chartData = google.visualization.arrayToDataTable(array);
 
-        var data = google.visualization.arrayToDataTable(@Html.Raw(Json.Serialize(Model.PrecipSummary)));
-
-        var options = {
-            title: 'Average expected precip over Lancaster County, NE (in mm)',
-          curveType: 'function',
-          legend: { position: 'bottom' }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-        chart.draw(data, options);
-
-         var tempData = google.visualization.arrayToDataTable(@Html.Raw(Json.Serialize(Model.TempSummary)));
-
-          var tempDataOptions = {
-              title: 'Average expected temperature over Lancaster County, NE (in F)',
+          var dataOptions = {
+              title: chartText,
               curveType: 'function',
               legend: { position: 'bottom' }
           };
 
-          var tempChart = new google.visualization.LineChart(document.getElementById('temp_chart'));
+          var chart = new google.visualization.LineChart(document.getElementById(elementName));
+          chart.draw(chartData, dataOptions);
+      }
 
-          tempChart.draw(tempData, tempDataOptions);
+      function drawCharts() {
+
+          drawChart(
+              'curve_chart',
+              'Average expected precip over Lancaster County, NE (in mm)',
+              @Html.Raw(Json.Serialize(Model.PrecipSummary)))
+
+          drawChart(
+              'temp_chart',
+              'Average expected temperature over Lancaster County, NE (in F)',
+              @Html.Raw(Json.Serialize(Model.TempSummary)))
+
+          drawChart(
+              'snow_chart',
+              'Average depth of snow over Lancaster County, NE (in inches)',
+              @Html.Raw(Json.Serialize(Model.SnowDepths)))
+
+          drawChart(
+              'wind_chart',
+              'Average wind speed over Lancaster County, NE (in m/s)',
+              @Html.Raw(Json.Serialize(Model.WindSpeeds)))
       }
 </script>

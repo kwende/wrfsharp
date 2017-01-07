@@ -9,6 +9,8 @@ namespace WrfWeb.Models
     {
         public List<List<object>> PrecipSummary { get; set; }
         public List<List<object>> TempSummary { get; set; }
+        public List<List<object>> SnowDepths { get; set; }
+        public List<List<object>> WindSpeeds { get; set; }
         public DateTime SimulationStartDate { get; set; }
     }
 }

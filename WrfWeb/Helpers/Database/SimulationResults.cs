@@ -11,6 +11,8 @@ namespace WrfWeb.Helpers.Database
         public List<DateTime> Dates { get; set; }
         public List<float[]> PrecipRecords { get; set; }
         public List<float[]> TempRecords { get; set; }
+        public List<float[]> SnowDepths { get; set; }
+        public List<float[]> WindSpeeds { get; set; }
         public List<string> RunIds { get; set; }
     }
 }

@@ -21,7 +21,9 @@ namespace WrfWeb.Helpers.Database
             ret.RunIds = new List<string>();
             ret.PrecipRecords = new List<float[]>();
             ret.Dates = new List<DateTime>();
-            ret.TempRecords = new List<float[]>(); 
+            ret.TempRecords = new List<float[]>();
+            ret.SnowDepths = new List<float[]>();
+            ret.WindSpeeds = new List<float[]>(); 
 
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
@@ -87,6 +89,42 @@ namespace WrfWeb.Helpers.Database
                         }
 
                         ret.TempRecords.Add(temps.ToArray()); 
+                    }
+
+                    using (MySqlCommand cmd = conn.CreateCommand())
+                    {
+                        List<float> snowDepths = new List<float>();
+                        cmd.CommandText = "wrf.GetAverageSnowDepth";
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("RunId", runId);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while(reader.Read())
+                            {
+                                snowDepths.Add((float)(Decimal)reader["AvgSnowDepth"]); 
+                            }
+                        }
+
+                        ret.SnowDepths.Add(snowDepths.ToArray()); 
+                    }
+
+                    using (MySqlCommand cmd = conn.CreateCommand())
+                    {
+                        List<float> windSpeeds = new List<float>();
+                        cmd.CommandText = "wrf.GetAverageWindSpeed";
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("RunId", runId);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                windSpeeds.Add((float)(Double)reader["AvgWindSpeed"]);
+                            }
+                        }
+
+                        ret.WindSpeeds.Add(windSpeeds.ToArray());
                     }
                 }
             }

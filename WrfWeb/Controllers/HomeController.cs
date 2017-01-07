@@ -24,7 +24,9 @@ namespace WrfWeb.Controllers
 
             model.SimulationStartDate = results.SimulationStartDate.AddHours(-5.0); 
             model.PrecipSummary = new List<List<object>>();
-            model.TempSummary = new List<List<object>>(); 
+            model.TempSummary = new List<List<object>>();
+            model.SnowDepths = new List<List<object>>();
+            model.WindSpeeds = new List<List<object>>(); 
 
             List<object> header = new List<object>();
             header.Add("Date"); 
@@ -33,31 +35,53 @@ namespace WrfWeb.Controllers
                 header.Add("Physics " + c.ToString()); 
             }
             model.PrecipSummary.Add(header);
-            model.TempSummary.Add(header); 
+            model.TempSummary.Add(header);
+            model.SnowDepths.Add(header);
+            model.WindSpeeds.Add(header); 
 
             int numberOfRows = results.PrecipRecords.Count > 0 ? 
                 results.PrecipRecords[0].Length : 0; 
             for(int c=0;c< numberOfRows; c++)
             {
-                List<object> precipRow = new List<object>();
-                precipRow.Add(results.Dates[c].AddHours(-5.0).ToString());  
+                List<object> precipRows = new List<object>();
+                precipRows.Add(results.Dates[c].AddHours(-5.0).ToString());  
 
-                foreach(float[] runRecord in results.PrecipRecords)
+                foreach(float[] row in results.PrecipRecords)
                 {
-                    precipRow.Add(runRecord[c]); 
+                    precipRows.Add(row[c]); 
                 }
 
-                model.PrecipSummary.Add(precipRow);
+                model.PrecipSummary.Add(precipRows);
 
-                List<object> tempRow = new List<object>();
-                tempRow.Add(results.Dates[c].AddHours(-5.0).ToString());
+                List<object> tempRows = new List<object>();
+                tempRows.Add(results.Dates[c].AddHours(-5.0).ToString());
 
-                foreach (float[] tempRecord in results.TempRecords)
+                foreach (float[] row in results.TempRecords)
                 {
-                    tempRow.Add(tempRecord[c]);
+                    tempRows.Add(row[c]);
                 }
 
-                model.TempSummary.Add(tempRow);
+                model.TempSummary.Add(tempRows);
+
+                List<object> snowRows = new List<object>();
+                snowRows.Add(results.Dates[c].AddHours(-5.0).ToString());
+
+                foreach (float[] row in results.SnowDepths)
+                {
+                    snowRows.Add(row[c] * 39.3701f);
+                }
+
+                model.SnowDepths.Add(snowRows);
+
+                List<object> windRows = new List<object>();
+                windRows.Add(results.Dates[c].AddHours(-5.0).ToString()); 
+
+                foreach(float[] row in results.WindSpeeds)
+                {
+                    windRows.Add(row[c]); 
+                }
+
+                model.WindSpeeds.Add(windRows); 
             }
 
             //model.PrecipSummary.Add(new List<object>)
