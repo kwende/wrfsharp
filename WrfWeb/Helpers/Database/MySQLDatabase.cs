@@ -23,7 +23,8 @@ namespace WrfWeb.Helpers.Database
             ret.Dates = new List<DateTime>();
             ret.TempRecords = new List<float[]>();
             ret.SnowDepths = new List<float[]>();
-            ret.WindSpeeds = new List<float[]>(); 
+            ret.WindSpeeds = new List<float[]>();
+            ret.SurfacePressure = new List<float[]>(); 
 
             using (MySqlConnection conn = new MySqlConnection(_connectionString))
             {
@@ -125,6 +126,24 @@ namespace WrfWeb.Helpers.Database
                         }
 
                         ret.WindSpeeds.Add(windSpeeds.ToArray());
+                    }
+
+                    using (MySqlCommand cmd = conn.CreateCommand())
+                    {
+                        List<float> surfacePressures = new List<float>();
+                        cmd.CommandText = "wrf.GetAverageSurfacePressure";
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("RunId", runId);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                surfacePressures.Add((float)(Decimal)reader["AvgSurfacePressure"]);
+                            }
+                        }
+
+                        ret.SurfacePressure.Add(surfacePressures.ToArray());
                     }
                 }
             }

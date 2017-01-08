@@ -26,7 +26,8 @@ namespace WrfWeb.Controllers
             model.PrecipSummary = new List<List<object>>();
             model.TempSummary = new List<List<object>>();
             model.SnowDepths = new List<List<object>>();
-            model.WindSpeeds = new List<List<object>>(); 
+            model.WindSpeeds = new List<List<object>>();
+            model.SurfacePressures = new List<List<object>>(); 
 
             List<object> header = new List<object>();
             header.Add("Date"); 
@@ -37,7 +38,8 @@ namespace WrfWeb.Controllers
             model.PrecipSummary.Add(header);
             model.TempSummary.Add(header);
             model.SnowDepths.Add(header);
-            model.WindSpeeds.Add(header); 
+            model.WindSpeeds.Add(header);
+            model.SurfacePressures.Add(header); 
 
             int numberOfRows = results.PrecipRecords.Count > 0 ? 
                 results.PrecipRecords[0].Length : 0; 
@@ -81,7 +83,17 @@ namespace WrfWeb.Controllers
                     windRows.Add(row[c]); 
                 }
 
-                model.WindSpeeds.Add(windRows); 
+                model.WindSpeeds.Add(windRows);
+
+                List<object> pressureRows = new List<object>();
+                pressureRows.Add(results.Dates[c].AddHours(-5.0).ToString());
+
+                foreach (float[] row in results.SurfacePressure)
+                {
+                    pressureRows.Add(row[c]);
+                }
+
+                model.SurfacePressures.Add(pressureRows);
             }
 
             //model.PrecipSummary.Add(new List<object>)
