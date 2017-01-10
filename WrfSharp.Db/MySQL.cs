@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WrfSharp.DataStructures;
+using WrfSharp.DataStructures.Exceptions;
 using WrfSharp.Interfaces;
 
 namespace WrfSharp.Db
@@ -123,25 +124,35 @@ namespace WrfSharp.Db
                 {
                     foreach(VariableRecord record in records)
                     {
-                        cmd.CommandText = "insert into Variables (RunId, Lat, Lon, Precip, DateTime, TempInF, SnowDepth, SurfacePressure, SurfaceSkinTempInF, UWind, VWind, CloudFraction) " +
-                            "values (@RunId, @Lat, @Lon, @Precip, @DateTime, @TempInF, @SnowDepth, @SurfacePressure, @SurfaceSkinTempInF, @UWind, @VWind, @CloudFraction)";
+                        try
+                        {
+                            cmd.CommandText = "insert into Variables (RunId, Lat, Lon, Precip, DateTime, TempInF, SnowDepth, SurfacePressure, SurfaceSkinTempInF, UWind, VWind, CloudFraction) " +
+                                "values (@RunId, @Lat, @Lon, @Precip, @DateTime, @TempInF, @SnowDepth, @SurfacePressure, @SurfaceSkinTempInF, @UWind, @VWind, @CloudFraction)";
 
-                        cmd.Parameters.AddWithValue("RunId", runId);
-                        cmd.Parameters.AddWithValue("Lat", record.Lat);
-                        cmd.Parameters.AddWithValue("Lon", record.Lon);
-                        cmd.Parameters.AddWithValue("Precip", record.PrecipInMM);
-                        cmd.Parameters.AddWithValue("DateTime", record.DateTime);
-                        cmd.Parameters.AddWithValue("TempInF", record.TempInF);
-                        cmd.Parameters.AddWithValue("SnowDepth", record.SnowDepthInM);
-                        cmd.Parameters.AddWithValue("SurfacePressure", record.SurfacePressure);
-                        cmd.Parameters.AddWithValue("SurfaceSkinTempInF", record.SurfaceSkinTemperature);
-                        cmd.Parameters.AddWithValue("UWind", record.UWind);
-                        cmd.Parameters.AddWithValue("VWind", record.VWind);
-                        cmd.Parameters.AddWithValue("CloudFraction", record.CloudFraction);
+                            cmd.Parameters.AddWithValue("RunId", runId);
+                            cmd.Parameters.AddWithValue("Lat", record.Lat);
+                            cmd.Parameters.AddWithValue("Lon", record.Lon);
+                            cmd.Parameters.AddWithValue("Precip", record.PrecipInMM);
+                            cmd.Parameters.AddWithValue("DateTime", record.DateTime);
+                            cmd.Parameters.AddWithValue("TempInF", record.TempInF);
+                            cmd.Parameters.AddWithValue("SnowDepth", record.SnowDepthInM);
+                            cmd.Parameters.AddWithValue("SurfacePressure", record.SurfacePressure);
+                            cmd.Parameters.AddWithValue("SurfaceSkinTempInF", record.SurfaceSkinTemperature);
+                            cmd.Parameters.AddWithValue("UWind", record.UWind);
+                            cmd.Parameters.AddWithValue("VWind", record.VWind);
+                            cmd.Parameters.AddWithValue("CloudFraction", record.CloudFraction);
 
-                        cmd.ExecuteNonQuery();
+                            cmd.ExecuteNonQuery();
 
-                        cmd.Parameters.Clear(); 
+                            cmd.Parameters.Clear();
+                        }
+                        catch(Exception ex)
+                        {
+                            throw new SaveVariableRecordException($"Failed to save ({runId},{record.Lat},{record.Lon}," + 
+                                $"{record.PrecipInMM},{record.DateTime},{record.TempInF},{record.SnowDepthInM}," + 
+                                $"{record.SurfacePressure},{record.SurfaceSkinTemperature},{record.UWind},{record.VWind}," + 
+                                $"{record.CloudFraction})", ex); 
+                        }
                     }
                 }
             }
