@@ -320,6 +320,9 @@ namespace WrfSharp.Runner
                PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config); 
             }
 
+            Random rand = new Random();
+            physicsConfigs = physicsConfigs.OrderBy(m => rand.Next()).ToList();  
+
             foreach (PhysicsConfigurationProcessed physicsConfig in physicsConfigs)
             {
                 ComputeStage(iFileSystem, iLogger, iProcess,
