@@ -27,7 +27,8 @@ namespace WrfWeb.Controllers
             model.TempSummary = new List<List<object>>();
             model.SnowDepths = new List<List<object>>();
             model.WindSpeeds = new List<List<object>>();
-            model.SurfacePressures = new List<List<object>>(); 
+            model.SurfacePressures = new List<List<object>>();
+            model.RunIds = results.RunIds;
 
             List<object> header = new List<object>();
             header.Add("Date"); 
@@ -101,7 +102,7 @@ namespace WrfWeb.Controllers
             return View(model);
         }
 
-        public IActionResult Error()
+        public IActionResult RunDetails(string runId)
         {
             return View();
         }

@@ -16,6 +16,16 @@
 
 <div id="pressure_chart" style="width: 100%;"></div>
 
+<div>Run Details:</div>
+<div>
+    <ul>
+        @for(int c=0;c<Model.RunIds.Count;c++)
+        {
+            <li>Physics @c</li>
+        }
+    </ul>
+</div>
+
 <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawCharts);
