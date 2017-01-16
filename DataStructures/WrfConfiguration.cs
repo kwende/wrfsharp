@@ -30,5 +30,6 @@ namespace WrfSharp.DataStructures
         public string MP4OutputDirectory { get; set; }
         public string UpperLeftLatLon { get; set; }
         public string LowerRightLatLon { get; set; }
+        public int MaximumNumberOfRuns { get; set; }
     }
 }

@@ -157,5 +157,23 @@ namespace WrfSharp.Db
                 }
             }
         }
+
+        public void Checkin(string state, DateTime checkinDate)
+        {
+            using (MySqlConnection conn = new MySqlConnection())
+            {
+                conn.ConnectionString = _connectionString;
+                conn.Open();
+
+                using (MySqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "delete from ProcessState; insert into ProcessState (State, CheckinDate) values (@State, @CheckinDate);";
+                    cmd.Parameters.AddWithValue("State", state);
+                    cmd.Parameters.AddWithValue("CheckinDate", checkinDate);
+
+                    cmd.ExecuteNonQuery(); 
+                }
+            }
+        }
     }
 }

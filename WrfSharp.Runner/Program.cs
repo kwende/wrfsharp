@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WrfSharp.DataStructures;
 using WrfSharp.Db;
@@ -14,6 +15,7 @@ using WrfSharp.Helpers.Database;
 using WrfSharp.Helpers.FileSystem;
 using WrfSharp.Helpers.Namelists;
 using WrfSharp.Helpers.NetCDF;
+using WrfSharp.Helpers.Process;
 using WrfSharp.Helpers.Processes;
 using WrfSharp.Helpers.Web;
 using WrfSharp.Interfaces;
@@ -24,6 +26,8 @@ namespace WrfSharp.Runner
 {
     class Program
     {
+        static Timer _timer; 
+
         static WrfConfiguration LoadConfigurationFromAppSettings(ILogger logger)
         {
             WrfConfiguration config = new WrfConfiguration();
@@ -38,7 +42,15 @@ namespace WrfSharp.Runner
                     string key = prop.Name;
                     string value = ConfigurationManager.AppSettings[key];
                     logger.LogLine("\t" + key + " : " + value);
-                    prop.SetValue(config, value);
+
+                    if(prop.PropertyType == typeof(int))
+                    {
+                        prop.SetValue(config, int.Parse(value));
+                    }
+                    else
+                    {
+                        prop.SetValue(config, value);
+                    }
                 }
             }
 
@@ -286,55 +298,82 @@ namespace WrfSharp.Runner
 
         static void Main(string[] args)
         {
-            ProcessLockFile lockFile = ProcessLockFile.TryLock(); 
-            if(lockFile != null)
+            try
             {
-                using (lockFile)
+                IFileSystem iFileSystem = new FileSystem();
+                INetwork iDownloader = new Downloader();
+                ILogger iLogger = new Logger(null);
+                IProcessLauncher iProcess = new ProcessLauncher();
+                IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
+
+                ProcessLock lockFile = ProcessLock.TryLock();
+                if (lockFile != null)
                 {
-                    IFileSystem iFileSystem = new FileSystem();
-                    INetwork iDownloader = new Downloader();
-                    ILogger iLogger = new Logger(null);
-                    IProcessLauncher iProcess = new ProcessLauncher();
-                    IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
-
-                    string connectionString =
-                        ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
-                    IDatabase iDatabase = MySQL.OpenConnection(connectionString);
-
-                    Console.Write("Testing DB connectivity...");
-                    if (!iDatabase.TestConnection())
+                    using (lockFile)
                     {
-                        Console.WriteLine("....Connection failed. Check connection string.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("....Connection succeeded.");
-                    }
+                        string connectionString =
+                            ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+                        IDatabase iDatabase = MySQL.OpenConnection(connectionString);
 
-                    List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
-                    iLogger.LogLine($"Loading configuration...");
-                    WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
-                    iLogger.LogLine("...done");
+                        iLogger.Log("Testing DB connectivity...");
+                        if (!iDatabase.TestConnection())
+                        {
+                            iLogger.LogLine("....Connection failed. Check connection string.");
+                        }
+                        else
+                        {
+                            iLogger.LogLine("....Connection succeeded.");
+                        }
 
-                    if (args.Length > 0 && args[0].ToLower() == "nodownload")
-                    {
-                        iLogger.LogLine("Downloading of new data skipped...");
-                    }
-                    else
-                    {
-                        PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
-                    }
+                        List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
+                        iLogger.LogLine($"Loading configuration...");
+                        WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
+                        iLogger.LogLine("...done");
 
-                    Random rand = new Random();
-                    physicsConfigs = physicsConfigs.OrderBy(m => rand.Next()).ToList();
+                        string stateText = "Prepping"; 
 
-                    foreach (PhysicsConfigurationProcessed physicsConfig in physicsConfigs)
-                    {
-                        ComputeStage(iFileSystem, iLogger, iProcess,
-                            iEnvironment, iDatabase, config, physicsConfig);
+                        _timer = new Timer(delegate (object state)
+                        {
+                            iDatabase.Checkin(stateText, DateTime.Now);
+                        }, null, 0, 1000 * 60);
+
+                        if (args.Length > 0 && args[0].ToLower() == "nodownload")
+                        {
+                            iLogger.LogLine("Downloading of new data skipped...");
+                        }
+                        else
+                        {
+                            PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
+                        }
+
+                        Random rand = new Random();
+                        physicsConfigs = physicsConfigs.OrderBy(m => rand.Next()).ToList();
+
+                        // infinity if -1
+                        if (config.MaximumNumberOfRuns == -1) config.MaximumNumberOfRuns = int.MaxValue;
+
+                        stateText = "Computing"; 
+
+                        for (int c = 0; c < config.MaximumNumberOfRuns && c < physicsConfigs.Count; c++)
+                        {
+                            PhysicsConfigurationProcessed physicsConfig = physicsConfigs[c];
+                            ComputeStage(iFileSystem, iLogger, iProcess,
+                                iEnvironment, iDatabase, config, physicsConfig);
+                        }
+
+                        iDatabase.Checkin("Done", DateTime.Now);
                     }
                 }
+                else
+                {
+                    iLogger.LogLine("WrfSharp appears to be running already, or port 666 is in use.");
+                }
             }
+            catch(Exception ex)
+            {
+                File.AppendAllText("fart.txt", ex.ToString()); 
+            }
+           
         }
     }
 }

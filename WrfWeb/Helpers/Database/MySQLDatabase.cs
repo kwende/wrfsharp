@@ -15,6 +15,31 @@ namespace WrfWeb.Helpers.Database
             _connectionString = connectionString; 
         }
 
+        public RunState GetRunState()
+        {
+            RunState state = new RunState(); 
+            using (MySqlConnection conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                using (MySqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "select * from wrf.ProcessState;";
+                    cmd.CommandType = System.Data.CommandType.Text;
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while(reader.Read())
+                        {
+                            state.StateText = reader["State"] as string;
+                            state.LastCheckinDate = (DateTime)reader["CheckinDate"];
+                        }
+                    }
+                }
+            }
+            return state; 
+        }
+
         public SimulationResults GetLatestSimulationResults()
         {
             SimulationResults ret = new SimulationResults();

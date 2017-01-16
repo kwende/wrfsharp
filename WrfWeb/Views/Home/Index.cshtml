@@ -3,8 +3,10 @@
 }
 @model WrfWeb.Models.IndexModel
 
+
 <div style="text-align:center;font-size:x-large">GFS data start date: <b>@Model.SimulationStartDate.ToString()</b></div>
 <div style="text-align:center;font-size:small">mouse over lines for dates</b></div>
+<div style="text-align:center;font-size:small">reported @Model.CurrentRunState at @Model.LastCheckinDate</b></div>
 
 <div id="curve_chart" style="width: 100%;"></div>
 
@@ -16,7 +18,7 @@
 
 <div id="pressure_chart" style="width: 100%;"></div>
 
-<div>Run Details:</div>
+@*<div>Run Details:</div>
 <div>
     <ul>
         @for(int c=0;c<Model.RunIds.Count;c++)
@@ -24,7 +26,7 @@
             <li>Physics @c</li>
         }
     </ul>
-</div>
+</div>*@
 
 <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});

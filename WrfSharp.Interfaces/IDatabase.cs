@@ -13,6 +13,7 @@ namespace WrfSharp.Interfaces
             float westEastDimension, float southNorthDimension, float bottomTopDimension,
             PhysicsConfigurationProcessed physicsConfiguration, string runId);
         void SaveVariableRecord(string runId, VariableRecord[] records);
-        bool TestConnection(); 
+        bool TestConnection();
+        void Checkin(string state, DateTime checkinDate); 
     }
 }

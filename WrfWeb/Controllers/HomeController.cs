@@ -19,6 +19,7 @@ namespace WrfWeb.Controllers
             MySQLDatabase db = new MySQLDatabase(connectionString);
 
             SimulationResults results = db.GetLatestSimulationResults();
+            RunState runState = db.GetRunState(); 
 
             IndexModel model = new IndexModel();
 
@@ -29,6 +30,8 @@ namespace WrfWeb.Controllers
             model.WindSpeeds = new List<List<object>>();
             model.SurfacePressures = new List<List<object>>();
             model.RunIds = results.RunIds;
+            model.CurrentRunState = runState.StateText;
+            model.LastCheckinDate = runState.LastCheckinDate; 
 
             List<object> header = new List<object>();
             header.Add("Date"); 
