@@ -16,7 +16,15 @@ namespace ParameterReader
             {
                 Console.WriteLine(name);
 
-                HtmlNode tableNode = node.ParentNode.ParentNode; 
+                HtmlNode tableNode = node.ParentNode.ParentNode;
+
+                HtmlNodeCollection rows = tableNode.SelectNodes("tr"); 
+
+                foreach(HtmlNode row in rows)
+                {
+                    string schemeName = row.SelectSingleNode("th[1]").InnerText; 
+                    Console.WriteLine(schemeName); 
+                }
             }
         }
 
