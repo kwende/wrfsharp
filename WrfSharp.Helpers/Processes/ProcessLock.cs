@@ -7,13 +7,13 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WrfSharp.Helpers.FileSystem
+namespace WrfSharp.Helpers.Process
 {
-    public class ProcessLockFile : IDisposable
+    public class ProcessLock : IDisposable
     {
         Socket _socket = null; 
 
-        private ProcessLockFile()
+        private ProcessLock()
         {
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress = ipHostInfo.AddressList[0];
@@ -24,11 +24,11 @@ namespace WrfSharp.Helpers.FileSystem
             _socket.Listen(10); 
         }
 
-        public static ProcessLockFile TryLock()
+        public static ProcessLock TryLock()
         {
             try
             {
-                return new ProcessLockFile(); 
+                return new ProcessLock(); 
             }
             catch(System.Net.Sockets.SocketException)
             {
@@ -36,7 +36,7 @@ namespace WrfSharp.Helpers.FileSystem
             }
         }
 
-        ~ProcessLockFile()
+        ~ProcessLock()
         {
             InnerDispose(true); 
         }

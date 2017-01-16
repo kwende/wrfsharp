@@ -68,7 +68,7 @@
     <Compile Include="Configuration\ConfigurationHelper.cs" />
     <Compile Include="Database\DatabaseHelper.cs" />
     <Compile Include="FileSystem\FileSystemHelper.cs" />
-    <Compile Include="FileSystem\ProcessLockFile.cs" />
+    <Compile Include="Processes\ProcessLock.cs" />
     <Compile Include="Namelists\NamelistHelper.cs" />
     <Compile Include="Namelists\NamelistParser.cs" />
     <Compile Include="NetCDF\NetCDFReaderHelper.cs" />
