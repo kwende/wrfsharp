@@ -10,6 +10,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperTests", "HelperTests\HelperTests.csproj", "{A84F8DEA-FB1D-409E-B8F1-7468588EF6C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrfSharp.Runner", "WrfSharp.Runner\WrfSharp.Runner.csproj", "{82EDC160-8653-4839-A0ED-02D5AF671CD2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6531F089-FB68-4862-BEB5-E1B23CD71755} = {6531F089-FB68-4862-BEB5-E1B23CD71755}
+		{18767CA6-539F-4D86-9831-54ED3E19A7AA} = {18767CA6-539F-4D86-9831-54ED3E19A7AA}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrfSharp.Interfaces", "WrfSharp.Interfaces\WrfSharp.Interfaces.csproj", "{4DBDD0A6-A3AB-400B-ABFE-A1150EE06879}"
 EndProject

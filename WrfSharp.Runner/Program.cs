@@ -286,47 +286,54 @@ namespace WrfSharp.Runner
 
         static void Main(string[] args)
         {
-            IFileSystem iFileSystem = new FileSystem();
-            INetwork iDownloader = new Downloader();
-            ILogger iLogger = new Logger(null);
-            IProcessLauncher iProcess = new ProcessLauncher();
-            IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
-
-            string connectionString = 
-                ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
-            IDatabase iDatabase = MySQL.OpenConnection(connectionString);
-
-            Console.Write("Testing DB connectivity..."); 
-            if(!iDatabase.TestConnection())
+            ProcessLockFile lockFile = ProcessLockFile.TryLock(); 
+            if(lockFile != null)
             {
-                Console.WriteLine("....Connection failed. Check connection string."); 
-            }
-            else
-            {
-                Console.WriteLine("....Connection succeeded."); 
-            }
+                using (lockFile)
+                {
+                    IFileSystem iFileSystem = new FileSystem();
+                    INetwork iDownloader = new Downloader();
+                    ILogger iLogger = new Logger(null);
+                    IProcessLauncher iProcess = new ProcessLauncher();
+                    IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
 
-            List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
-            iLogger.LogLine($"Loading configuration...");
-            WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
-            iLogger.LogLine("...done");
+                    string connectionString =
+                        ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
+                    IDatabase iDatabase = MySQL.OpenConnection(connectionString);
 
-            if (args.Length > 0 && args[0].ToLower() == "nodownload")
-            {
-                iLogger.LogLine("Downloading of new data skipped...");
-            }
-            else
-            {
-               PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config); 
-            }
+                    Console.Write("Testing DB connectivity...");
+                    if (!iDatabase.TestConnection())
+                    {
+                        Console.WriteLine("....Connection failed. Check connection string.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("....Connection succeeded.");
+                    }
 
-            Random rand = new Random();
-            physicsConfigs = physicsConfigs.OrderBy(m => rand.Next()).ToList();  
+                    List<PhysicsConfigurationProcessed> physicsConfigs = LoadPhysicsConfigurationsFromConfiguration();
+                    iLogger.LogLine($"Loading configuration...");
+                    WrfConfiguration config = LoadConfigurationFromAppSettings(iLogger);
+                    iLogger.LogLine("...done");
 
-            foreach (PhysicsConfigurationProcessed physicsConfig in physicsConfigs)
-            {
-                ComputeStage(iFileSystem, iLogger, iProcess,
-                    iEnvironment, iDatabase, config, physicsConfig);
+                    if (args.Length > 0 && args[0].ToLower() == "nodownload")
+                    {
+                        iLogger.LogLine("Downloading of new data skipped...");
+                    }
+                    else
+                    {
+                        PrepStage(iFileSystem, iDownloader, iLogger, iProcess, config);
+                    }
+
+                    Random rand = new Random();
+                    physicsConfigs = physicsConfigs.OrderBy(m => rand.Next()).ToList();
+
+                    foreach (PhysicsConfigurationProcessed physicsConfig in physicsConfigs)
+                    {
+                        ComputeStage(iFileSystem, iLogger, iProcess,
+                            iEnvironment, iDatabase, config, physicsConfig);
+                    }
+                }
             }
         }
     }
