@@ -31,5 +31,6 @@ namespace WrfSharp.DataStructures
         public string UpperLeftLatLon { get; set; }
         public string LowerRightLatLon { get; set; }
         public int MaximumNumberOfRuns { get; set; }
+        public bool ForceLatestGFSData { get; set; }
     }
 }

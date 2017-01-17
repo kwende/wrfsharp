@@ -1,20 +1,16 @@
-﻿using Mono.Unix;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using WrfSharp.DataStructures;
 using WrfSharp.Db;
 using WrfSharp.Helpers.Configuration;
 using WrfSharp.Helpers.Database;
 using WrfSharp.Helpers.FileSystem;
 using WrfSharp.Helpers.Namelists;
-using WrfSharp.Helpers.NetCDF;
 using WrfSharp.Helpers.Process;
 using WrfSharp.Helpers.Processes;
 using WrfSharp.Helpers.Web;
@@ -46,6 +42,10 @@ namespace WrfSharp.Runner
                     if(prop.PropertyType == typeof(int))
                     {
                         prop.SetValue(config, int.Parse(value));
+                    }
+                    else if(prop.PropertyType == typeof(bool))
+                    {
+                        prop.SetValue(config, bool.Parse(value));
                     }
                     else
                     {
@@ -163,30 +163,40 @@ namespace WrfSharp.Runner
             iLogger.LogLine("...done");
 
             iLogger.Log("Finding GFS products to use...");
+
             string gfsProductDirectory = PageParsingHelper.FindDirectoryNameForLatestGFSEntry(
                 productPageContent);
             string gfsProductUrl = UrlHelper.Join(config.GFSProductUrl, gfsProductDirectory);
             string pageContent = DownloadHelper.DownloadString(
                 gfsProductUrl, iDownloader);
-            List<string> productsToDownload =
-                PageParsingHelper.FindAllGFSOneDegreePGRB2Files(pageContent);
+            List<string> productsToDownload = new List<string>();
 
-            if(productsToDownload.Count != 93)
+            for(;;)
             {
-                iLogger.Log($"...falling back to previous run, incorrect asset count of...{productsToDownload.Count}"); 
-                gfsProductDirectory = PageParsingHelper.FindDirectoryNameForSecondToLastGFSEntry(
-                    productPageContent);
-                gfsProductUrl = UrlHelper.Join(config.GFSProductUrl, gfsProductDirectory);
-                pageContent = DownloadHelper.DownloadString(
-                    gfsProductUrl, iDownloader);
-                productsToDownload =
-                    PageParsingHelper.FindAllGFSOneDegreePGRB2Files(pageContent);
+                productsToDownload = PageParsingHelper.FindAllGFSOneDegreePGRB2Files(pageContent);
+                if(productsToDownload.Count != 93 && config.ForceLatestGFSData)
+                {
+                    iLogger.Log($"...forcing latest GFS data, not enough yet ({productsToDownload.Count})...");
+                    Thread.Sleep(1000 * 60); 
+                }
+                else if(productsToDownload.Count != 93 && !config.ForceLatestGFSData)
+                {
+                    iLogger.Log($"...falling back to previous run, incorrect asset count of...{productsToDownload.Count}");
+                    gfsProductDirectory = PageParsingHelper.FindDirectoryNameForSecondToLastGFSEntry(
+                        productPageContent);
+                    gfsProductUrl = UrlHelper.Join(config.GFSProductUrl, gfsProductDirectory);
+                    pageContent = DownloadHelper.DownloadString(
+                        gfsProductUrl, iDownloader);
+                    productsToDownload =
+                        PageParsingHelper.FindAllGFSOneDegreePGRB2Files(pageContent);
+                    break; 
+                }
+                else
+                {
+                    iLogger.Log($"...the latest is ready!...");
+                    break; 
+                }
             }
-            else
-            {
-                iLogger.Log("...we can download latest..."); 
-            }
-
             iLogger.LogLine($"...done. Found {productsToDownload.Count} items at {gfsProductUrl}.");
 
             iLogger.LogLine("Downloading the products...");
