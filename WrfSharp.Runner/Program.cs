@@ -312,7 +312,7 @@ namespace WrfSharp.Runner
             {
                 IFileSystem iFileSystem = new FileSystem();
                 INetwork iDownloader = new Downloader();
-                ILogger iLogger = new Logger(null);
+                ILogger iLogger = new Logger("/home/brush/wrf/log.txt");
                 IProcessLauncher iProcess = new ProcessLauncher();
                 IEnvironment iEnvironment = new WrfSharp.Runner.Implementations.Environment();
 
@@ -376,12 +376,12 @@ namespace WrfSharp.Runner
                 }
                 else
                 {
-                    iLogger.LogLine("WrfSharp appears to be running already, or port 666 is in use.");
+                    //iLogger.LogLine("WrfSharp appears to be running already, or port 666 is in use.");
                 }
             }
             catch(Exception ex)
             {
-                File.AppendAllText("fart.txt", ex.ToString()); 
+                File.AppendAllText("crash.txt", ex.ToString()); 
             }
            
         }
