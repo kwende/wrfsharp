@@ -177,7 +177,9 @@ namespace WrfSharp.Runner
                 if(productsToDownload.Count != 93 && config.ForceLatestGFSData)
                 {
                     iLogger.Log($"...forcing latest GFS data, not enough yet ({productsToDownload.Count})...");
-                    Thread.Sleep(1000 * 60); 
+                    Thread.Sleep(1000 * 60);
+                    pageContent = DownloadHelper.DownloadString(
+                        gfsProductUrl, iDownloader);
                 }
                 else if(productsToDownload.Count != 93 && !config.ForceLatestGFSData)
                 {
