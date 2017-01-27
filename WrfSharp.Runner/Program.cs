@@ -269,7 +269,7 @@ namespace WrfSharp.Runner
             ProcessHelper.MpiRunRealExecutable(config, iProcess);
             iLogger.LogLine("...done");
 
-            iLogger.LogLine("Launching wrf.exe...");
+            iLogger.LogLine($"Launching wrf.exe against mp_physics={physicsConfig.MpPhysics}");
             ProcessHelper.MpiRunWrfExecutable(config, iProcess);
             iLogger.LogLine("...done");
 
