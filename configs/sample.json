@@ -1,7 +1,8 @@
 {
   "gfs": {
     "base_url": "https://nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/",
-    "file_glob": "gfs.t\d{2}z.pgrb2.0p25.f\d{3}",
+    "file_regex": "gfs\\.t\\d{2}z\\.pgrb2\\.0p25\\.f\\d{3}",
+    "cycle_subdir": "atmos",
     "require_complete_file_count": 121,
     "prefer_latest": true
   },

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime
+import re
 from pathlib import Path
 from typing import List
 
@@ -9,22 +10,31 @@ from wrfsharp_py.config import load_config
 from wrfsharp_py.download import download_files, pick_files_for_latest_cycle
 from wrfsharp_py.namelist import update_dates, update_physics
 from wrfsharp_py.physics import expand_all
-from wrfsharp_py.process import run_command
+from wrfsharp_py.process import run_command, run_command_output
 
 
-def _find_grib_dates(grib_files: List[Path]) -> tuple[datetime, datetime]:
+def _parse_wgrib2_date(output: str) -> datetime:
+    match = re.search(r"d=(\d{10})", output)
+    if not match:
+        raise RuntimeError("Unable to parse date from wgrib2 output.")
+    return datetime.strptime(match.group(1), "%Y%m%d%H")
+
+
+def _find_grib_dates(grib_files: List[Path], wgrib2_path: Path) -> tuple[datetime, datetime]:
     if not grib_files:
         raise RuntimeError("No GRIB files were downloaded to inspect dates.")
-    # Placeholder: use file timestamps until wgrib2 integration.
-    times = [datetime.fromtimestamp(path.stat().st_mtime) for path in grib_files]
-    return min(times), max(times)
+    sorted_files = sorted(grib_files)
+    first_output = run_command_output([str(wgrib2_path), "-s", str(sorted_files[0])])
+    last_output = run_command_output([str(wgrib2_path), "-s", str(sorted_files[-1])])
+    return _parse_wgrib2_date(first_output), _parse_wgrib2_date(last_output)
 
 
 def prep_stage(config_path: Path) -> None:
     config = load_config(config_path)
     listing, is_complete = pick_files_for_latest_cycle(
         config.gfs.base_url,
-        config.gfs.file_glob,
+        config.gfs.file_regex,
+        config.gfs.cycle_subdir,
         prefer_latest=config.gfs.prefer_latest,
         required_count=config.gfs.require_complete_file_count,
     )
@@ -34,11 +44,12 @@ def prep_stage(config_path: Path) -> None:
     downloaded = download_files(
         config.gfs.base_url,
         listing.cycle_dir,
+        config.gfs.cycle_subdir,
         listing.files,
         config.paths.data_dir,
     )
 
-    start_date, end_date = _find_grib_dates(downloaded)
+    start_date, end_date = _find_grib_dates(downloaded, config.paths.wgrib2_exe)
     update_dates(config.paths.wps_namelist, start_date, end_date)
     update_dates(config.paths.wrf_namelist, start_date, end_date)
 
@@ -60,9 +71,8 @@ def compute_stage(config_path: Path) -> None:
 
         for script in sorted(config.paths.scripts_dir.glob("*.ncl")):
             run_command([str(config.paths.ncl_path), str(script)], cwd=config.paths.wrf_dir)
-
-        for image_dir in sorted(config.paths.output_dir.glob("*.png")):
-            output_mp4 = config.paths.output_dir / f"{physics.name}.mp4"
+            pattern = str(config.paths.output_dir / f"{script.stem}_*.png")
+            output_mp4 = config.paths.output_dir / f"{script.stem}_{physics.name}.mp4"
             run_command(
                 [
                     str(config.paths.ffmpeg_path),
@@ -72,7 +82,7 @@ def compute_stage(config_path: Path) -> None:
                     "-pattern_type",
                     "glob",
                     "-i",
-                    str(image_dir / "*.png"),
+                    pattern,
                     str(output_mp4),
                 ],
                 cwd=config.paths.output_dir,

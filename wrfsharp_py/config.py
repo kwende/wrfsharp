@@ -9,7 +9,8 @@ from typing import Any, Dict, List, Mapping, Optional
 @dataclass
 class GfsDownloadConfig:
     base_url: str
-    file_glob: str
+    file_regex: str
+    cycle_subdir: str
     require_complete_file_count: Optional[int] = None
     prefer_latest: bool = True
 
@@ -82,7 +83,8 @@ def load_config(config_path: Path) -> WrfConfig:
 
     gfs = GfsDownloadConfig(
         base_url=_require(gfs_payload, "base_url"),
-        file_glob=_require(gfs_payload, "file_glob"),
+        file_regex=_require(gfs_payload, "file_regex"),
+        cycle_subdir=gfs_payload.get("cycle_subdir", "atmos"),
         require_complete_file_count=gfs_payload.get("require_complete_file_count"),
         prefer_latest=gfs_payload.get("prefer_latest", True),
     )

@@ -16,9 +16,10 @@ python -m wrfsharp_py.driver configs/sample.json --prep --compute
 
 ## Notes
 
-- `download.py` targets the NOAA NOMADS GFS directory. Adjust `gfs.base_url` and `gfs.file_glob`
-  to match the resolution/cycle you want.
+- `download.py` targets the NOAA NOMADS GFS directory. Adjust `gfs.base_url`, `gfs.cycle_subdir`,
+  and `gfs.file_regex` to match the resolution/cycle you want.
 - The namelist helpers perform string substitution. If your namelist formatting differs, you may
   need to tweak `namelist.py`.
+- `driver.py` uses `wgrib2 -s` to parse start/end dates from the first and last GRIB files.
 - For web visualization alternatives, consider generating NetCDF or GeoTIFF layers and serving
   them via raster tiles (e.g., `xarray` + `rasterio` + `rio-tiler`) instead of MP4.
