@@ -1,0 +1,58 @@
+{
+  "gfs": {
+    "base_url": "https://nomads.ncep.noaa.gov/pub/data/nccf/com/gfs/prod/",
+    "file_glob": "gfs.t\d{2}z.pgrb2.0p25.f\d{3}",
+    "require_complete_file_count": 121,
+    "prefer_latest": true
+  },
+  "paths": {
+    "data_dir": "/home/youruser/wrf/data",
+    "wps_dir": "/home/youruser/wrf/WPS",
+    "wrf_dir": "/home/youruser/wrf/WRF/run",
+    "wps_namelist": "/home/youruser/wrf/WPS/namelist.wps",
+    "wrf_namelist": "/home/youruser/wrf/WRF/run/namelist.input",
+    "scripts_dir": "/home/youruser/wrf/scripts",
+    "output_dir": "/home/youruser/wrf/output",
+    "geogrid_exe": "/home/youruser/wrf/WPS/geogrid.exe",
+    "link_grib_script": "/home/youruser/wrf/WPS/link_grib.csh",
+    "ungrib_exe": "/home/youruser/wrf/WPS/ungrib.exe",
+    "metgrid_exe": "/home/youruser/wrf/WPS/metgrid.exe",
+    "wgrib2_exe": "/usr/local/bin/wgrib2",
+    "mpirun_path": "/usr/bin/mpirun",
+    "real_exe": "/home/youruser/wrf/WRF/run/real.exe",
+    "wrf_exe": "/home/youruser/wrf/WRF/run/wrf.exe",
+    "ncl_path": "/usr/local/bin/ncl",
+    "ffmpeg_path": "/usr/bin/ffmpeg"
+  },
+  "region": {
+    "upper_left_latlon": "41.044190,-96.911967",
+    "lower_right_latlon": "40.525328,-96.467021"
+  },
+  "run": {
+    "max_runs": 5,
+    "force_latest_gfs": true
+  },
+  "physics": [
+    {
+      "name": "baseline",
+      "parameters": {
+        "mp_physics": "2,3,4,5,6,7,8,9,10,11,13,14,16,17,18,19,21,28,30,32",
+        "ra_lw_physics": 7,
+        "ra_sw_physics": 3,
+        "radt": 30,
+        "sf_sfclay_physics": 1,
+        "sf_surface_physics": 2,
+        "bl_pbl_physics": 1,
+        "bldt": 0,
+        "cu_physics": 1,
+        "cudt": 5,
+        "isfflx": 1,
+        "ifsnow": 1,
+        "icloud": 1,
+        "surface_input_source": 1,
+        "num_soil_layers": 4,
+        "sf_urban_physics": 1
+      }
+    }
+  ]
+}
